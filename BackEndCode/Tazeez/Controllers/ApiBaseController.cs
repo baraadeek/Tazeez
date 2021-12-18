@@ -39,9 +39,9 @@ namespace Tazeez.Controllers
                     throw new System.Exception("Invalid Token");
                 }
 
-                var helperManager = HttpContext.RequestServices.GetService(typeof(ICommonManager)) as ICommonManager;
+                var commonManager = HttpContext.RequestServices.GetService(typeof(ICommonManager)) as ICommonManager;
 
-                _loggedInUser = helperManager.GetUserRole(new UserModel { Id = id });
+                _loggedInUser = commonManager.GetUserRole(new UserModel { Id = id });
 
                 return _loggedInUser;
             }
