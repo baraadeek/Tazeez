@@ -12,8 +12,9 @@ namespace Tazeez.Models.DB
         public string PhoneNumber { get; set; }
         public string City { get; set; }
         public string Image { get; set; }
+        public bool IsAdmin { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime UpdateDate { get; set; }
-        public short Archived { get; set; }
+        public bool Archived { get; set; }
     }
 }

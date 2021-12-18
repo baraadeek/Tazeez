@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Tazeez.Core.Managers.User;
 using Tazeez.Infrastructure;
 using Tazeez.ModelViews.Request;
@@ -43,6 +45,16 @@ namespace Tazeez.Controllers
         public IActionResult Login(LoginRequest loginRequest)
         {
             var result = _userManager.Login(loginRequest);
+            return Ok(result);
+        }
+        
+        [Route("api/v{version:apiVersion}/user/{id}")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult GetUser(int id)
+        {
+            var result = _userManager.GetUser(id);
             return Ok(result);
         }
     }

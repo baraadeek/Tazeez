@@ -11,5 +11,7 @@ namespace Tazeez.Core.Managers.User
         UserModel SignUp(SignUpRequest signUpRequest);
 
         LoginResponse Login(LoginRequest loginRequest);
+
+        UserModel GetUser(int id);
     }
 }

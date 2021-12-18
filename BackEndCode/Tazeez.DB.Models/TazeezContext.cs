@@ -40,12 +40,16 @@ namespace Tazeez.Models.Models
                 entity.HasIndex(e => e.Id, "Id_UNIQUE")
                     .IsUnique();
 
+                entity.Property(e => e.Archived).HasColumnType("smallint");
+
+                entity.Property(e => e.IsAdmin).HasColumnType("smallint");
+
                 entity.Property(e => e.City)
                     .IsRequired()
                     .HasMaxLength(45)
                     .IsUnicode(false)
                     .HasDefaultValueSql("('')");
-
+                
                 entity.Property(e => e.CreatedDate)
                     .HasPrecision(0)
                     .HasDefaultValueSql("(getdate())");
@@ -90,7 +94,7 @@ namespace Tazeez.Models.Models
                     .HasDefaultValueSql("(getdate())");
             });
 
-            modelBuilder.Entity<User>().HasQueryFilter(u => u.Archived == 0 || IgnoreFilterOnEntity);
+            modelBuilder.Entity<User>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -34,6 +34,14 @@ namespace Tazeez.Core.Managers.User
             return "hi";
         }
         
+        public UserModel GetUser(int id)
+        {
+            var user = _context.Users.FirstOrDefault(a => a.Id == id) 
+                        ?? throw new Exception("Email dose not exist");
+
+            return _mapper.Map<UserModel>(user);
+        }
+        
         public UserModel SignUp(SignUpRequest signUpRequest)
         {
             var user = _context.Users.FirstOrDefault(a => a.Email.Equals(signUpRequest.Email));
@@ -103,7 +111,7 @@ namespace Tazeez.Core.Managers.User
             var token = new JwtSecurityToken(_configurationSettings.Issuer,
               _configurationSettings.Issuer,
               claims,
-              expires: DateTime.Now.AddMinutes(120),
+              expires: DateTime.Now.AddDays(30),
               signingCredentials: credentials);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
