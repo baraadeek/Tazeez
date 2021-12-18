@@ -1,5 +1,6 @@
-﻿using Tazeez.Models.DB;
+﻿using Tazeez.DB.Models.DB;
 using Tazeez.ModelViews;
+using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Response;
 
 namespace Tazeez.Core.Mapper
@@ -10,6 +11,7 @@ namespace Tazeez.Core.Mapper
         {
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<User, LoginResponse>().ReverseMap();
+            CreateMap<ContactRequest, ContactRequestModel>().ReverseMap();
         }
     }
 }

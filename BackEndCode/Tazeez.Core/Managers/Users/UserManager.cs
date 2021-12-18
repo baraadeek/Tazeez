@@ -5,13 +5,14 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Tazeez.DB.Models.DB;
 using Tazeez.Infrastructure;
 using Tazeez.Models.Models;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.Request;
 using Tazeez.ModelViews.Response;
 
-namespace Tazeez.Core.Managers.User
+namespace Tazeez.Core.Managers.Users
 {
     public class UserManager : IUserManager
     {
@@ -51,7 +52,8 @@ namespace Tazeez.Core.Managers.User
                 throw new Exception("Email alraedy exist");
             }
 
-            user = _context.Users.Add(new Models.DB.User { 
+            user = _context.Users.Add(new User
+            {
                 FirstName = signUpRequest.FirstName,
                 LastName = signUpRequest.LastName,
                 Email = signUpRequest.Email,
@@ -96,7 +98,7 @@ namespace Tazeez.Core.Managers.User
             return BCrypt.Net.BCrypt.Verify(password, passwordHash);
         }
 
-        private string GenerateJSONWebToken(Models.DB.User userInfo)
+        private string GenerateJSONWebToken(User userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configurationSettings.JwtKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
@@ -104,6 +106,7 @@ namespace Tazeez.Core.Managers.User
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.FirstName),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+                new Claim("Id", userInfo.Id.ToString()),
                 new Claim("DateOfJoing", userInfo.CreatedDate.ToString("yyyy-MM-dd")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

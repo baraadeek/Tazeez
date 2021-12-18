@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Tazeez.Core.Managers.User;
+using Tazeez.Core.Managers.Users;
 using Tazeez.Infrastructure;
 using Tazeez.ModelViews.Request;
 
