@@ -2,7 +2,7 @@
 using Tazeez.ModelViews.Request;
 using Tazeez.ModelViews.Response;
 
-namespace Tazeez.Core.Managers.User
+namespace Tazeez.Core.Managers.Users
 {
     public interface IUserManager : IManager
     {
@@ -11,5 +11,7 @@ namespace Tazeez.Core.Managers.User
         UserModel SignUp(SignUpRequest signUpRequest);
 
         LoginResponse Login(LoginRequest loginRequest);
+
+        UserModel GetUser(int id);
     }
 }
