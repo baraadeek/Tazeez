@@ -21,12 +21,12 @@ namespace Tazeez.Controllers
             _userManager = userManager;
         }
 
-        [Route("api/v{version:apiVersion}/user/name")]
+        [Route("api/v{version:apiVersion}/user/{id}/name")]
         [HttpGet]
         [MapToApiVersion("1")]
-        public IActionResult GetName()
+        public IActionResult GetName(int id)
         {
-            var result = _userManager.GetName();
+            var result = _userManager.GetName(id);
             return Ok(result);
         }
         

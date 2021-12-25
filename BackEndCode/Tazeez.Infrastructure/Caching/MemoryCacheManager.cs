@@ -1,7 +1,7 @@
-﻿using JustProtect.Common.Extensions;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Threading.Tasks;
+using Tazeez.Common.Extensions;
 
 namespace Tazeez.Infrastructure.Caching
 {
