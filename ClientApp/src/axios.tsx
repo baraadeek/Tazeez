@@ -22,7 +22,8 @@ http: axiosAPI.interceptors.request.use(
       "Content-Type": "application/json",
       Accept: "application/json",
     };
-    const token = JSON.parse(localStorage.getItem("login1"))?.store;
+    const token = JSON.parse(localStorage.getItem("login"))?.store;
+    console.log("🚀 ~ file: axios.tsx ~ line 26 ~ token", token);
 
     const accessToken = token;
 
@@ -48,18 +49,12 @@ http: axiosAPI.interceptors.request.use(
 
 axiosAPI.interceptors.response.use(
   function (response) {
+    console.log("🚀 ~ file: axios.tsx ~ line 52 ~ response", response);
     return response;
   },
   function (error) {
     if (isCanceledRequest(axios, error)) return Promise.reject(error);
 
-    const { responseURL: url } = error.response?.request || {};
-    if (responseURL) {
-      console.log("Error Response URL:", responseURL);
-    }
-    if (!error?.response) {
-      console.log("Error:", error?.response);
-    }
-    return Promise.reject(error);
+    return error?.response?.data;
   }
 );

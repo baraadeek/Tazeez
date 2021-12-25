@@ -3,18 +3,20 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { contactAPI } from "./api/contact-api";
 interface ISignUpForm {
-  firstName: string;
+  userName: string;
   phoneNumber: string;
   email: string;
   message: string;
 }
 
 export default function Contact() {
-  const { handleSubmit, control, formState } = useForm<ISignUpForm>();
+  const { handleSubmit, control, formState, reset } = useForm<ISignUpForm>();
   const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<ISignUpForm> = (data) => {
     console.log(data);
+    reset({ userName: "", phoneNumber: "", email: "", message: "" });
+
     dispatch(contactAPI(data));
   };
 
@@ -26,7 +28,7 @@ export default function Contact() {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <Controller
-                name="firstName"
+                name="userName"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
@@ -34,7 +36,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder="Name"
+                    placeholder="User Name"
                   />
                 )}
               />

@@ -11,26 +11,23 @@ const useStyles = makeStyles(() => ({
   avatarLabel: {
     display: "flex",
     alignItems: "center",
-    position: "relative",
-    top: 16,
   },
   avatar: {
     marginRight: "14px",
   },
 }));
 
-export default function AvatarWithText() {
+export default function AvatarWithText(props) {
+  const { user, onClick } = props;
   const classes = useStyles();
 
   return (
-    <div className={classes.avatarContainer}>
+    <div className={classes.avatarContainer} onClick={(e) => onClick(e)}>
       <div className={classes.avatarLabel}>
-        <Avatar
-          className={classes.avatar}
-          alt="Jack Sparrow"
-          src="https://images.pexels.com/photos/6386956/pexels-photo-6386956.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-        />
-        <Typography variant="body2"> Jack Sparrow</Typography>
+        <Avatar className={classes.avatar} alt={user?.name} src="">
+          <i className="icofont-doctor-alt" style={{ color: "#0046c0" }}></i>
+        </Avatar>
+        <Typography variant="body2"> {user?.name}</Typography>
       </div>
     </div>
   );

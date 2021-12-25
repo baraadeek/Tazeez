@@ -20,10 +20,23 @@ interface ISignUpForm {
 export default function SignUp() {
   const { handleSubmit, control, formState } = useForm<ISignUpForm>();
   const dispatch = useDispatch();
+  const [showError, SetShowError] = React.useState(null);
 
   const onSubmit: SubmitHandler<ISignUpForm> = (data) => {
     console.log(data);
-    dispatch(SiginUpAPI(data));
+    dispatch(
+      SiginUpAPI(data)
+        .then((response) => {
+          if (response?.status !== 200) {
+            SetShowError(response?.message);
+          } else {
+            SetShowError("");
+          }
+        })
+        .catch((error) => {
+          SetShowError(error?.message);
+        })
+    );
   };
 
   return (
@@ -38,7 +51,7 @@ export default function SignUp() {
         bgImage="page-title-one"
       />
 
-      <div className="signup-area ptb-32">
+      <div className="signup-area ptb-100">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-6 pl-0">
@@ -46,7 +59,7 @@ export default function SignUp() {
                 <img src="/images/signup-bg.jpg" alt="SignUp" />
               </div>
             </div>
-            <div className="col-lg-6 ptb-32">
+            <div className="col-lg-6 ptb-100">
               <div className="signup-item">
                 <div className="signup-head">
                   <h2>Sign Up Here</h2>
@@ -145,12 +158,17 @@ export default function SignUp() {
                             )}
                           </button>
                         </div>
-                        <Alert severity="success" style={{ marginTop: 8 }}>
-                          The account has been added successfully
-                        </Alert>
-                        <Alert severity="error" style={{ marginTop: 8 }}>
-                          Error : Account already exists
-                        </Alert>
+                        {showError !== null ? (
+                          !showError ? (
+                            <Alert severity="success" style={{ marginTop: 8 }}>
+                              The account has been added successfully
+                            </Alert>
+                          ) : (
+                            <Alert severity="error" style={{ marginTop: 8 }}>
+                              {`Error : ${showError}`}
+                            </Alert>
+                          )
+                        ) : null}
                       </div>
                     </div>
                   </Form>

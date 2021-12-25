@@ -1,4 +1,5 @@
 import React from "react";
+
 import TopHeader from "../TopHeader";
 import Navbar from "../Navbar";
 import PageBanner from "../PageBanner";
@@ -7,6 +8,7 @@ import { Form, Spinner } from "react-bootstrap";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
 import { useDispatch } from "react-redux";
+import history from "../../history";
 
 import { Link } from "react-location";
 import { loginAPI } from "./api/login-api";
@@ -18,10 +20,32 @@ interface ILoginForm {
 
 export default function Login() {
   const dispatch = useDispatch();
+  const [showError, SetShowError] = React.useState(null);
   const { handleSubmit, control, formState } = useForm<ILoginForm>();
   const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     console.log(data);
-    dispatch(loginAPI(data));
+    dispatch(
+      loginAPI(data)
+        .then((response) => {
+          if (response?.status === 200) {
+            localStorage.setItem(
+              "login",
+              JSON.stringify({
+                store: response.data.token,
+                response: response.data,
+              })
+            );
+            window.location.replace("/");
+          } else {
+            SetShowError(response?.message);
+          }
+        })
+        .catch((error) => {
+          SetShowError(error?.message);
+        })
+    ).catch((error) => {
+      SetShowError(error?.message);
+    });
   };
 
   return (
@@ -112,9 +136,11 @@ export default function Login() {
                             )}
                           </button>
                         </div>
-                        <Alert severity="error" style={{ marginTop: 8 }}>
-                          Error : User Name or Password is invalid
-                        </Alert>
+                        {showError ? (
+                          <Alert severity="error" style={{ marginTop: 8 }}>
+                            {`Error : ${showError}`}
+                          </Alert>
+                        ) : null}
                       </div>
                     </div>
                   </Form>

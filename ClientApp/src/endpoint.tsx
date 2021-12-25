@@ -16,4 +16,8 @@ export const END_POINTS = {
     url: "api/v1/common/contactwithus",
     method: HTTP_METHOD_POST,
   },
+  user: {
+    url: "api/v1/user/{id}",
+    method: HTTP_METHOD_GET,
+  },
 };
