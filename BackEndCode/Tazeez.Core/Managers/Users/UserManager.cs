@@ -39,7 +39,7 @@ namespace Tazeez.Core.Managers.Users
         public UserModel GetUser(int id)
         {
             var user = _context.User.FirstOrDefault(a => a.Id == id) 
-                        ?? throw new Exception("Email dose not exist");
+                        ?? throw new ServiceValidationException("Email dose not exist");
 
             return _mapper.Map<UserModel>(user);
         }
@@ -71,7 +71,7 @@ namespace Tazeez.Core.Managers.Users
 
             if (user == null)
             {
-                throw new Exception("User not exists");
+                throw new ServiceValidationException("User not exists");
             }
 
             if (VerifyHashPassword(loginRequest.Password, user.Password))
@@ -83,7 +83,7 @@ namespace Tazeez.Core.Managers.Users
                 return res;
             }
 
-            throw new Exception("Invalid email or password");
+            throw new ServiceValidationException("Invalid email or password");
         }
 
         #region private Method
