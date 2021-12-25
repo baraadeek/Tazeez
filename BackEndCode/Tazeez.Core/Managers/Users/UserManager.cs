@@ -31,13 +31,13 @@ namespace Tazeez.Core.Managers.Users
 
         public string GetName()
         {
-            var user = _context.Users.FirstOrDefault();
+            var user = _context.User.FirstOrDefault();
             return "hi";
         }
         
         public UserModel GetUser(int id)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Id == id) 
+            var user = _context.User.FirstOrDefault(a => a.Id == id) 
                         ?? throw new Exception("Email dose not exist");
 
             return _mapper.Map<UserModel>(user);
@@ -45,14 +45,14 @@ namespace Tazeez.Core.Managers.Users
         
         public UserModel SignUp(SignUpRequest signUpRequest)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Email.Equals(signUpRequest.Email));
+            var user = _context.User.FirstOrDefault(a => a.Email.Equals(signUpRequest.Email));
 
             if (user != null)
             {
                 throw new Exception("Email alraedy exist");
             }
 
-            user = _context.Users.Add(new User
+            user = _context.User.Add(new User
             {
                 FirstName = signUpRequest.FirstName,
                 LastName = signUpRequest.LastName,
@@ -66,7 +66,7 @@ namespace Tazeez.Core.Managers.Users
         
         public LoginResponse Login(LoginRequest loginRequest)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Email.Equals(loginRequest.Email));
+            var user = _context.User.FirstOrDefault(a => a.Email.Equals(loginRequest.Email));
 
             if (user == null)
             {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using Tazeez.Infrastructure.Caching;
 
@@ -39,7 +40,23 @@ namespace Tazeez.Infrastructure.Implementation
 
         public string JwtKey => _config["Jwt:Key"];
 
-      //  public string WebSiteURl => _config["URL:WebSiteURl"];
+        public string DefaultConnectionString => _config["ConnectionString"];
+
+
+        public string DatabaseConnectionString
+        {
+            get
+            {
+                if (_env.IsEnvironment("Local"))
+                {
+                    return DefaultConnectionString;
+                }
+
+                return "";
+            }
+        }
+
+        //  public string WebSiteURl => _config["URL:WebSiteURl"];
 
         #endregion Public Properties
 
