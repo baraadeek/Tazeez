@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Tazeez.Common.Extensions;
 using Tazeez.DB.Models.DB;
 using Tazeez.Infrastructure;
 using Tazeez.Models.Models;
@@ -29,10 +30,10 @@ namespace Tazeez.Core.Managers.Users
             _configurationSettings = configurationSettings;
         }
 
-        public string GetName()
+        public string GetName(int userId)
         {
-            var user = _context.User.FirstOrDefault();
-            return "hi";
+            var user = _context.User.FirstOrDefault(a => a.Id == userId);
+            return $"{user.FirstName} {user.LastName}";
         }
         
         public UserModel GetUser(int id)
@@ -49,7 +50,7 @@ namespace Tazeez.Core.Managers.Users
 
             if (user != null)
             {
-                throw new Exception("Email alraedy exist");
+                throw new ServiceValidationException("Email alraedy exist");
             }
 
             user = _context.User.Add(new User

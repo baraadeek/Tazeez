@@ -29,8 +29,7 @@ namespace Tazeez.Core.Managers.Common
         {
             _context.ContactRequest.Add(new ContactRequest 
             {
-                FirstName = contactRequestModel.FirstName,
-                LastName = contactRequestModel.LastName,
+                UserName = contactRequestModel.UserName,
                 Message = contactRequestModel.Message,
                 Email = contactRequestModel.Email,
                 PhoneNumber = contactRequestModel.PhoneNumber

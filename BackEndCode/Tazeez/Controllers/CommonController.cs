@@ -29,7 +29,7 @@ namespace Tazeez.Controllers
             _commonManager.ContactWithUS(contactRequestModel);
             return Ok();
         }
-        
+
         [Route("api/v{version:apiVersion}/common")]
         [HttpGet]
         [MapToApiVersion("1")]
