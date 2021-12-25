@@ -125,15 +125,9 @@ namespace Tazeez.Models.Models
                     .HasMaxLength(255)
                     .IsUnicode(false);
                 
-                entity.Property(e => e.FirstName)
+                entity.Property(e => e.UserName)
                     .IsRequired()
                     .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
-
-                entity.Property(e => e.LastName)
-                    .IsRequired()
-                    .HasMaxLength(225)
                     .IsUnicode(false)
                     .HasDefaultValueSql("('')");
 

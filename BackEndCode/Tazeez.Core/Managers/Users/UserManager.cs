@@ -30,10 +30,10 @@ namespace Tazeez.Core.Managers.Users
             _configurationSettings = configurationSettings;
         }
 
-        public string GetName()
+        public string GetName(int userId)
         {
-            var user = _context.User.FirstOrDefault();
-            return "hi";
+            var user = _context.User.FirstOrDefault(a => a.Id == userId);
+            return $"{user.FirstName} {user.LastName}";
         }
         
         public UserModel GetUser(int id)

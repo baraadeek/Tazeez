@@ -1,7 +1,6 @@
 ﻿CREATE TABLE `tazeez`.ContactRequestModel (
   `Id` INT NOT NULL AUTO_INCREMENT,
-  `FirstName` VARCHAR(255) NOT NULL DEFAULT '',
-  `LastName` VARCHAR(225) NOT NULL DEFAULT '',
+  `UserName` VARCHAR(255) NOT NULL DEFAULT '',
   `Email` VARCHAR(255) NOT NULL DEFAULT '',
   `PhoneNumber` VARCHAR(45) NOT NULL DEFAULT '',
   `Message` text NOT NULL,
