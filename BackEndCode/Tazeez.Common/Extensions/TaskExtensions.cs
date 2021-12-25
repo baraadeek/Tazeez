@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace JustProtect.Common.Extensions
+namespace Tazeez.Common.Extensions
 {
     public static class TaskExtensions
     {

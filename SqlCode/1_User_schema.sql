@@ -1,8 +1,6 @@
-﻿CREATE DATABASE Tazeez 
-GO
+﻿CREATE SCHEMA `tazeez` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci ;
 
-USE [Tazeez]
-GO
+-----------------------------------------
 
 CREATE TABLE `tazeez`.`User` (
 	`Id` INT(11) NOT NULL AUTO_INCREMENT,

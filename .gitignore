@@ -123,3 +123,4 @@ rcf/
 /BackEndCode/Tazeez/Properties/PublishProfiles/*.ps1
 /.vscode
 /PublicSite/build
+/BackEndCode/Tazeez/Logs
