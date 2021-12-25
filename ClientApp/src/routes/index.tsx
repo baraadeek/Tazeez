@@ -1,5 +1,6 @@
 import { Route } from "react-location";
-import Login from "../components/Login";
+import Login from "../components/Login/Login";
+import SignUp from "../components/Signup/Signup";
 import Index from "../pages/Home";
 
 const appRoutes: Route[] = [
@@ -13,7 +14,7 @@ const appRoutes: Route[] = [
   },
   {
     path: "signup",
-    children: [{ path: "/", element: <div>Sign Up Page</div> }],
+    children: [{ path: "/", element: <SignUp/>}],
   },
 ];
 

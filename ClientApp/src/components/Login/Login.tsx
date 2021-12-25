@@ -1,8 +1,13 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
+import React from "react";
+import TopHeader from "../TopHeader";
+import Navbar from "../Navbar";
+import PageBanner from "../PageBanner";
+import Footer from "../Footer";
+import { Form, Spinner } from "react-bootstrap";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Alert from "@material-ui/lab/Alert";
+
 import { Link } from "react-location";
-import { loginValidationSchema } from "./validationSchema";
 
 interface ILoginForm {
   email: string;
@@ -10,69 +15,113 @@ interface ILoginForm {
 }
 
 export default function Login() {
-  const { control, handleSubmit, formState } = useForm<ILoginForm>({
-    resolver: yupResolver(loginValidationSchema),
-  });
-
-  const onSubmit: SubmitHandler<ILoginForm> = async (data) => {
-    console.log({ data });
+  const { handleSubmit, control, formState } = useForm<ILoginForm>();
+  const onSubmit: SubmitHandler<ILoginForm> = (data) => {
+    console.log(data);
   };
 
   return (
-    <Container>
-      <Row>
-        <Col xs md={{ span: 4, offset: 4 }}>
-          <h3 className="mt-5">Sign in to your account</h3>
-          <p className="mb-5 mt-3">
-            Don't have an account? <Link to="/signup">sign up</Link>
-          </p>
-          <Form onSubmit={handleSubmit(onSubmit)}>
-            {/* EMAIL */}
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Controller
-                name="email"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Control
-                    {...field}
-                    required
-                    autoFocus
-                    autoComplete="off"
-                    type="email"
-                    placeholder="Enter email"
-                  />
-                )}
-              />
-            </Form.Group>
-            {/* PASSWORD */}
-            <Form.Group className="mb-5" controlId="password">
-              <Form.Label>Password</Form.Label>
-              <Controller
-                name="password"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Control
-                    {...field}
-                    required
-                    autoComplete="off"
-                    type="password"
-                    placeholder="Enter Password"
-                  />
-                )}
-              />
-            </Form.Group>
-            {/* LOGIN BUTTON */}
-            <div className="d-grid">
-              <Button type="submit">
-                {formState.isSubmitting ? <Spinner animation="border" variant="light" /> : "Login"}
-              </Button>
+    <>
+      <TopHeader />
+
+      <Navbar />
+
+      <PageBanner
+        pageTitle="Sign In"
+        homePageUrl="/"
+        homePageText="Home"
+        activePageText="Sign In"
+        bgImage="page-title-one"
+      />
+
+      <div className="signup-area ptb-100">
+        <div className="container-fluid">
+          <div className="row">
+            <div className="col-lg-6 pl-0">
+              <div className="login-left">
+                <img src="/images/login-bg.jpg" alt="Login" />
+              </div>
             </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
+
+            <div className="col-lg-6 ptb-100">
+              <div className="signup-item">
+                <div className="signup-head">
+                  <h2>Login Here</h2>
+                  <p>
+                    Didn't you account yet?{" "}
+                    <Link to="/signup">
+                      <a>Sign Up Here</a>
+                    </Link>
+                  </p>
+                </div>
+                <div className="signup-form">
+                  <Form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="row">
+                      <div className="col-lg-12">
+                        <div className="form-group">
+                          <Controller
+                            name="email"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                              <Form.Control
+                                {...field}
+                                required
+                                autoFocus
+                                autoComplete="off"
+                                type="email"
+                                placeholder="Enter email"
+                              />
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-lg-12">
+                        <div className="form-group">
+                          <Controller
+                            name="password"
+                            control={control}
+                            defaultValue=""
+                            render={({ field }) => (
+                              <Form.Control
+                                {...field}
+                                required
+                                maxLength={32}
+                                minLength={10}
+                                autoComplete="off"
+                                type="password"
+                                placeholder="Enter Password"
+                              />
+                            )}
+                          />
+                        </div>
+                      </div>
+
+                      <div className="col-lg-12">
+                        <div className="text-center">
+                          <button type="submit" className="btn signup-btn">
+                            {formState.isSubmitting ? (
+                              <Spinner animation="border" variant="light" />
+                            ) : (
+                              "Login"
+                            )}
+                          </button>
+                        </div>
+                        <Alert severity="error" style={{ marginTop: 8 }}>
+                          Error : User Name or Password is invalid
+                        </Alert>
+                      </div>
+                    </div>
+                  </Form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Footer />
+    </>
   );
 }
