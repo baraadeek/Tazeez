@@ -13,18 +13,18 @@ export function isCanceledRequest(axios, error) {
 }
 
 export const axiosAPI = axios.create({
-  baseURL: "http://localhost:44383/",
+  baseURL: "http://localhost:59717/",
 });
 
-fetcher.interceptors.request.use(
+http: axiosAPI.interceptors.request.use(
   async function (config) {
     let headers = {
       "Content-Type": "application/json",
       Accept: "application/json",
     };
-    const token = JSON.parse(localStorage.getItem("login")).store;
+    const token = JSON.parse(localStorage.getItem("login1"))?.store;
 
-    const accessToken = s;
+    const accessToken = token;
 
     config.headers = headers;
 
@@ -46,7 +46,7 @@ fetcher.interceptors.request.use(
   }
 );
 
-fetcher.interceptors.response.use(
+axiosAPI.interceptors.response.use(
   function (response) {
     return response;
   },

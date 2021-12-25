@@ -7,6 +7,8 @@ import { Form, Spinner } from "react-bootstrap";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-location";
 import Alert from "@material-ui/lab/Alert";
+import { SiginUpAPI } from "./api/sigin-api";
+import { useDispatch } from "react-redux";
 
 interface ISignUpForm {
   firstName: string;
@@ -17,9 +19,11 @@ interface ISignUpForm {
 
 export default function SignUp() {
   const { handleSubmit, control, formState } = useForm<ISignUpForm>();
+  const dispatch = useDispatch();
 
   const onSubmit: SubmitHandler<ISignUpForm> = (data) => {
     console.log(data);
+    dispatch(SiginUpAPI(data));
   };
 
   return (
@@ -34,7 +38,7 @@ export default function SignUp() {
         bgImage="page-title-one"
       />
 
-      <div className="signup-area ptb-100">
+      <div className="signup-area ptb-32">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-6 pl-0">
@@ -42,7 +46,7 @@ export default function SignUp() {
                 <img src="/images/signup-bg.jpg" alt="SignUp" />
               </div>
             </div>
-            <div className="col-lg-6 ptb-100">
+            <div className="col-lg-6 ptb-32">
               <div className="signup-item">
                 <div className="signup-head">
                   <h2>Sign Up Here</h2>

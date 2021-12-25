@@ -1,24 +1,22 @@
-import React from "react";
-import TopHeader from "../TopHeader";
-import Navbar from "../Navbar";
-import PageBanner from "../PageBanner";
-import Footer from "../Footer";
 import { Form, Spinner } from "react-bootstrap";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-location";
-
+import { useDispatch } from "react-redux";
+import { contactAPI } from "./api/contact-api";
 interface ISignUpForm {
-  name: string;
+  firstName: string;
   phoneNumber: string;
   email: string;
-  subject: string;
   message: string;
 }
 
 export default function Contact() {
   const { handleSubmit, control, formState } = useForm<ISignUpForm>();
+  const dispatch = useDispatch();
 
-  const onSubmit: SubmitHandler<ISignUpForm> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<ISignUpForm> = (data) => {
+    console.log(data);
+    dispatch(contactAPI(data));
+  };
 
   return (
     <div className="col-sm-6 col-lg-3">
@@ -28,7 +26,7 @@ export default function Contact() {
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <Controller
-                name="name"
+                name="firstName"
                 control={control}
                 defaultValue=""
                 render={({ field }) => (
@@ -67,21 +65,6 @@ export default function Contact() {
                     required
                     autoComplete="off"
                     placeholder="email"
-                  />
-                )}
-              />
-            </div>
-            <div className="form-group">
-              <Controller
-                name="subject"
-                control={control}
-                defaultValue=""
-                render={({ field }) => (
-                  <Form.Control
-                    {...field}
-                    required
-                    autoComplete="off"
-                    placeholder="Subject"
                   />
                 )}
               />

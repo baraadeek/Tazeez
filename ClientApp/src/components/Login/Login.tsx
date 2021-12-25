@@ -6,8 +6,10 @@ import Footer from "../Footer";
 import { Form, Spinner } from "react-bootstrap";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import Alert from "@material-ui/lab/Alert";
+import { useDispatch } from "react-redux";
 
 import { Link } from "react-location";
+import { loginAPI } from "./api/login-api";
 
 interface ILoginForm {
   email: string;
@@ -15,9 +17,11 @@ interface ILoginForm {
 }
 
 export default function Login() {
+  const dispatch = useDispatch();
   const { handleSubmit, control, formState } = useForm<ILoginForm>();
   const onSubmit: SubmitHandler<ILoginForm> = (data) => {
     console.log(data);
+    dispatch(loginAPI(data));
   };
 
   return (
@@ -88,7 +92,7 @@ export default function Login() {
                                 {...field}
                                 required
                                 maxLength={32}
-                                minLength={10}
+                                minLength={2}
                                 autoComplete="off"
                                 type="password"
                                 placeholder="Enter Password"
