@@ -29,6 +29,8 @@ namespace Tazeez.Infrastructure
 
         string JwtKey { get; }
 
+        string DatabaseConnectionString { get; }
+
 
         //string WebSiteURl { get; }
 

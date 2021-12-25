@@ -27,7 +27,7 @@ namespace Tazeez.Core.Managers.Common
 
         public void ContactWithUS(ContactRequestModel contactRequestModel)
         {
-            _context.ContactRequests.Add(new ContactRequest 
+            _context.ContactRequest.Add(new ContactRequest 
             {
                 FirstName = contactRequestModel.FirstName,
                 LastName = contactRequestModel.LastName,
@@ -41,7 +41,7 @@ namespace Tazeez.Core.Managers.Common
 
         public UserModel GetUserRole(UserModel currentUser)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Id == currentUser.Id);
+            var user = _context.User.FirstOrDefault(a => a.Id == currentUser.Id);
             
             return _mapper.Map<UserModel>(user);
         }
@@ -53,7 +53,7 @@ namespace Tazeez.Core.Managers.Common
                 throw new Exception("You don't have permission to see this resource");
             }
 
-            var data = _context.ContactRequests.OrderBy(a => a.CreatedDate).ToList();
+            var data = _context.ContactRequest.OrderBy(a => a.CreatedDate).ToList();
 
             return _mapper.Map<List<ContactRequestModel>>(data);
         }
