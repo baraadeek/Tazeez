@@ -43,10 +43,10 @@ namespace Tazeez.Core.Managers.Users
 
             return _mapper.Map<UserModel>(user);
         }
-        
+
         public UserModel SignUp(SignUpRequest signUpRequest)
         {
-            var user = _context.User.FirstOrDefault(a => a.Email.Equals(signUpRequest.Email));
+            var user = _context.User.FirstOrDefault(a => a.Email.Equals(signUpRequest.Email, StringComparison.InvariantCultureIgnoreCase));
 
             if (user != null)
             {
@@ -57,7 +57,7 @@ namespace Tazeez.Core.Managers.Users
             {
                 FirstName = signUpRequest.FirstName,
                 LastName = signUpRequest.LastName,
-                Email = signUpRequest.Email,
+                Email = signUpRequest.Email.ToLower(),
                 Password = HashPassword(signUpRequest.Password)
             }).Entity;
 
@@ -106,7 +106,7 @@ namespace Tazeez.Core.Managers.Users
 
             var claims = new[] {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.FirstName),
-                new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+                new Claim(JwtRegisteredClaimNames.Email, userInfo.Email.ToLower()),
                 new Claim("Id", userInfo.Id.ToString()),
                 new Claim("DateOfJoing", userInfo.CreatedDate.ToString("yyyy-MM-dd")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
