@@ -14,7 +14,8 @@ const useStyles = makeStyles(() => ({
     alignItems: "center",
   },
   avatar: {
-    marginRight: "14px",
+    marginRight: "4px",
+    marginLeft: "4px",
   },
 }));
 

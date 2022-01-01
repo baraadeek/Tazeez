@@ -1,3 +1,7 @@
 import { combineReducers } from "redux";
 
-export default combineReducers({});
+import pageDirection from "core-components/page-direction/slice/page-direction.js";
+
+export default combineReducers({
+  pageDirection,
+});
