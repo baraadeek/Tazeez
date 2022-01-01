@@ -35,6 +35,8 @@ namespace Tazeez.Models.Models
 
         public virtual DbSet<QuestionnaireQuestion> QuestionnaireQuestion { get; set; }
 
+        public virtual DbSet<QuestionChoice> QuestionChoice { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -309,6 +311,42 @@ namespace Tazeez.Models.Models
                     .WithMany(p => p.QuestionnaireTemplateQuesions)
                     .HasForeignKey(d => d.QuestionnaireTemplateId)
                     .HasConstraintName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId");
+            });
+            
+            modelBuilder.Entity<QuestionChoice>(entity =>
+            {
+                entity.HasIndex(e => e.TemplateQuestionId).HasDatabaseName("TemplateQuestionId_ChoiceTemplateQuestionId_idx");
+
+                entity.HasIndex(e => e.Id, "Id_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Choice)
+                    .IsRequired()
+                    .HasColumnType("varchar(255)")
+                    .IsUnicode(true);
+                
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.TemplateQuestionId).HasColumnType("int(11)");
+
+                entity.Property(e => e.DisplayOrder).HasColumnType("int(11)");
+
+                entity.Property(e => e.Score).HasColumnType("int(11)");
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.QuestionnaireTemplateQuestion)
+                    .WithMany(p => p.QuestionChoices)
+                    .HasForeignKey(d => d.TemplateQuestionId)
+                    .HasConstraintName("TemplateQuestionId_ChoiceTemplateQuestionId");
             });
 
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);

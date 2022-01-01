@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Serilog;
 using System.Linq;
 using Tazeez.Common.Extensions;
 using Tazeez.DB.Models.DB;
+using Tazeez.Enums;
 using Tazeez.Models.Models;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
@@ -30,6 +32,14 @@ namespace Tazeez.Core.Managers.Questionnaires
                 throw new ServiceValidationException("You don't have permission to add questionnaire template question");
             }
 
+            if (questionnaireTemplateQuesionModel.Id == 0 
+                && (questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqSingleAnswer
+                     || questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqMultipleAnswer) 
+                && !questionnaireTemplateQuesionModel.QuestionChoices.Any())
+            {
+                throw new ServiceValidationException("Invalid Choices for template question");
+            }
+
             if (!_context.QuestionnaireTemplate.Any(a => a.Id == questionnaireTemplateId))
             {
                 throw new ServiceValidationException("Invalid questionnaire template id");
@@ -40,10 +50,14 @@ namespace Tazeez.Core.Managers.Questionnaires
             if (questionnaireTemplateQuesionModel.Id > 0)
             {
                 questionnaireTemplateQuesion = _context.QuestionnaireTemplateQuestion
-                                                .FirstOrDefault(a => a.Id == questionnaireTemplateQuesionModel.Id)
-                                                ?? throw new ServiceValidationException("Invalid questionnaire template question id");
+                                                       .Include(a => a.QuestionChoices)
+                                                       .FirstOrDefault(a => a.Id == questionnaireTemplateQuesionModel.Id)
+                                                       ?? throw new ServiceValidationException("Invalid questionnaire template question id");
 
                 questionnaireTemplateQuesion.Question = questionnaireTemplateQuesionModel.Question;
+                questionnaireTemplateQuesion.DisplayOrder = questionnaireTemplateQuesionModel.DisplayOrder;
+                questionnaireTemplateQuesion.Score = questionnaireTemplateQuesionModel.Score;
+                questionnaireTemplateQuesion.IsOptional = questionnaireTemplateQuesionModel.IsOptional;
             }
             else
             {
@@ -58,9 +72,31 @@ namespace Tazeez.Core.Managers.Questionnaires
                 }).Entity;
             }
 
+            foreach (var item in questionnaireTemplateQuesionModel.QuestionChoices)
+            {
+                if (item.Id > 1)
+                {
+                    var choice = questionnaireTemplateQuesion.QuestionChoices
+                                                             .FirstOrDefault(a => a.Id == item.Id)
+                                                             ?? throw new ServiceValidationException("Invalid question choice id");
+
+                    choice.Choice = item.Choice;
+                    choice.DisplayOrder = item.DisplayOrder;
+                    choice.Score = item.Score;
+                }
+                else
+                {
+                    questionnaireTemplateQuesion.QuestionChoices.Add(new QuestionChoice
+                    {
+                        Choice = item.Choice,
+                        DisplayOrder = item.DisplayOrder,
+                        Score = item.Score
+                    });
+                }
+            }
+
             _context.SaveChanges();
             Log.Information("Finish PutQuestionnaireTemplateQuestion");
-
             return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuesion);
         }
 

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using Tazeez.Enums;
@@ -7,6 +7,11 @@ namespace Tazeez.ModelViews.Request
 {
     public class QuestionnaireTemplateQuestionRequestModel
     {
+        public QuestionnaireTemplateQuestionRequestModel()
+        {
+            QuestionChoices = new List<QuestionChoiceRequestModel>();
+        }
+
         public int Id { get; set; }
 
         [Required]
@@ -23,5 +28,7 @@ namespace Tazeez.ModelViews.Request
 
         [DefaultValue(false)]
         public bool IsOptional { get; set; }
+
+        public List<QuestionChoiceRequestModel> QuestionChoices { get; set; }
     }
 }
