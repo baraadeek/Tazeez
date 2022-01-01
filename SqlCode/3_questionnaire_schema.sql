@@ -55,9 +55,9 @@ CREATE TABLE `tazeez`.`questionnaire` (
   `Status` INT(11) NOT NULL DEFAULT 0,
   `QuestionnaireTemplateId` INT(11) NOT NULL,
   `DueDateUTC` DATETIME NOT NULL,
-  `CreatedUTC` VARCHAR(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP',
-  `LastUpdatedUTC` VARCHAR(45) NOT NULL DEFAULT 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
-  `Archived` VARCHAR(45) NOT NULL DEFAULT 0,
+  `CreatedUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `LastUpdatedUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Archived` TINYINT(3) NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`),
   UNIQUE INDEX `Id_UNIQUE` (`Id` ASC),
   INDEX `GroupId_QuestionnaireGroupId_idx` (`QuestionnaireGroupId` ASC),
@@ -94,6 +94,26 @@ CREATE TABLE `tazeez`.`questionnairequestion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `questionnaireTemplateId_questionTemplateId`
+    FOREIGN KEY (`TemplateQuestionId`)
+    REFERENCES `tazeez`.`questionnairetemplatequestion` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+--------------------------------------------------------------------
+
+CREATE TABLE `tazeez`.`questionchoice` (
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `TemplateQuestionId` INT(11) NOT NULL,
+  `Choice` VARCHAR(55) NOT NULL,
+  `DisplayOrder` INT(11) NOT NULL DEFAULT 0,
+  `Score` INT(11) NOT NULL DEFAULT 0,
+  `CreatedUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `LastUpdatedUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Archived` TINYINT(3) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC),
+  INDEX `TemplateQuestionId_ChoiceTemplateQuestionId_idx` (`TemplateQuestionId` ASC),
+  CONSTRAINT `TemplateQuestionId_ChoiceTemplateQuestionId`
     FOREIGN KEY (`TemplateQuestionId`)
     REFERENCES `tazeez`.`questionnairetemplatequestion` (`Id`)
     ON DELETE NO ACTION
