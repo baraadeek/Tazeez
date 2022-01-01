@@ -22,7 +22,18 @@ namespace Tazeez.Models.Models
         }
 
         public virtual DbSet<User> User { get; set; }
+
         public virtual DbSet<ContactRequest> ContactRequest { get; set; }
+
+        public virtual DbSet<QuestionnaireTemplateQuestion> QuestionnaireTemplateQuestion { get; set; }
+        
+        public virtual DbSet<QuestionnaireTemplate> QuestionnaireTemplate { get; set; }
+
+        public virtual DbSet<QuestionnaireGroup> QuestionnaireGroup { get; set; }
+
+        public virtual DbSet<Questionnaire> Questionnaire { get; set; }
+
+        public virtual DbSet<QuestionnaireQuestion> QuestionnaireQuestion { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -108,13 +119,12 @@ namespace Tazeez.Models.Models
                 entity.HasIndex(e => e.Id, "Id_UNIQUE")
                     .IsUnique();
 
-                entity.Property(e => e.Archived).HasColumnType("smallint");
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
 
                 entity.Property(e => e.Message)
                     .IsRequired()
                     .HasColumnType("TEXT")
-                    .IsUnicode(false)
-                    .HasDefaultValueSql("('')");
+                    .IsUnicode(true);
                 
                 entity.Property(e => e.CreatedDate)
                       .HasColumnType("timestamp")
@@ -142,9 +152,171 @@ namespace Tazeez.Models.Models
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
+            
+            modelBuilder.Entity<QuestionnaireTemplate>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "Id_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Name)
+                      .IsRequired()
+                      .HasMaxLength(500)
+                      .IsUnicode(true);
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");                
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            
+            modelBuilder.Entity<QuestionnaireGroup>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+
+                entity.Property(e => e.Name)
+                      .IsRequired()
+                      .HasMaxLength(500)
+                      .IsUnicode(true);
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");                
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
+            
+            modelBuilder.Entity<Questionnaire>(entity =>
+            {
+                entity.HasIndex(e => e.QuestionnaireGroupId).HasDatabaseName("GroupId_QuestionnaireGroupId_idx");
+
+                entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("TemplateId_QuestionnaireTemplateId_idx");
+
+                entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+
+                entity.Property(e => e.QuestionnaireGroupId).HasColumnType("int(11)");
+
+                entity.Property(e => e.QuestionnaireTemplateId).HasColumnType("int(11)");
+
+                entity.Property(e => e.Status).HasColumnType("int(11)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.DueDateUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");                
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");                
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.QuestionnaireTemplate)
+                    .WithMany(p => p.Questionnaires)
+                    .HasForeignKey(d => d.QuestionnaireTemplateId)
+                    .HasConstraintName("TemplateId_QuestionnaireTemplateId");
+
+                entity.HasOne(d => d.QuestionnaireGroup)
+                    .WithMany(p => p.Questionnaires)
+                    .HasForeignKey(d => d.QuestionnaireGroupId)
+                    .HasConstraintName("GroupId_QuestionnaireGroupId");
+            });
+            
+            modelBuilder.Entity<QuestionnaireQuestion>(entity =>
+            {
+                entity.HasIndex(e => e.QuestionnaireId).HasDatabaseName("questionnaireId_questionQuestionnaireId_idx");
+
+                entity.HasIndex(e => e.TemplateQuestionId).HasDatabaseName("questionnaireTemplateId_questionTemplateId_idx");
+
+                entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+
+                entity.Property(e => e.QuestionnaireId).HasColumnType("int(11)");
+
+                entity.Property(e => e.TemplateQuestionId).HasColumnType("int(11)");
+
+                entity.Property(e => e.Status).HasColumnType("int(11)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");                
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.Questionnaire)
+                    .WithMany(p => p.QuestionnaireQuestions)
+                    .HasForeignKey(d => d.QuestionnaireId)
+                    .HasConstraintName("questionnaireId_questionQuestionnaireId");
+
+                entity.HasOne(d => d.QuestionnaireTemplateQuesion)
+                    .WithMany(p => p.QuestionnaireQuestions)
+                    .HasForeignKey(d => d.TemplateQuestionId)
+                    .HasConstraintName("questionnaireTemplateId_questionTemplateId");
+            });
+            
+            modelBuilder.Entity<QuestionnaireTemplateQuestion>(entity =>
+            {
+                entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId_idx");
+
+                entity.HasIndex(e => e.Id, "Id_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Question)
+                    .IsRequired()
+                    .HasColumnType("TEXT")
+                    .IsUnicode(true);
+                
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.IsOptional).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.QuestionnaireQuestionTypeId).HasColumnType("int(11)");
+
+                entity.Property(e => e.QuestionnaireTemplateId).HasColumnType("int(11)");
+
+                entity.Property(e => e.DisplayOrder).HasColumnType("int(11)");
+
+                entity.Property(e => e.Score).HasColumnType("int(11)");
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.QuestionnaireTemplate)
+                    .WithMany(p => p.QuestionnaireTemplateQuesions)
+                    .HasForeignKey(d => d.QuestionnaireTemplateId)
+                    .HasConstraintName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId");
+            });
 
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<ContactRequest>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireTemplateQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireTemplate>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireGroup>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }
