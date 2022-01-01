@@ -16,16 +16,14 @@ namespace Tazeez.Core.Managers.Common
         private readonly IMapper _mapper;
         private readonly IConfigurationSettings _configurationSettings;
 
-        public CommonManager(TazeezContext context,
-                           IMapper mapper,
-                           IConfigurationSettings configurationSettings)
+        public CommonManager(TazeezContext context, IMapper mapper, IConfigurationSettings configurationSettings)
         {
             _context = context;
             _mapper = mapper;
             _configurationSettings = configurationSettings;
         }
 
-        public void ContactWithUS(ContactRequestModel contactRequestModel)
+        public void AddContactWithUS(ContactRequestModel contactRequestModel)
         {
             _context.ContactRequest.Add(new ContactRequest 
             {

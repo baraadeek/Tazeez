@@ -7,6 +7,7 @@ using Serilog;
 using Tazeez.Infrastructure;
 using Tazeez.ModelViews;
 using Tazeez.Core.Managers.Common;
+using Tazeez.Common.Extensions;
 
 namespace Tazeez.Controllers
 {
@@ -34,9 +35,9 @@ namespace Tazeez.Controllers
 
                 var ClaimId = User.Claims.FirstOrDefault(c => c.Type == "Id");
 
-                if (ClaimId == null || int.TryParse(ClaimId.Value, out int id))
+                if (ClaimId == null || !int.TryParse(ClaimId.Value, out int id))
                 {
-                    throw new System.Exception("Invalid Token");
+                    throw new ServiceValidationException(401, "Invalid or expired Token");
                 }
 
                 var commonManager = HttpContext.RequestServices.GetService(typeof(ICommonManager)) as ICommonManager;
