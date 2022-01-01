@@ -49,7 +49,6 @@ const Footer = () => {
                         fontSize="small"
                         style={{
                           color: "#fff",
-                          marginLeft: " 60px",
                           marginRight: "8px",
                           marginTop: "30px",
                         }}

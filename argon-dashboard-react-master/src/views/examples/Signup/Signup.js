@@ -8,11 +8,18 @@ import { SiginUpAPI } from "./api/sigin-api";
 import { useDispatch } from "react-redux";
 import PageBanner from "../Common/PageBanner";
 import SignupImage from "views/examples/images/signup-bg.jpg";
+import { useSelector } from "react-redux";
+import { PAGE_DIRECTION } from "core-components/page-direction/enum/enum";
 export default function SignUp() {
   const { handleSubmit, control, formState } = useForm();
   const dispatch = useDispatch();
   const [showError, SetShowError] = React.useState(null);
 
+  const pageDirection = useSelector(
+    (state) => state.pageDirection.pageDirection
+  );
+
+  let isAR = pageDirection === PAGE_DIRECTION.ar.key;
   const onSubmit = (data) => {
     console.log(data);
     dispatch(
@@ -33,10 +40,10 @@ export default function SignUp() {
   return (
     <>
       <PageBanner
-        pageTitle="Sign Up"
+        pageTitle={isAR ? "اشتراك" : "Sign Up"}
         homePageUrl="/auth/home"
-        homePageText="Home"
-        activePageText="Sign Up"
+        homePageText={isAR ? "الصفحة الرئيسية" : "Home"}
+        activePageText={isAR ? "اشتراك" : "Sign Up"}
         bgImage="page-title-one"
       />
 
@@ -51,11 +58,11 @@ export default function SignUp() {
             <div className="col-lg-6 ptb-100">
               <div className="signup-item">
                 <div className="signup-head">
-                  <h2>Sign Up Here</h2>
+                  <h2>{isAR ? "سجل هنا" : "Sign Up Here"}</h2>
                   <p>
-                    Already have an account?{" "}
+                    {isAR ? "هل لديك حساب؟" : "Already have an account?"}{" "}
                     <Link to="/auth/login">
-                      <a>Sign In</a>
+                      {isAR ? "تسجيل الدخول " : "Login"}
                     </Link>
                   </p>
                 </div>
@@ -75,7 +82,9 @@ export default function SignUp() {
                                 required
                                 autoFocus
                                 autoComplete="off"
-                                placeholder="First Name"
+                                placeholder={
+                                  isAR ? "الاسم الاول" : "First Name"
+                                }
                               />
                             )}
                           />
@@ -92,7 +101,9 @@ export default function SignUp() {
                                 {...field}
                                 required
                                 autoComplete="off"
-                                placeholder="Last Name"
+                                placeholder={
+                                  isAR ? "الاسم الاخير" : "Last Name"
+                                }
                               />
                             )}
                           />
@@ -110,7 +121,11 @@ export default function SignUp() {
                                 required
                                 autoComplete="off"
                                 type="email"
-                                placeholder="Enter email"
+                                placeholder={
+                                  isAR
+                                    ? "أدخل البريد الإلكتروني"
+                                    : "Enter email"
+                                }
                               />
                             )}
                           />
@@ -130,7 +145,9 @@ export default function SignUp() {
                                 minLength={10}
                                 autoComplete="off"
                                 type="password"
-                                placeholder="Enter Password"
+                                placeholder={
+                                  isAR ? "أدخل الرقم السري " : "Enter Password"
+                                }
                               />
                             )}
                           />
@@ -142,6 +159,8 @@ export default function SignUp() {
                           <button type="submit" className="btn signup-btn">
                             {formState.isSubmitting ? (
                               <Spinner animation="border" variant="light" />
+                            ) : isAR ? (
+                              "تسجيل"
                             ) : (
                               "Sign Up"
                             )}

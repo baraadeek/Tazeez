@@ -1,11 +1,19 @@
+import { PAGE_DIRECTION } from "core-components/page-direction/enum/enum";
 import { Form, Spinner } from "react-bootstrap";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { contactAPI } from "./api/contact-api";
 
 export default function Contact() {
   const { handleSubmit, control, formState, reset } = useForm();
   const dispatch = useDispatch();
+
+  const pageDirection = useSelector(
+    (state) => state.pageDirection.pageDirection
+  );
+
+  let isAR = pageDirection === PAGE_DIRECTION.ar.key;
 
   const onSubmit = (data) => {
     console.log(data);
@@ -18,7 +26,7 @@ export default function Contact() {
     <div className="col-sm-6 col-lg-3">
       <div className="footer-item">
         <div className="footer-feedback">
-          <h3>Feedback</h3>
+          <h3>{isAR ? "تواصل" : "Feedback"}</h3>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <Controller
@@ -30,7 +38,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder="User Name"
+                    placeholder={isAR ? "اسم المستخدم" : "User Name"}
                   />
                 )}
               />
@@ -45,7 +53,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder="Phone Number"
+                    placeholder={isAR ? "رقم الهاتف" : "Phone Number"}
                   />
                 )}
               />
@@ -60,7 +68,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder="email"
+                    placeholder={isAR ? "البريد الالكتروني" : "email"}
                   />
                 )}
               />
@@ -77,7 +85,7 @@ export default function Contact() {
                     className="form-control"
                     id="your_message"
                     rows={3}
-                    placeholder="Message"
+                    placeholder={isAR ? "الرسالة" : "Message"}
                   ></textarea>
                 )}
               />
@@ -86,6 +94,8 @@ export default function Contact() {
               <button type="submit" className="btn feedback-btn">
                 {formState.isSubmitting ? (
                   <Spinner animation="border" variant="light" />
+                ) : isAR ? (
+                  "إرسال"
                 ) : (
                   "SUBMIT"
                 )}

@@ -94,7 +94,7 @@
 }
 
 [dir="rtl"] .dropdown-toggle::after {
-  margin-right: .255em;
+  margin-right: 0.255em;
   margin-left: 0;
 }
 
@@ -217,7 +217,8 @@
   left: auto;
 }
 
-[dir="rtl"] .pr-0, [dir="rtl"] .px-0 {
+[dir="rtl"] .pr-0,
+[dir="rtl"] .px-0 {
   padding-left: 0 !important;
 }
 
@@ -310,7 +311,12 @@
   margin-left: 0;
 }
 
-[dir="rtl"] .appointment-item-two-right .appointment-item-content .content-one ul li:before {
+[dir="rtl"]
+  .appointment-item-two-right
+  .appointment-item-content
+  .content-one
+  ul
+  li:before {
   right: 95px;
   left: auto;
 }
@@ -320,6 +326,10 @@
 }
 
 [dir="rtl"] .signup-item .signup-head h2:before {
+  right: 0;
+  left: auto;
+}
+[dir="rtl"] h2:before {
   right: 0;
   left: auto;
 }
@@ -424,7 +434,12 @@
   left: auto;
 }
 
-[dir="rtl"] .blog-details-item .blog-details-previous .prev-next ul li:last-child {
+[dir="rtl"]
+  .blog-details-item
+  .blog-details-previous
+  .prev-next
+  ul
+  li:last-child {
   float: left;
 }
 
@@ -583,7 +598,10 @@
     right: -74px;
     left: auto;
   }
-  [dir="rtl"] .appointment-item-two-right .appointment-item-content .content-two {
+  [dir="rtl"]
+    .appointment-item-two-right
+    .appointment-item-content
+    .content-two {
     margin-right: 10px !important;
     margin-left: 0 !important;
   }

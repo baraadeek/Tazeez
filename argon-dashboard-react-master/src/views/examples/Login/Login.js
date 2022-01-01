@@ -15,10 +15,18 @@ import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
 import loginImage from "views/examples/images/login-bg.jpg";
+import { useSelector } from "react-redux";
+import { PAGE_DIRECTION } from "core-components/page-direction/enum/enum";
 
 export default function Login() {
   const dispatch = useDispatch();
   const history = useHistory();
+
+  const pageDirection = useSelector(
+    (state) => state.pageDirection.pageDirection
+  );
+
+  let isAR = pageDirection === PAGE_DIRECTION.ar.key;
 
   const [showError, SetShowError] = React.useState(null);
   const { handleSubmit, control, formState } = useForm();
@@ -51,10 +59,10 @@ export default function Login() {
   return (
     <>
       <PageBanner
-        pageTitle="Sign In"
+        pageTitle={isAR ? "تسجيل الدخول" : "Sign In"}
         homePageUrl="/"
-        homePageText="Home"
-        activePageText="Sign In"
+        homePageText={isAR ? "الصفحة الرئيسية" : "Home"}
+        activePageText={isAR ? "تسجيل الدخول" : "Sign In"}
         bgImage="page-title-one"
       />
 
@@ -70,11 +78,11 @@ export default function Login() {
             <div className="col-lg-6 ptb-100">
               <div className="signup-item">
                 <div className="signup-head">
-                  <h2>Login Here</h2>
+                  <h2>{isAR ? "تسجيل الدخول هنا" : "Login Here"}</h2>
                   <p>
-                    Didn't you account yet?{" "}
+                    {isAR ? "ألم تقم بحسابك بعد؟" : " Didn't you account yet?"}{" "}
                     <Link to="/auth/register">
-                      <a>Sign Up Here</a>
+                      {isAR ? "سجل هنا" : "Sign Up Here"}
                     </Link>
                   </p>
                 </div>
@@ -94,7 +102,11 @@ export default function Login() {
                                 autoFocus
                                 autoComplete="off"
                                 type="email"
-                                placeholder="Enter email"
+                                placeholder={
+                                  isAR
+                                    ? "أدخل البريد الإلكتروني"
+                                    : "Enter email"
+                                }
                               />
                             )}
                           />
@@ -115,7 +127,9 @@ export default function Login() {
                                 minLength={2}
                                 autoComplete="off"
                                 type="password"
-                                placeholder="Enter Password"
+                                placeholder={
+                                  isAR ? "أدخل الرقم السري " : "Enter Password"
+                                }
                               />
                             )}
                           />
@@ -127,6 +141,8 @@ export default function Login() {
                           <button type="submit" className="btn signup-btn">
                             {formState.isSubmitting ? (
                               <Spinner animation="border" variant="light" />
+                            ) : isAR ? (
+                              "تسجيل الدخول "
                             ) : (
                               "Login"
                             )}
