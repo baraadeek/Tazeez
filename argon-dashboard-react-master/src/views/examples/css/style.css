@@ -433,7 +433,7 @@ button:focus {
 /*-- End Navbar --*/
 /*-- Home Slider --*/
 .slider-item-img {
-  background-image: url("assets/images/home-one/home-slider-bg.jpg");
+  background-image: url("../images/home-one/home-slider-bg.jpg");
 }
 
 .slider-item {
@@ -593,7 +593,7 @@ button:focus {
 /*-- End Home Slider --*/
 /*-- Counter --*/
 .counter-bg {
-  background-image: url("assets/images/map-bg.png");
+  background-image: url("../images/map-bg.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -603,6 +603,7 @@ button:focus {
   border-radius: 8px;
   -webkit-box-shadow: 0px 0px 30px 0px #dddddda6;
   box-shadow: 0px 0px 30px 0px #dddddda6;
+  margin-top: -40px;
   position: relative;
   z-index: 1;
 }
@@ -1108,7 +1109,7 @@ button:focus {
 /*-- End Expertise --*/
 /*-- Video --*/
 .video-area {
-  background-image: url("assets/images/intro-video-bg.jpg");
+  background-image: url("../images/intro-video-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1497,7 +1498,7 @@ button:focus {
 /*-- End Newsletter --*/
 /*-- Footer --*/
 footer {
-  background-image: url("assets/images/footer-bg.png");
+  background-image: url("../images/footer-bg.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1700,15 +1701,15 @@ footer {
 }
 
 .slider-item-img-two {
-  background-image: url("assets/images/home-two/home-2-slider1.jpg");
+  background-image: url("../images/home-two/home-2-slider1.jpg");
 }
 
 .slider-item-img-three {
-  background-image: url("assets/images/home-two/home-2-slider2.jpg");
+  background-image: url("../images/home-two/home-2-slider2.jpg");
 }
 
 .slider-item-img-four {
-  background-image: url("assets/images/home-two/home-2-slider3.jpg");
+  background-image: url("../images/home-two/home-2-slider3.jpg");
 }
 
 .home-slider-two.owl-theme .owl-nav .owl-prev,
@@ -1773,7 +1774,7 @@ footer {
 }
 
 .emergency-bg {
-  background-image: url(/images/contact-info-bg1.png);
+  background-image: url(../images/contact-info-bg1.png);
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1823,7 +1824,7 @@ footer {
 /*-- End Emergency --*/
 /*-- Welcome --*/
 .welcome-left {
-  background-image: url("assets/images/about3.jpg");
+  background-image: url("../images/about3.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -1965,7 +1966,7 @@ footer {
 }
 
 .speciality-right {
-  background-image: url("assets/images/about4.jpg");
+  background-image: url("../images/about4.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -2037,7 +2038,7 @@ footer {
 /*-- End Speciality --*/
 /*-- Video --*/
 .video-wrap-two .video-area {
-  background-image: url("assets/images/home-two/7.jpg");
+  background-image: url("../images/map-bg.png");
 }
 
 .video-wrap-two .video-nav .video-nav-item a {
@@ -2071,7 +2072,7 @@ footer {
 /*-- End Counter --*/
 /*-- Appointment --*/
 .appointment-area {
-  background-image: url("assets/images/appointment-bg.jpg");
+  background-image: url("../images/appointment-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -2084,7 +2085,7 @@ footer {
   background-color: #ffffff;
   padding: 80px 100px 80px;
   border-radius: 10px;
-  background-image: url("assets/images/home-two/home-2-hart-shape.jpg");
+  background-image: url("../images/home-two/home-2-hart-shape.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -2591,7 +2592,7 @@ footer {
 /*-- Review Slider --*/
 .review-area {
   position: relative;
-  background-image: url("assets/images/feedback-bg.jpg");
+  background-image: url("../images/feedback-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -2775,7 +2776,7 @@ footer {
 /*----- Doctor Page -----*/
 /*-- Page Title --*/
 .page-title-one {
-  background-image: url("assets/images/page-banner1.jpg");
+  background-image: url("../images/page-banner1.jpg");
 }
 
 .page-title-area {
@@ -2785,6 +2786,7 @@ footer {
   height: 400px;
   text-align: center;
   position: relative;
+  width: 100%;
 }
 
 .page-title-area:before {
@@ -2954,7 +2956,7 @@ footer {
 /*----- Apoointment Page -----*/
 /*-- Page Title --*/
 .page-title-two {
-  background-image: url("assets/images/page-banner2.jpg");
+  background-image: url("../images/page-banner2.jpg");
 }
 
 /*-- End Page Title --*/
@@ -2978,7 +2980,7 @@ footer {
 }
 
 .appointment-item-two-right {
-  background-image: url("assets/images/appointment1.jpg");
+  background-image: url("../images/appointment1.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -3025,7 +3027,7 @@ footer {
 /*----- Doctor Details Page -----*/
 /*-- Page Title --*/
 .page-title-three {
-  background-image: url("assets/images/page-banner3.jpg");
+  background-image: url("../images/page-banner3.jpg");
 }
 
 .page-title-item-two {
@@ -3131,7 +3133,10 @@ footer {
   padding-bottom: 0;
 }
 
-.doctor-details-item .doctor-details-work .appointment-item-two-right .appointment-item-content {
+.doctor-details-item
+  .doctor-details-work
+  .appointment-item-two-right
+  .appointment-item-content {
   padding: 0;
   background-color: transparent;
   margin: 0;
@@ -3208,7 +3213,7 @@ footer {
 }
 
 .appointment-area-three .speciality-right-three {
-  background-image: url("assets/images/appointment1.jpg");
+  background-image: url("../images/appointment1.jpg");
 }
 
 /*-- End Appointment --*/
@@ -3216,7 +3221,7 @@ footer {
 /*----- Blog Details Page -----*/
 /*-- Page Title --*/
 .page-title-four {
-  background-image: url("assets/images/page-banner4.jpg");
+  background-image: url("../images/page-banner4.jpg");
 }
 
 /*-- End Page Title --*/
@@ -3590,7 +3595,10 @@ footer {
   box-shadow: none;
 }
 
-.blog-details-form .blog-details-form-wrap .form-group ::-webkit-input-placeholder {
+.blog-details-form
+  .blog-details-form-wrap
+  .form-group
+  ::-webkit-input-placeholder {
   color: #344c5d;
 }
 
@@ -3643,7 +3651,7 @@ footer {
 /*----- Contact Page -----*/
 /*-- Page Title --*/
 .page-title-five {
-  background-image: url("assets/images/page-banner3.jpg");
+  background-image: url("../images/page-banner3.jpg");
 }
 
 /*-- End Page Title --*/
@@ -3690,7 +3698,7 @@ footer {
 /*-- End Location --*/
 /*-- Drop --*/
 .drop-img {
-  background-image: url("assets/images/contact-form-bg.png");
+  background-image: url("../images/contact-form-bg.png");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -3935,7 +3943,7 @@ footer {
 /*----- TESTIMONIAL PAGE -----*/
 /*-- Testimonial --*/
 .testimonial-area {
-  background-image: url("assets/images/testimonial-bg.jpg");
+  background-image: url("../images/testimonial-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4033,7 +4041,7 @@ footer {
 /*----- SIGN UP PAGE -----*/
 /*-- Sign Up --*/
 .signup-left {
-  background-image: url("assets/images/signup-bg.jpg");
+  background-image: url("../images/signup-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4176,7 +4184,7 @@ footer {
 /*----- LOGIN PAGE -----*/
 /*-- Login --*/
 .login-left {
-  background-image: url("assets/images/login-bg.jpg");
+  background-image: url("../images/login-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4343,7 +4351,7 @@ footer {
 }
 
 .service-details-inner-left {
-  background-image: url("assets/images/signup-bg.jpg");
+  background-image: url("../images/signup-bg.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4630,7 +4638,7 @@ footer {
 
 .faq-area-two .faq-img {
   margin-bottom: 30px;
-  background-image: url("assets/images/faq-main.jpg");
+  background-image: url("../images/faq-main.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -4781,11 +4789,11 @@ footer {
 /*----- End Home Four CSS -----*/
 /*----- Home Five CSS -----*/
 .slider-item-three-img {
-  background-image: url("assets/images/home-five/home-five-slider1.jpg");
+  background-image: url("../images/home-five/home-five-slider1.jpg");
 }
 
 .slider-item-three-img-two {
-  background-image: url("assets/images/home-five/home-five-slider2.jpg");
+  background-image: url("../images/home-five/home-five-slider2.jpg");
 }
 
 .home-slider-three .owl-dots {
