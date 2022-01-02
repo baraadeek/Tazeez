@@ -17514,6 +17514,8 @@ textarea[resize="horizontal"] {
 
 .navbar-vertical {
   box-shadow: 0 0 2rem 0 rgba(136, 152, 170, 0.15) !important;
+  text-align: center;
+  overflow-x: hidden;
 }
 .navbar-vertical .navbar {
   border-width: 0 0 1px 0;
