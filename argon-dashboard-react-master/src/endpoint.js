@@ -20,4 +20,8 @@ export const END_POINTS = {
     url: "api/v1/user/{id}",
     method: HTTP_METHOD_GET,
   },
+  addQuestion: {
+    url: "api/v1/questionnairetemplate",
+    method: HTTP_METHOD_PUT,
+  },
 };
