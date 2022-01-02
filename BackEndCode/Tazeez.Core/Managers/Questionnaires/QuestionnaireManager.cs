@@ -96,7 +96,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             _context.SaveChanges();
-            Log.Information("Finish PutQuestionnaireTemplateQuestion");
+            Log.Information($"Finish PutQuestionnaireTemplateQuestion for template id => {questionnaireTemplateId}");
             return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuesion);
         }
 
