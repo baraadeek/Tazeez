@@ -12,6 +12,11 @@ namespace Tazeez.Core.Mapper
             CreateMap<User, UserModel>().ReverseMap();
             CreateMap<User, LoginResponse>().ReverseMap();
             CreateMap<ContactRequest, ContactRequestModel>().ReverseMap();
+            CreateMap<QuestionnaireTemplate, QuestionnaireTemplateModel>().ReverseMap();
+            CreateMap<QuestionnaireGroup, QuestionnaireGroupModel>().ReverseMap();
+            CreateMap<Questionnaire, QuestionnaireModel>().ReverseMap();
+            CreateMap<QuestionnaireQuestion, QuestionnaireQuestionModel>().ReverseMap();
+            CreateMap<QuestionnaireTemplateQuestion, QuestionnaireTemplateQuestionModel>().ReverseMap();
         }
     }
 }
