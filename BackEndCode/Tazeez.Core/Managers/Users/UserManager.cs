@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -86,7 +87,62 @@ namespace Tazeez.Core.Managers.Users
             throw new ServiceValidationException("Invalid email or password");
         }
 
+        public UserModel UpdateProfile(UserModel currentUser, UpdateProfileRequestModel updateProfileRequestModel)
+        {
+            var url = "";
+
+            if (!string.IsNullOrWhiteSpace(updateProfileRequestModel.Image))
+            {
+                url = SaveImage(updateProfileRequestModel.Image);
+            }
+
+            var user = _context.User
+                               .FirstOrDefault(a => a.Id == currentUser.Id)
+                               ?? throw new ServiceValidationException("User not found");
+
+            user.City = updateProfileRequestModel.City;
+            user.PhoneNumber = updateProfileRequestModel.PhoneNumber;
+            user.Image = @$"{_configurationSettings.Domain}/api/v1/user/fileretrive/profilepic?filename={url}";
+            _context.SaveChanges();
+            return _mapper.Map<UserModel>(user);
+        }
+
         #region private Method
+
+        private string SaveImage(string base64img)
+        {
+            try
+            {
+                var baseFolder = "profileimages";
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), baseFolder);
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var base64Array = base64img.Split(";base64,");
+                if (base64Array.Length < 1)
+                {
+                    return "";
+                }
+
+                base64img = base64Array[1];
+                var fileName = $"{Guid.NewGuid()}{"Logo.png"}".Replace("-", "", StringComparison.InvariantCultureIgnoreCase);
+                if (!string.IsNullOrWhiteSpace(folderPath))
+                {
+                    var url = $@"{baseFolder}\{fileName}";
+                    fileName = @$"{folderPath}\{fileName}";
+                    File.WriteAllBytes(fileName, Convert.FromBase64String(base64img));
+                    return url;
+                }
+
+                return "";
+            }
+            catch (Exception ex)
+            {
+                throw new ServiceValidationException(ex.Message);
+            }
+        }
 
         private string HashPassword(string password)
         {

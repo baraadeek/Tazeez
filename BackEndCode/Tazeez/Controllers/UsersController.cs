@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
 using Tazeez.Core.Managers.Users;
 using Tazeez.Infrastructure;
 using Tazeez.ModelViews.Request;
@@ -13,12 +15,14 @@ namespace Tazeez.Controllers
     {
         #region private variable
         private IUserManager _userManager { get; set; }
+        private IWebHostEnvironment _env { get; set; }
         #endregion private variable
 
-        public UsersController(IUserManager userManager, IConfigurationSettings configuration) 
+        public UsersController(IUserManager userManager, IConfigurationSettings configuration, IWebHostEnvironment env) 
             : base(configuration)
         {
             _userManager = userManager;
+            _env = env;
         }
 
         [Route("api/v{version:apiVersion}/user/{id}/name")]
@@ -48,6 +52,27 @@ namespace Tazeez.Controllers
             return Ok(result);
         }
         
+        [Route("api/v{version:apiVersion}/user/profile/me")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult UpdateProfile(UpdateProfileRequestModel updateProfileRequestModel)
+        {
+            var result = _userManager.UpdateProfile(LoggedInUser, updateProfileRequestModel);
+            return Ok(result);
+        }
+
+        [Route("api/v{version:apiVersion}/user/fileretrive/profilepic")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        public IActionResult Retrive(string filename)
+        {
+            var folderPath = Directory.GetCurrentDirectory();
+            folderPath = $@"{folderPath}\{filename}";
+            var byteArray = System.IO.File.ReadAllBytes(folderPath);
+            return File(byteArray, "image/jpeg", filename);
+        }
+
         [Route("api/v{version:apiVersion}/user/{id}")]
         [HttpGet]
         [MapToApiVersion("1")]
