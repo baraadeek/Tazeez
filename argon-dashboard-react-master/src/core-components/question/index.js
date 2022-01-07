@@ -1,11 +1,7 @@
 import React from "react";
 
-import Questions from "./components/question-list-view";
-/**
- * @function QuestionsListView
- * @description
- * @param {Object} props
- */
+import Questions from "./components/question-list";
+
 function QuestionList() {
   return (
     <React.Fragment>

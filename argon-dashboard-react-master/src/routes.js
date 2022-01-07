@@ -8,24 +8,31 @@ import Icons from "views/examples/Icons.js";
 import Login from "views/examples/Login/Login.js";
 import SignUp from "views/examples/Signup/Signup";
 import QuestionList from "core-components/question/index";
-import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
+import Templates from "core-components/template/index";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 
 var routes = [
   {
     path: "/index",
     name: "Dashboard",
-    icon: "ni ni-tv-2 text-primary",
+    icon: LibraryBooksIcon,
     component: Index,
     layout: "/admin",
   },
   {
-    path: "/question",
-    name: "Question",
-    icon: "ni ni-planet text-blue",
+    path: "/template",
+    name: "Manage Templates",
+    icon: LibraryBooksIcon,
+    component: Templates,
+    layout: "/admin",
+  },
+  {
+    path: "/template/:id",
+    name: "Questions",
+    icon: LibraryBooksIcon,
     component: QuestionList,
     layout: "/admin",
   },
-
   {
     path: "/icons",
     name: "Icons",

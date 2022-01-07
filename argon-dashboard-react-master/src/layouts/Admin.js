@@ -81,9 +81,6 @@ const Admin = (props) => {
           brandText={getBrandText(props.location.pathname)}
         />
         <Switch>{getRoutes(routes)}</Switch>
-        <Container fluid>
-          <AdminFooter />
-        </Container>
       </div>
     </>
   );

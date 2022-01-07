@@ -3,7 +3,6 @@ import MaterialTable from "material-table";
 import { ThunkDispatch } from "thunk-dispatch";
 
 // Components
-import Header from "components/Headers/Header";
 import CustomInput from "components/CustomInput/CustomInput";
 
 // API
@@ -46,37 +45,6 @@ export default function Questions() {
 
   return (
     <>
-      <Header />
-      {show ? (
-        <SweetAlert
-          title=""
-          onConfirm={onAddQuestion}
-          onCancel={() => {
-            setShow(false);
-          }}
-          confirmBtnCssClass={classes.button}
-          cancelBtnCssClass={classes.button}
-          confirmBtnText="Save"
-          cancelBtnText="Cancel"
-          showCancel
-        >
-          <CustomInput
-            labelText={<span>Question Title</span>}
-            id="title"
-            formControlProps={{
-              fullWidth: true,
-            }}
-            inputProps={{
-              onChange: (event) => setName(event.target.value),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Title />
-                </InputAdornment>
-              ),
-            }}
-          />
-        </SweetAlert>
-      ) : null}
       <Container className="mt--7" fluid>
         <Row>
           <div className="col">
