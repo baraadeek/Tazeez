@@ -1,6 +1,8 @@
-﻿using Tazeez.ModelViews;
+﻿using System.Collections.Generic;
+using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
+using Tazeez.ModelViews.Response;
 
 namespace Tazeez.Core.Managers.Questionnaires
 {
@@ -9,5 +11,9 @@ namespace Tazeez.Core.Managers.Questionnaires
         QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);
 
         QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);
+
+        List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
+
+        List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Generic;
 using System.Linq;
 using Tazeez.Common.Extensions;
 using Tazeez.DB.Models.DB;
@@ -9,6 +10,7 @@ using Tazeez.Models.Models;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
+using Tazeez.ModelViews.Response;
 
 namespace Tazeez.Core.Managers.Questionnaires
 {
@@ -96,7 +98,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             _context.SaveChanges();
-            Log.Information("Finish PutQuestionnaireTemplateQuestion");
+            Log.Information($"Finish PutQuestionnaireTemplateQuestion for template id => {questionnaireTemplateId}");
             return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuesion);
         }
 
@@ -131,6 +133,40 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireTemplateModel>(questionnaireTemplate);
         }
 
+
+        public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
+        {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
+            var res = _context.QuestionnaireTemplateQuestion
+                              .Include(a => a.QuestionChoices)
+                              .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
+                              .ToList();
+
+            return _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(res);
+        }
+
+        public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser)
+        {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
+            var res = _context.QuestionnaireTemplate
+                              .Select(a => new QuestionnaireTemplateResponseModel
+                              { 
+                                Id = a.Id, 
+                                Name = a.Name,
+                                NumberOfQuestions = a.QuestionnaireTemplateQuesions.Count
+                              })
+                              .ToList();
+
+            return res;
+        }
 
     }
 }
