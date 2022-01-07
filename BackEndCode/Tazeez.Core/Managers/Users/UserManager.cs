@@ -44,6 +44,15 @@ namespace Tazeez.Core.Managers.Users
 
             return _mapper.Map<UserModel>(user);
         }
+        
+        public UserModel Test()
+        {
+            var user = _context.QuestionnaireAnswerText.FirstOrDefault(a => a.Id == 0);
+
+            var user2 = _context.QuestionnaireAnswerChoice.FirstOrDefault(a => a.Id == 0);
+
+            return null;
+        }
 
         public UserModel SignUp(SignUpRequest signUpRequest)
         {
