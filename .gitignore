@@ -125,3 +125,17 @@ rcf/
 /PublicSite/build
 /BackEndCode/Tazeez/Logs
 /BackEndCode/Tazeez/profileImages
+BackEndCode/Tazeez/.vscode/launch.json
+BackEndCode/Tazeez/.vscode/tasks.json
+BackEndCode/Tazeez/.vscode/solution-explorer/class.cs-template
+BackEndCode/Tazeez/.vscode/solution-explorer/class.ts-template
+BackEndCode/Tazeez/.vscode/solution-explorer/class.vb-template
+BackEndCode/Tazeez/.vscode/solution-explorer/default.ts-template
+BackEndCode/Tazeez/.vscode/solution-explorer/enum.cs-template
+BackEndCode/Tazeez/.vscode/solution-explorer/interface.cs-template
+BackEndCode/Tazeez/.vscode/solution-explorer/interface.ts-template
+BackEndCode/Tazeez/.vscode/solution-explorer/template-list.json
+BackEndCode/Tazeez/.vscode/solution-explorer/template-parameters.js
+SqlCode/._1_User_schema.sql
+SqlCode/._2_ContactRequest_schema.sql
+SqlCode/._3_questionnaire_schema.sql
