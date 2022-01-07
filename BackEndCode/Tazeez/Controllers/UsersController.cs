@@ -82,5 +82,14 @@ namespace Tazeez.Controllers
             var result = _userManager.GetUser(id);
             return Ok(result);
         }
+        
+        [Route("api/v{version:apiVersion}/user/test")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        public IActionResult Test()
+        {
+            var result = _userManager.Test();
+            return Ok(result);
+        }
     }
 }
