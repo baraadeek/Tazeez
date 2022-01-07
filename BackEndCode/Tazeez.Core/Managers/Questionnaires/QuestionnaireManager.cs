@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Collections.Generic;
 using System.Linq;
 using Tazeez.Common.Extensions;
 using Tazeez.DB.Models.DB;
@@ -131,6 +132,16 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireTemplateModel>(questionnaireTemplate);
         }
 
+
+        public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
+        {
+            var res = _context.QuestionnaireTemplateQuestion
+                              .Include(a => a.QuestionChoices)
+                              .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
+                              .ToList();
+
+            return _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(res);
+        }
 
     }
 }

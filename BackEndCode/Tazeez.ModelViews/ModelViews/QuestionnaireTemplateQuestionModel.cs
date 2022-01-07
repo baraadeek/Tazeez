@@ -11,6 +11,7 @@ namespace Tazeez.ModelViews.ModelViews
         public QuestionnaireTemplateQuestionModel()
         {
             QuestionnaireQuestions = new List<QuestionnaireQuestionModel>();
+            QuestionChoices = new List<QuestionChoiceModel>();
         }
 
         public int Id { get; set; }
@@ -42,5 +43,7 @@ namespace Tazeez.ModelViews.ModelViews
         public virtual QuestionnaireTemplateModel QuestionnaireTemplate { get; set; }
 
         public List<QuestionnaireQuestionModel> QuestionnaireQuestions { get; set; }
+
+        public List<QuestionChoiceModel> QuestionChoices { get; set; }
     }
 }

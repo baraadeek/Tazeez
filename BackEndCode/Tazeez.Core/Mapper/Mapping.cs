@@ -17,6 +17,7 @@ namespace Tazeez.Core.Mapper
             CreateMap<Questionnaire, QuestionnaireModel>().ReverseMap();
             CreateMap<QuestionnaireQuestion, QuestionnaireQuestionModel>().ReverseMap();
             CreateMap<QuestionnaireTemplateQuestion, QuestionnaireTemplateQuestionModel>().ReverseMap();
+            CreateMap<QuestionChoice, QuestionChoiceModel>().ReverseMap();
         }
     }
 }
