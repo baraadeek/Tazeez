@@ -52,5 +52,15 @@ namespace Tazeez.Controllers
             var result = _questionnaireManager.GetQuestionniareTemplateQuestions(LoggedInUser, id);
             return Ok(result);
         }
+        
+        [Route("api/v{version:apiVersion}/questionnairetemplate")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult QetQuestionnaireTemplate()
+        {
+            var result = _questionnaireManager.GetQuestionniareTemplate(LoggedInUser);
+            return Ok(result);
+        }
     }
 }

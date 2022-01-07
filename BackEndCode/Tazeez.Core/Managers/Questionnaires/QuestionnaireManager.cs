@@ -10,6 +10,7 @@ using Tazeez.Models.Models;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
+using Tazeez.ModelViews.Response;
 
 namespace Tazeez.Core.Managers.Questionnaires
 {
@@ -135,12 +136,36 @@ namespace Tazeez.Core.Managers.Questionnaires
 
         public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
         {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
             var res = _context.QuestionnaireTemplateQuestion
                               .Include(a => a.QuestionChoices)
                               .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
                               .ToList();
 
             return _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(res);
+        }
+
+        public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser)
+        {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
+            var res = _context.QuestionnaireTemplate
+                              .Select(a => new QuestionnaireTemplateResponseModel
+                              { 
+                                Id = a.Id, 
+                                Name = a.Name,
+                                NumberOfQuestions = a.QuestionnaireTemplateQuesions.Count
+                              })
+                              .ToList();
+
+            return res;
         }
 
     }
