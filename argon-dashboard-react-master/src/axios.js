@@ -23,7 +23,6 @@ axiosAPI.interceptors.request.use(
       Accept: "application/json",
     };
     const token = JSON.parse(localStorage.getItem("login"))?.store;
-    console.log("🚀 ~ file: axios.tsx ~ line 26 ~ token", token);
 
     const accessToken = token;
 

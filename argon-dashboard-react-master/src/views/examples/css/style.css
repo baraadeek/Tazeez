@@ -460,7 +460,7 @@ button:focus {
 
 .slider-item .slider-shape-three img {
   position: absolute;
-  top: 60px;
+  top: 120px;
   right: 0;
   max-width: 730px;
 }

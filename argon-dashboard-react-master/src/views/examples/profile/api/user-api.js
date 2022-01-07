@@ -1,5 +1,5 @@
-import { axiosAPI } from "../../../axios";
-import { END_POINTS } from "../../../endpoint";
+import { axiosAPI } from "../../../../axios";
+import { END_POINTS } from "../../../../endpoint";
 
 export const formatParameterizedString = (formattedURL, replacementsObj) => {
   return formattedURL.replace(
