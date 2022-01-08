@@ -32,4 +32,12 @@ export const END_POINTS = {
     url: "api/v1/questionnairetemplate/{id}",
     method: HTTP_METHOD_GET,
   },
+  getProfile: {
+    url: "api/v1/user/{id}",
+    method: HTTP_METHOD_GET,
+  },
+  updateProfile: {
+    url: "api/v1/user/profile/me",
+    method: HTTP_METHOD_PUT,
+  },
 };
