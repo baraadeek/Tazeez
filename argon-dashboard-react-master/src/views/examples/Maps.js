@@ -20,9 +20,6 @@ import React from "react";
 // reactstrap components
 import { Card, Container, Row } from "reactstrap";
 
-// core components
-import Header from "components/Headers/Header.js";
-
 const MapWrapper = () => {
   const mapRef = React.useRef(null);
   React.useEffect(() => {
@@ -116,7 +113,6 @@ const MapWrapper = () => {
 const Maps = () => {
   return (
     <>
-      <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
         <Row>
