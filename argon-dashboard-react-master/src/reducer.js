@@ -6,6 +6,6 @@ import templateSlice from "core-components/template/slice/template-slice";
 
 export default combineReducers({
   pageDirection,
-  questionSlice,
+  question:questionSlice,
   template: templateSlice,
 });

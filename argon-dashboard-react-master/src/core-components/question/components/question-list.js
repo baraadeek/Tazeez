@@ -1,79 +1,175 @@
-import React from "react";
-import MaterialTable from "material-table";
+import React, { useCallback, useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "thunk-dispatch";
+import { useHistory, useParams } from "react-router-dom";
+import moment from "moment";
+
+// Material UI
+import { Grid, CircularProgress, makeStyles } from "@material-ui/core";
+
+import TableCell from "@material-ui/core/TableCell";
+import GroupIcon from "@material-ui/icons/Group";
 
 // Components
-import CustomInput from "components/CustomInput/CustomInput";
+import Table from "components/tz-table/tz-table";
 
-// API
-import { addQuestionThunk } from "core-components/question/api/question-thunk-api";
+// Constants
 
-// Material
-import { Grid, makeStyles, Button, InputAdornment } from "@material-ui/core";
-import { Card, Container, Row } from "reactstrap";
-import SweetAlert from "react-bootstrap-sweetalert";
-
-// Icons
-import Title from "@material-ui/icons/Title";
-
-// Enum
-import { tableIcons } from "../enums";
-
-// Styles
-import questionListViewStyle from "core-components/question/components/question-list-view-style";
+import { getQuestionListThunk } from "../api/question-thunk-api";
+import { questionSelectors } from "../selectors/question-selectors";
+import questionListViewStyle from "./question-list-view-style";
+import { COLUMNS, QUESTION_TYPE_ID } from "../enums";
+import CardComponent from "components/card/CardComponent";
+import CardBody from "components/card/CardBody";
+import CardIcon from "components/card/CardIcon";
+import CardHeader from "components/card/CardHeader";
+import { purge } from "../slice/question-slice";
 
 const useStyle = makeStyles(questionListViewStyle);
 
-export default function Questions() {
-  const [state, setState] = React.useState({
-    columns: [{ title: "name", field: "name" }],
-    data: [],
-  });
+function QuestionList() {
+  //#region hooks
   const classes = useStyle();
+  let { id } = useParams();
+  const history = useHistory();
+  const dispatch = useDispatch();
+  //#endregion
 
-  const [show, setShow] = React.useState(false);
-  const [name, setName] = React.useState("");
+  const questionList = useSelector(questionSelectors);
 
-  function onAddQuestion(params) {
-    ThunkDispatch(addQuestionThunk({ name }))
-      .then((result) => {
-        setShow(false);
-      })
-      .catch((error) => console.error("addQuestionThunk", error))
+  //#region Life Cycle
+
+  const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
+
+  useEffect(
+    (_) => {
+      getQuestionList();
+    },
+    [getQuestionList]
+  );
+
+  useEffect((_) => {
+    return () => {
+      dispatch(purge());
+    };
+  }, []);
+
+  async function dispatchGetQuestionListFunc() {
+    ThunkDispatch(getQuestionListThunk({ id: history.location.state.state.id }))
+      .then((result) => {})
+      .catch((error) => console.error("getQuestionListThunk", error))
       .finally(() => {});
   }
 
+  //#endregion
+
+  //#region Dispatch functions
+
+  function renderDataTable(item, key) {
+    let row = [];
+    let rowColumn = [];
+
+    const tableCellClasses = classes.tableCell;
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item.displayOrder}
+      </TableCell>
+    );
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item?.question}
+      </TableCell>
+    );
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {QUESTION_TYPE_ID[item.questionnaireQuestionTypeId]}
+      </TableCell>
+    );
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {moment(item.createdUTC).format("MMMM Do YYYY")}
+      </TableCell>
+    );
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {moment(item.lastUpdatedUTC).format("MMMM Do YYYY")}
+      </TableCell>
+    );
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item.score}
+      </TableCell>
+    );
+
+    const choices = item.questionChoices.map((choice) => choice.choice);
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {choices?.join(", ")}
+      </TableCell>
+    );
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item.isOptional === false ? "No" : "Yes"}
+      </TableCell>
+    );
+    row.push(rowColumn);
+    return row;
+  }
+
   return (
-    <>
-      <Container className="mt--7" fluid>
-        <Row>
-          <div className="col">
-            <Card className="shadow">
+    <Grid container style={{ padding: 16 }}>
+      <Grid item xs={12}>
+        <CardComponent>
+          <CardHeader color="primary" icon>
+            <CardIcon color="primary">
+              <GroupIcon />
+            </CardIcon>
+            <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
+              Questions
+            </h4>
+          </CardHeader>
+          <CardBody>
+            {!false ? (
+              <Table
+                renderDataTable={renderDataTable}
+                tableHead={COLUMNS}
+                tableData={questionList}
+                emptyTable={"No Questions available!"}
+                customCellClasses={[
+                  classes.center,
+                  classes.right,
+                  classes.right,
+                ]}
+                customClassesForCells={[0, 4, 5]}
+                customHeadCellClasses={[
+                  classes.center,
+                  classes.right,
+                  classes.right,
+                ]}
+                customHeadClassesForCells={[0, 4, 5]}
+              />
+            ) : (
               <Grid
                 container
-                direction="row"
-                justifyContent="flex-end"
-                alignItems="flex-start"
+                alignContent="center"
+                justify="center"
+                alignItems="center"
+                className={classes.minHeight}
               >
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={() => setShow(true)}
-                  style={{ borderRadius: 20, margin: 8 }}
-                >
-                  Add New Question
-                </Button>
+                <CircularProgress
+                  size={26}
+                  className={classes.colorCircularProgress}
+                />
               </Grid>
-              <MaterialTable
-                icons={tableIcons}
-                title="Questions"
-                columns={state.columns}
-                data={state.data}
-              />
-            </Card>
-          </div>
-        </Row>
-      </Container>
-    </>
+            )}
+          </CardBody>
+        </CardComponent>
+      </Grid>
+    </Grid>
   );
 }
+
+export default QuestionList;

@@ -10,3 +10,12 @@ export const addQuestionAPI = async (data) => {
 
   return response;
 };
+
+export const getQuestionListAPI = async (data) => {
+  const endpoint = { ...END_POINTS.getQuestionList };
+  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  endpoint.data = data;
+  const response = await axiosAPI(endpoint);
+
+  return response;
+};

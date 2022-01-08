@@ -28,4 +28,8 @@ export const END_POINTS = {
     url: "api/v1/questionnairetemplate",
     method: HTTP_METHOD_GET,
   },
+  getQuestionList: {
+    url: "api/v1/questionnairetemplate/{id}",
+    method: HTTP_METHOD_GET,
+  },
 };

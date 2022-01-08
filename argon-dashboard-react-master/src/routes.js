@@ -10,12 +10,14 @@ import SignUp from "views/examples/Signup/Signup";
 import QuestionList from "core-components/question/index";
 import Templates from "core-components/template/index";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import DashboardIcon from "@material-ui/icons/Dashboard";
 
+import QuestionAnswerIcon from "@material-ui/icons/QuestionAnswer";
 var routes = [
   {
     path: "/index",
     name: "Dashboard",
-    icon: LibraryBooksIcon,
+    icon: DashboardIcon,
     component: Index,
     layout: "/admin",
   },
@@ -27,9 +29,10 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/template/:id",
+    path: "/questions",
     name: "Questions",
-    icon: LibraryBooksIcon,
+    hidden: true,
+    icon: QuestionAnswerIcon,
     component: QuestionList,
     layout: "/admin",
   },

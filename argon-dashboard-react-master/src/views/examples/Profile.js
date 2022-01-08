@@ -35,22 +35,19 @@ const Profile = () => {
   return (
     <>
       {/* Page content */}
-      <Container className="mt--7" fluid>
+      <Container fluid>
         <Row>
-          <Col className="order-xl-2 mb-5 mb-xl-0" xl="4">
+          <Col
+            className="order-xl-2 mb-5 mb-xl-0"
+            xl="4"
+            style={{ marginTop: 44 }}
+          >
             <Card className="card-profile shadow">
               <Row className="justify-content-center">
                 <Col className="order-lg-2" lg="3">
                   <div className="card-profile-image">
                     <a href="#pablo" onClick={(e) => e.preventDefault()}>
-                      <img
-                        alt="..."
-                        className="rounded-circle"
-                        src={
-                          require("../../assets/img/theme/team-4-800x800.jpg")
-                            .default
-                        }
-                      />
+                      <img alt="..." className="rounded-circle" src={""} />
                     </a>
                   </div>
                 </Col>

@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 // Components
 import CustomInput from "components/CustomInput/CustomInput";
 import TypographyComponent from "components/typography/typography.js";
-import CardComponent from "components/card/card";
-// API
+import moment from "moment";
+import TZCard from "components/tz-card/tz-card";
 
 // Material
 import {
@@ -38,12 +38,13 @@ import { templateSelectors } from "core-components/template/selectors/template-s
 // Styles
 import TemplateListStyle from "core-components/template/components/template-list-style";
 import { updateIsLoading } from "../slice/template-slice";
-import TZCard from "components/tz-card/tz-card";
+import { useHistory } from "react-router-dom";
 
 const useStyle = makeStyles(TemplateListStyle);
 
 export default function TemplateList() {
   const classes = useStyle();
+  const history = useHistory();
 
   const templateList = useSelector(templateSelectors);
   const isLoading = useSelector((state) => state.template.isLoading);
@@ -137,11 +138,23 @@ export default function TemplateList() {
               return (
                 <Grid item xl={3} md={4} sm={6} xs={12}>
                   <TZCard
+                    style={{ borderRadius: "0.375rem" }}
+                    onClick={() => {
+                      history.push("/admin/questions", {
+                        state: {
+                          id: item.id,
+                        },
+                      });
+                    }}
                     icon={<DescriptionIcon />}
-                    title={`${item.numberOfQuestions || 9} Q`}
+                    title={`${
+                      item.numberOfQuestions === undefined
+                        ? 0
+                        : item.numberOfQuestions
+                    } Q`}
                     count={item.name}
                     percentage={{
-                      label: "than last month",
+                      label: moment(item.createdDate).format("MMMM Do YYYY"),
                     }}
                   />
                 </Grid>
@@ -151,11 +164,13 @@ export default function TemplateList() {
               <TZCard
                 style={{
                   height: 116,
+                  borderRadius: "0.375rem",
+
                   border: "1px dashed",
                   "justify-content": "center",
                   display: "flex",
                   "justify-items": "center",
-                  paddingTop: 20,
+                  paddingTop: 32,
                 }}
                 count={"Add New Template"}
                 onClick={() => setShow(true)}

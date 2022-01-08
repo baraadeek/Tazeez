@@ -33,9 +33,14 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import AvatarWithText from "views/examples/avatar/Avatar";
 
 const AdminNavbar = (props) => {
   const history = useHistory();
+  const data =
+    localStorage.getItem("login") &&
+    JSON.parse(localStorage.getItem("login"))?.response;
+  console.log("🚀 ~ file: AdminNavbar.js ~ line 40 ~ AdminNavbar ~ data", data);
 
   return (
     <>
@@ -47,37 +52,18 @@ const AdminNavbar = (props) => {
           >
             {props.brandText}
           </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-            <FormGroup className="mb-0">
-              <InputGroup className="input-group-alternative">
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <i className="fas fa-search" />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input placeholder="Search" type="text" />
-              </InputGroup>
-            </FormGroup>
-          </Form>
+
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
-                    <img
-                      alt="..."
-                      src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
-                          .default
-                      }
-                    />
-                  </span>
+                  <span className="avatar avatar-sm rounded-circle"></span>
                   <Media
                     className="ml-2 d-none d-lg-block"
                     style={{ color: "black" }}
                   >
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {data.firstName + " " + data.lastName}
                     </span>
                   </Media>
                 </Media>
@@ -90,18 +76,7 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
-                </DropdownItem>
+
                 <DropdownItem divider />
                 <DropdownItem
                   to="/login"
