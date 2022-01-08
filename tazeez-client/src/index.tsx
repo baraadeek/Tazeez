@@ -6,6 +6,7 @@ import { Provider } from "react-redux";
 import { Action, applyMiddleware, createStore } from "redux";
 import rootReducer from "store/reducers/rootReducer";
 import thunk from "redux-thunk";
+import "./i18n/i18n";
 
 const logger = (store: any) => {
   return (next: any) => {
