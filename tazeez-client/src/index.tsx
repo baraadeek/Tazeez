@@ -1,12 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import App from "./App";
 import { Provider } from "react-redux";
 import { Action, applyMiddleware, createStore } from "redux";
 import rootReducer from "store/reducers/rootReducer";
 import thunk from "redux-thunk";
 import "./i18n/i18n";
+import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 
 const logger = (store: any) => {
   return (next: any) => {
@@ -22,10 +23,12 @@ const logger = (store: any) => {
 const store = createStore(rootReducer, applyMiddleware(logger, thunk));
 
 ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Provider>
+  </BrowserRouter>,
   document.getElementById("root")
 );
