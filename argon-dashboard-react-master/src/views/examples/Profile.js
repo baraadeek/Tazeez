@@ -3,7 +3,6 @@ import { ThunkDispatch } from "thunk-dispatch";
 
 // reactstrap components
 import {
-  Button,
   Card,
   CardHeader,
   CardBody,
@@ -14,7 +13,7 @@ import {
   Col,
 } from "reactstrap";
 
-import { Form, Spinner } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 
 // core components
 import TZButton from "components/tz-botton/tz-botton.js";
@@ -23,7 +22,6 @@ import { getUserThunk } from "core-components/profile/api/user-thunk-api";
 import { useSelector } from "react-redux";
 import { userSelectors } from "core-components/profile/selectors/user-selectors";
 import { updateUserThunk } from "core-components/profile/api/user-thunk-api";
-import { uploadImageThunk } from "core-components/profile/api/user-thunk-api";
 
 import { makeStyles } from "@material-ui/core";
 
@@ -44,7 +42,6 @@ const Profile = () => {
 
   const uploadInputRef = React.useRef(null);
   const user = useSelector(userSelectors)[0];
-  console.log("🚀 ~ file: Profile.js ~ line 49 ~ Profile ~ user", user);
 
   const get = useCallback(dispatchGetFunc, []);
 
@@ -87,10 +84,6 @@ const Profile = () => {
       updateUserThunk({ ...data, image: image.length ? image : user.image })
     )
       .then((result) => {
-        console.log(
-          "🚀 ~ file: Profile.js ~ line 97 ~ .then ~ result",
-          result.data.image
-        );
         setDisplayImage(result.data.image);
       })
       .catch((error) => console.error("updateUserThunk", error))
