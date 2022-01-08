@@ -71,10 +71,15 @@ const Sidebar = (props) => {
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
+
+  const user =
+    localStorage.getItem("login") &&
+    JSON.parse(localStorage.getItem("login"))?.response;
+
   // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
     return routes.map((prop, key) => {
-      if (key == 0 || key == 1)
+      if (key == 0 || (key == 1 && user?.isAdmin))
         return (
           <NavItem key={key}>
             <NavLink
