@@ -69,7 +69,7 @@ $all-size: 15px;
 body {
   font-family: $body-font;
   color: $grey-color;
-  background-color: $white-color;
+  background-color: rgb(240, 242, 245);
   font-size: $all-size;
 }
 h1,
@@ -769,38 +769,6 @@ button {
   padding-left: 15px;
   padding-right: 15px;
 
-  &:before {
-    position: absolute;
-    content: "";
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-    opacity: 0.5;
-    background-color: $main-color;
-    opacity: 0;
-    z-index: -1;
-    transition: $transition;
-  }
-  &:hover {
-    box-shadow: none;
-
-    &:before {
-      opacity: 1;
-    }
-    .service-front {
-      display: none;
-      transform: scale(0.5);
-    }
-    .service-end {
-      display: block;
-      transform: scale(1);
-
-      p {
-        margin-bottom: 24px;
-      }
-    }
-  }
   .service-front {
     transition: $transition;
     display: block;

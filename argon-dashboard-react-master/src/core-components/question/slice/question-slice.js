@@ -6,7 +6,7 @@ import { questionAdapter } from "../adapter/question-adapter";
 import { questionExtraReducers } from "./question-extra-reducers";
 
 export const initialState = {
-  question: questionAdapter.getInitialState(),
+  questionList: questionAdapter.getInitialState(),
 };
 
 /**
@@ -17,11 +17,11 @@ export const initialState = {
 const questionSlice = createSlice({
   name: "question",
   initialState,
-  reducers: {},
+  reducers: { purge: () => initialState },
   extraReducers: questionExtraReducers,
 });
 
 // Actions
-export const {} = questionSlice.actions;
+export const { purge } = questionSlice.actions;
 
 export default questionSlice.reducer;
