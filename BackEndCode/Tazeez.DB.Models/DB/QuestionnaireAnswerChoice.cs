@@ -23,6 +23,5 @@ namespace Tazeez.DB.Models.DB
         public QuestionChoice QuestionChoice { get; set; }
 
         public User User { get; set; }
-
     }
 }
