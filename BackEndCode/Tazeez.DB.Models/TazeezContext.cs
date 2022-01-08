@@ -21,6 +21,8 @@ namespace Tazeez.Models.Models
             _configuration = configuration;
         }
 
+        public virtual DbSet<Doctor> Doctor { get; set; }
+
         public virtual DbSet<User> User { get; set; }
 
         public virtual DbSet<ContactRequest> ContactRequest { get; set; }
@@ -55,6 +57,38 @@ namespace Tazeez.Models.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Doctor>(entity => {
+
+                entity.HasIndex(e => e.Id)
+                      .HasDatabaseName("Id_UNIQUE")
+                      .IsUnique();
+
+                entity.HasIndex(e => e.UserId).HasDatabaseName("Doctor_UserId_idx");
+
+                entity.Property(e => e.Specialist)
+                      .IsRequired()
+                      .HasColumnType("varchar(500)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.Description)
+                   .IsRequired()
+                   .HasColumnType("TEXT");
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.Doctor)
+                    .HasConstraintName("Doctor_UserId");
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Id)
@@ -446,6 +480,7 @@ namespace Tazeez.Models.Models
             modelBuilder.Entity<QuestionnaireQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireAnswerText>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireAnswerChoice>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<Doctor>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }

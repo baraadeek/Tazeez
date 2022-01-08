@@ -7,8 +7,8 @@ namespace Tazeez.DB.Models.DB
     {
         public User()
         {
-            QuestionnaireAnswerText = new List<QuestionnaireAnswerText>();
-            QuestionnaireAnswerChoice = new List<QuestionnaireAnswerChoice>();
+            QuestionnaireAnswerText = new HashSet<QuestionnaireAnswerText>();
+            QuestionnaireAnswerChoice = new HashSet<QuestionnaireAnswerChoice>();
         }
 
         public int Id { get; set; }
@@ -35,8 +35,10 @@ namespace Tazeez.DB.Models.DB
         
         public bool Archived { get; set; }
 
-        public List<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
+        public virtual Doctor Doctor { get; set; }
 
-        public List<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
+        public virtual ICollection<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
+
+        public virtual ICollection<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
     }
 }
