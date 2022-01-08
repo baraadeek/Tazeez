@@ -38,6 +38,7 @@ import { templateSelectors } from "core-components/template/selectors/template-s
 // Styles
 import TemplateListStyle from "core-components/template/components/template-list-style";
 import { updateIsLoading } from "../slice/template-slice";
+import TZCard from "components/tz-card/tz-card";
 
 const useStyle = makeStyles(TemplateListStyle);
 
@@ -135,100 +136,30 @@ export default function TemplateList() {
             {templateList.map((item) => {
               return (
                 <Grid item xl={3} md={4} sm={6} xs={12}>
-                  <CardComponent>
-                    <Grid
-                      container
-                      className={classes.containerGrid}
-                      justify="space-between"
-                      onClick={() => {}}
-                    >
-                      <Grid
-                        container
-                        item
-                        xs={2}
-                        alignItems="center"
-                        justify="center"
-                      >
-                        <DescriptionIcon
-                          fontSize="large"
-                          style={{ width: "70px", height: "70px" }}
-                        />
-                      </Grid>
-                      <Grid
-                        item
-                        xs={7}
-                        container
-                        justify="center"
-                        alignItems="flex-start"
-                        direction="column"
-                        className={classes.descriptionGrid}
-                      >
-                        <Grid item className={classes.titleContainer}>
-                          <TypographyComponent
-                            overFlow
-                            type="h3"
-                            numberOfLines={2}
-                          >
-                            {item.name}
-                          </TypographyComponent>
-                        </Grid>
-                      </Grid>
-                      <Grid
-                        item
-                        xs={2}
-                        container
-                        justify="space-between"
-                        alignItems="center"
-                        direction="column"
-                      >
-                        <Grid item>
-                          <TypographyComponent type="small">
-                            <Badge
-                              max={55}
-                              classes={{
-                                badge: classes.badge,
-                              }}
-                              badgeContent={item.numberOfQuestions || 9}
-                            ></Badge>
-                          </TypographyComponent>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </CardComponent>
+                  <TZCard
+                    icon={<DescriptionIcon />}
+                    title={`${item.numberOfQuestions || 9} Q`}
+                    count={item.name}
+                    percentage={{
+                      label: "than last month",
+                    }}
+                  />
                 </Grid>
               );
             })}
             <Grid item xl={3} md={4} sm={6} xs={12}>
-              <CardComponent
+              <TZCard
                 style={{
-                  border: "1px dashed rgba(70,72,74,0.9)",
-                  borderRadius: 8,
-                  backgroundColor: "rgba(70, 72, 74, 0.1)",
+                  height: 116,
+                  border: "1px dashed",
+                  "justify-content": "center",
+                  display: "flex",
+                  "justify-items": "center",
+                  paddingTop: 20,
                 }}
-              >
-                <Grid
-                  container
-                  className={classes.containerGrid}
-                  justify="center"
-                  onClick={() => setShow(true)}
-                >
-                  <Grid
-                    item
-                    xs={7}
-                    container
-                    justify="center"
-                    alignItems="flex-start"
-                    direction="column"
-                    className={classes.descriptionGrid}
-                  >
-                    <Grid item className={classes.titleContainer}>
-                      <TypographyComponent overFlow type="h3" numberOfLines={2}>
-                        Add New Template
-                      </TypographyComponent>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </CardComponent>
+                count={"Add New Template"}
+                onClick={() => setShow(true)}
+              />
             </Grid>
           </>
         ) : (
