@@ -124,7 +124,9 @@ const Profile = () => {
                             users={[
                               {
                                 ...user,
-                                image: displayImage.length
+                                image: image.length
+                                  ? image
+                                  : displayImage.length
                                   ? displayImage
                                   : user.image,
                               },
