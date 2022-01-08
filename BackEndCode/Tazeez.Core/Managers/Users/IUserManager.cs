@@ -33,5 +33,9 @@ namespace Tazeez.Core.Managers.Users
         /// <param name="id">User id</param>
         /// <returns></returns>
         UserModel GetUser(int id);
+        
+        UserModel Test();
+
+        UserModel UpdateProfile(UserModel currentUser, UpdateProfileRequestModel updateProfileRequestModel);
     }
 }

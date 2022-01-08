@@ -159,12 +159,12 @@ namespace Tazeez.Core.Managers.Questionnaires
             var res = _context.QuestionnaireTemplate
                               .Select(a => new QuestionnaireTemplateResponseModel
                               { 
-                                Id = a.Id, 
-                                Name = a.Name,
-                                NumberOfQuestions = a.QuestionnaireTemplateQuesions.Count
+                                 Id = a.Id, 
+                                 Name = a.Name,
+                                 NumberOfQuestions = a.QuestionnaireTemplateQuesions.Count,
+                                 CreatedDate = a.CreatedUTC
                               })
                               .ToList();
-
             return res;
         }
 

@@ -25,6 +25,8 @@ namespace Tazeez.Models.Models
 
         public virtual DbSet<ContactRequest> ContactRequest { get; set; }
 
+        public virtual DbSet<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
+
         public virtual DbSet<QuestionnaireTemplateQuestion> QuestionnaireTemplateQuestion { get; set; }
         
         public virtual DbSet<QuestionnaireTemplate> QuestionnaireTemplate { get; set; }
@@ -34,6 +36,8 @@ namespace Tazeez.Models.Models
         public virtual DbSet<Questionnaire> Questionnaire { get; set; }
 
         public virtual DbSet<QuestionnaireQuestion> QuestionnaireQuestion { get; set; }
+
+        public virtual DbSet<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
 
         public virtual DbSet<QuestionChoice> QuestionChoice { get; set; }
 
@@ -274,6 +278,91 @@ namespace Tazeez.Models.Models
                     .HasConstraintName("questionnaireTemplateId_questionTemplateId");
             });
             
+            modelBuilder.Entity<QuestionnaireAnswerText>(entity =>
+            {
+                entity.HasIndex(e => e.QuestionnaireQuestionId).HasDatabaseName("QuestionAnswerText_QuestionnaireQuestionId_idx");
+                
+                entity.HasIndex(e => e.UserId).HasDatabaseName("QuestionAnswerText_UserId_idx");
+                
+                entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+                
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+                
+                entity.Property(e => e.QuestionnaireQuestionId).HasColumnType("int(11)");
+                
+                entity.Property(e => e.UserId).HasColumnType("int(11)");
+                
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.Text)
+                    .IsRequired()
+                    .HasColumnType("TEXT");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.HasOne(d => d.QuestionnaireQuestion)
+                    .WithMany(p => p.QuestionnaireAnswerText)
+                    .HasForeignKey(d => d.QuestionnaireQuestionId)
+                    .HasConstraintName("QuestionAnswerText_QuestionnaireQuestionId");
+                
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.QuestionnaireAnswerText)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("QuestionAnswerText_UserId");
+            });
+
+            modelBuilder.Entity<QuestionnaireAnswerChoice>(entity =>
+            {
+                entity.HasIndex(e => e.QuestionnaireQuestionId).HasDatabaseName("QuestionnaireQuestionId_QuestionId_idx");
+
+                entity.HasIndex(e => e.QuestionChoiceId).HasDatabaseName("QuestionChoiceId_QuestionChoiceId_idx");
+                
+                entity.HasIndex(e => e.UserId).HasDatabaseName("QuestionAnswer_UserId_idx");
+                
+                entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
+                
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+                
+                entity.Property(e => e.QuestionnaireQuestionId).HasColumnType("int(11)");
+
+                entity.Property(e => e.QuestionChoiceId).HasColumnType("int(11)");
+                
+                entity.Property(e => e.UserId).HasColumnType("int(11)");
+                
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.CreatedUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasPrecision(0)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+                
+                entity.HasOne(d => d.QuestionnaireQuestion)
+                    .WithMany(p => p.QuestionnaireAnswerChoice)
+                    .HasForeignKey(d => d.QuestionnaireQuestionId)
+                    .HasConstraintName("QuestionnaireQuestionId_QuestionId");
+                
+                entity.HasOne(d => d.QuestionChoice)
+                    .WithMany(p => p.QuestionnaireAnswerChoice)
+                    .HasForeignKey(d => d.QuestionChoiceId)
+                    .HasConstraintName("QuestionAnswer_AssessmentQuestionAnswerChoiceId");
+                
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.QuestionnaireAnswerChoice)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("QuestionAnswer_UserId");
+            });
+            
             modelBuilder.Entity<QuestionnaireTemplateQuestion>(entity =>
             {
                 entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId_idx");
@@ -355,6 +444,8 @@ namespace Tazeez.Models.Models
             modelBuilder.Entity<QuestionnaireTemplate>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireGroup>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireAnswerText>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireAnswerChoice>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }

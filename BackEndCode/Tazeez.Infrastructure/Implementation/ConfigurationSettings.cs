@@ -40,6 +40,8 @@ namespace Tazeez.Infrastructure.Implementation
 
         public string JwtKey => _config["Jwt:Key"];
 
+        public string Domain => _config["Domain"];
+
         public string DefaultConnectionString => _config["ConnectionString"];
 
 
