@@ -40,4 +40,8 @@ export const END_POINTS = {
     url: "api/v1/user/profile/me",
     method: HTTP_METHOD_PUT,
   },
+  uploadImage: {
+    url: "api/v1/user/fileretrive/profilepic",
+    method: HTTP_METHOD_GET,
+  },
 };

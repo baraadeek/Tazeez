@@ -15,6 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import { userSelectors } from "core-components/profile/selectors/user-selectors";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 // reactstrap components
 import {
@@ -34,6 +36,7 @@ import {
   Media,
 } from "reactstrap";
 import AvatarWithText from "views/examples/avatar/Avatar";
+import UserAvatar from "views/examples/UserAvatar";
 
 const AdminNavbar = (props) => {
   const history = useHistory();
@@ -41,6 +44,9 @@ const AdminNavbar = (props) => {
     localStorage.getItem("login") &&
     JSON.parse(localStorage.getItem("login"))?.response;
   console.log("🚀 ~ file: AdminNavbar.js ~ line 40 ~ AdminNavbar ~ data", data);
+
+  const user = useSelector(userSelectors)[0];
+  console.log("🚀 ~ file: AdminNavbar.js ~ line 49 ~ AdminNavbar ~ user", user);
 
   return (
     <>
@@ -57,13 +63,21 @@ const AdminNavbar = (props) => {
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle"></span>
+                  {user ? (
+                    <UserAvatar
+                      showName
+                      users={[user]}
+                      showFullName
+                      size="lg"
+                      typographyType={"h1"}
+                    />
+                  ) : null}
                   <Media
                     className="ml-2 d-none d-lg-block"
                     style={{ color: "black" }}
                   >
                     <span className="mb-0 text-sm font-weight-bold">
-                      {data.firstName + " " + data.lastName}
+                      {user?.firstName + " " + user?.lastName}
                     </span>
                   </Media>
                 </Media>

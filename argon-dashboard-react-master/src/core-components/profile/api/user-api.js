@@ -20,3 +20,12 @@ export const updateUserAPI = async (data) => {
 
   return response;
 };
+
+export const uploadImageAPI = async (data) => {
+  const endpoint = { ...END_POINTS.uploadImage };
+  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  endpoint.data = data;
+  const response = await axiosAPI(endpoint);
+
+  return response;
+};
