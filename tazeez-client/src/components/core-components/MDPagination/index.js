@@ -19,7 +19,7 @@ import { forwardRef, createContext, useContext } from "react";
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/core-components/MDBox";
 
 // Custom styles for MDPagination
 import MDPaginationItemRoot from "components/MDPagination/MDPaginationItemRoot";

@@ -21,8 +21,8 @@ import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/core-components/MDBox";
+import MDTypography from "components/core-components/MDTypography";
 
 // Material Dashboard 2 PRO React base styles
 import typography from "assets/theme/base/typography";

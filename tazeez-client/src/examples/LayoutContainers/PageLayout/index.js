@@ -22,7 +22,7 @@ import { useLocation } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/core-components/MDBox";
 
 // Material Dashboard 2 PRO React context
 import { useMaterialUIController, setLayout } from "context";

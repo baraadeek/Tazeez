@@ -29,7 +29,7 @@ import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/core-components/MDBox";
 import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components

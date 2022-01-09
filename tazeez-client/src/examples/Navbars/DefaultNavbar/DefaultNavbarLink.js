@@ -23,8 +23,8 @@ import { Link } from "react-router-dom";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
+import MDBox from "components/core-components/MDBox";
+import MDTypography from "components/core-components/MDTypography";
 
 function DefaultNavbarLink({ icon, name, route, light }) {
   return (

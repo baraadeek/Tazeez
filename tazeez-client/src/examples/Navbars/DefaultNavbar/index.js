@@ -26,9 +26,9 @@ import Container from "@mui/material/Container";
 import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDButton from "components/MDButton";
+import MDBox from "components/core-components/MDBox";
+import MDTypography from "components/core-components/MDTypography";
+import MDButton from "components/core-components/MDButton";
 
 // Material Dashboard 2 React example components
 import DefaultNavbarLink from "examples/Navbars/DefaultNavbar/DefaultNavbarLink";

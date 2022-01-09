@@ -22,7 +22,7 @@ import PropTypes from "prop-types";
 import Fade from "@mui/material/Fade";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
+import MDBox from "components/core-components/MDBox";
 
 // Custom styles for the MDAlert
 import MDAlertRoot from "components copy/MDAlert/MDAlertRoot";
