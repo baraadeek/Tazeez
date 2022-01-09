@@ -8,6 +8,8 @@ import thunk from "redux-thunk";
 import "./i18n/i18n";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
+// Soft UI Context Provider
+import { MaterialUIControllerProvider } from "context";
 
 const logger = (store: any) => {
   return (next: any) => {
@@ -26,7 +28,9 @@ ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
       <React.StrictMode>
-        <App />
+        <MaterialUIControllerProvider>
+          <App />
+        </MaterialUIControllerProvider>
       </React.StrictMode>
     </Provider>
   </BrowserRouter>,
