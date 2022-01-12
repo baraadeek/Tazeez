@@ -25,6 +25,8 @@ import { useMaterialUIController } from "context";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import Login from "views/login/Login";
 // import themeRTL from "assets/theme/theme-rtl";
 
 function App() {
@@ -66,13 +68,7 @@ function App() {
     (state) => state.authReducer.token !== null
   ) as boolean;
 
-  //   const {isAuthenticated, message, userName} = useSelector<IAuthReducerState>(state => ({
-  //     isAuthenticated: state.authReducer.token !== null,
-  //     message: state.appReducer.message,
-  //     userName: state.authReducer.userName
-  // }));
-
-  if (true) {
+  if (isAuthenticated) {
     const routs = routes.map((rout) => (
       <Route key={rout.id} path={rout.path} exact component={rout.component} />
     ));
@@ -86,17 +82,15 @@ function App() {
             <Sidenav
               color={sidenavColor}
               brand={null}
-              brandName="Material Dashboard 2"
+              brandName="Tazeez"
               routes={routes.map((r) => ({
-                type:'collapse',
+                type: "collapse",
                 name: r.name,
                 key: r.name.toLowerCase(),
                 icon: null,
                 route: r.path,
                 component: <r.component />,
               }))}
-              // onMouseEnter={handleOnMouseEnter}
-              // onMouseLeave={handleOnMouseLeave}
             />
             <Configurator />
             {/* {configsButton} */}
@@ -104,7 +98,7 @@ function App() {
         )}
         {layout === "vr" && <Configurator />}
         <Switch>
-          {/* {getRoutes(routes)} */}
+          {routs}
           {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
         </Switch>
       </ThemeProvider>
@@ -124,7 +118,11 @@ function App() {
       </Fragment>
     );
   } else {
-    return <Auth />;
+    return <Switch>
+       <Route  path={ROUTES_PATH_ENUM.Home} exact component={Auth} />
+       <Route  path={ROUTES_PATH_ENUM.Login} exact component={Login} />
+       <Redirect to={ROUTES_PATH_ENUM.Home} />
+    </Switch>
   }
 }
 
