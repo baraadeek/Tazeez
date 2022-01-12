@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,10 @@ namespace Tazeez.Core.Managers.Common
 
         public UserModel GetUserRole(UserModel currentUser)
         {
-            var user = _context.User.FirstOrDefault(a => a.Id == currentUser.Id);
-            
+            var user = _context.User
+                               .Include(a => a.Doctor)
+                               .FirstOrDefault(a => a.Id == currentUser.Id);
+
             return _mapper.Map<UserModel>(user);
         }
 

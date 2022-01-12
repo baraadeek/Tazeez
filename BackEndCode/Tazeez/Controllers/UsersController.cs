@@ -15,23 +15,61 @@ namespace Tazeez.Controllers
     {
         #region private variable
         private IUserManager _userManager { get; set; }
-        private IWebHostEnvironment _env { get; set; }
         #endregion private variable
 
-        public UsersController(IUserManager userManager, IConfigurationSettings configuration, IWebHostEnvironment env) 
+        public UsersController(IUserManager userManager, IConfigurationSettings configuration) 
             : base(configuration)
         {
             _userManager = userManager;
-            _env = env;
         }
 
         [Route("api/v{version:apiVersion}/user/{id}/name")]
         [HttpGet]
         [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetName(int id)
         {
             var result = _userManager.GetName(id);
             return Ok(result);
+        }
+
+        [Route("api/v{version:apiVersion}/doctor")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        public IActionResult GetDoctors(int page = 1, int pageSize = 10)
+        {
+            var result = _userManager.GetDoctors(page, pageSize);
+            return Ok(result);
+        }
+
+        [Route("api/v{version:apiVersion}/doctor")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult PutDoctor(AddDoctorRequest addDoctorRequest)
+        {
+            var result = _userManager.PutDoctor(LoggedInUser, addDoctorRequest);
+            return Ok(result);
+        }
+
+        [Route("api/v{version:apiVersion}/doctor/{id}")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult GetDoctor(int id)
+        {
+            var result = _userManager.GetDoctor(LoggedInUser, id);
+            return Ok(result);
+        }
+        
+        [Route("api/v{version:apiVersion}/doctor/{id}")]
+        [HttpDelete]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult ArchivedDoctor(int id)
+        {
+            _userManager.ArchivedDoctor(LoggedInUser, id);
+            return Ok();
         }
         
         [Route("api/v{version:apiVersion}/user/signup")]
@@ -80,6 +118,15 @@ namespace Tazeez.Controllers
         public IActionResult GetUser(int id)
         {
             var result = _userManager.GetUser(id);
+            return Ok(result);
+        }
+        
+        [Route("api/v{version:apiVersion}/user/test")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        public IActionResult Test()
+        {
+            var result = _userManager.Test();
             return Ok(result);
         }
     }
