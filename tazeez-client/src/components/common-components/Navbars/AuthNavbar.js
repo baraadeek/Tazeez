@@ -19,12 +19,17 @@ import { useDispatch } from "react-redux";
 // import { setPageDirection } from "core-components/page-direction/slice/page-direction";
 import { useSelector } from "react-redux";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import { languages, namespaces } from "i18n/i18n.constants";
+import { useTranslation } from "react-i18next";
+import translationKeys from "i18n/locales/translationKeys";
+import i18n from "i18n/i18n";
 // import {
 //   PAGE_DIRECTION,
 //   disabledOnly,
-// } from "core-components/page-direction/enum/enum";
+// } fromp "core-components/page-direction/enum/enum";
 
 const AuthNavbar = () => {
+  const {t} = useTranslation(namespaces.common);
   const data =
     localStorage.getItem("login") &&
     JSON.parse(localStorage.getItem("login"))?.response;
@@ -91,6 +96,7 @@ const AuthNavbar = () => {
                           {...containerPropsIsAR}
                           to=""
                           onClick={(e) => {
+                            i18n.changeLanguage(languages.ar);
                             // onPageDirection("ar"); // rtl
                           }}
                         >
@@ -102,7 +108,7 @@ const AuthNavbar = () => {
                           {...containerPropsIsEN}
                           to=""
                           onClick={(e) => {
-                            // onPageDirection("en"); // rtl
+                            i18n.changeLanguage(languages.en);
                           }}
                         >
                           EN
@@ -120,7 +126,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "الصفحة الرئيسية" : "Home"}
+                  {t(translationKeys.common.homePage)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -132,7 +138,8 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "حول" : "About"}
+                  {t(translationKeys.common.about)}
+
                   </span>
                 </NavLink>
               </NavItem>
