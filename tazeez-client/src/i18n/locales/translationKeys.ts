@@ -7,7 +7,11 @@ const translationKeys = {
       enterEmail: "enterEmail",
       enterPassword: "enterPassword",
     },
+    
   },
+  common: {
+    homePage:"homePage"
+  }
 };
 
 export default translationKeys;

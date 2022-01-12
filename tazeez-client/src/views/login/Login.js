@@ -14,6 +14,7 @@ import PageBanner from "views/examples/Common/PageBanner";
 
 import { namespaces } from "i18n/i18n.constants";
 import { useTranslation } from "react-i18next";
+import translationKeys from "i18n/locales/translationKeys";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -51,9 +52,9 @@ export default function Login() {
   return (
     <>
       <PageBanner
-        pageTitle={t("signIn")}
+        pageTitle={t(translationKeys.pages.login.signUp)}
         homePageUrl="/"
-        homePageText={t("home")}
+        homePageText={t(translationKeys.common.homePage)}
         activePageText={t("signIn")}
         bgImage="page-title-one"
       />
