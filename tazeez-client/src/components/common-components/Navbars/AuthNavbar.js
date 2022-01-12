@@ -18,6 +18,7 @@ import Reorder from "@material-ui/icons/Reorder";
 import { useDispatch } from "react-redux";
 // import { setPageDirection } from "core-components/page-direction/slice/page-direction";
 import { useSelector } from "react-redux";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 // import {
 //   PAGE_DIRECTION,
 //   disabledOnly,
@@ -126,7 +127,7 @@ const AuthNavbar = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
-                  to="/auth/register"
+                  to="/register"
                   tag={Link}
                   {...navLinkProps}
                 >
@@ -138,7 +139,7 @@ const AuthNavbar = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
-                  to="/auth/login"
+                  to={ROUTES_PATH_ENUM.Login}
                   tag={Link}
                   {...navLinkProps}
                 >
@@ -198,7 +199,7 @@ const AuthNavbar = () => {
                   <NavLink
                     {...navLinkProps}
                     className="nav-link-icon"
-                    to="/auth/login"
+                    to={ROUTES_PATH_ENUM.Login}
                     tag={Link}
                   >
                     <span className="nav-link-inner--text">
