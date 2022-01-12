@@ -2,6 +2,7 @@ import Auth from "views/layouts/Auth";
 import { ROUTES_NAME_ENUM } from "../common/constants/routesNameEnum";
 import { ROUTES_PATH_ENUM } from "../common/constants/routesPathEnum";
 import Login from "../views/login/Login";
+import SignUp from "../views/signUp/signUp";
 
 export type IRoute = {
   name: string;
@@ -23,7 +24,14 @@ export const normalRoutes: IRoute[] = [
     path: ROUTES_PATH_ENUM.Login,
     component: Login,
     isMain: true,
-  }
+  },
+  {
+    name: ROUTES_NAME_ENUM.SignUp,
+    path: ROUTES_PATH_ENUM.SignUp,
+    component: SignUp,
+    isMain: true,
+  },
+  
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
 export const authRoutes : IRoute[] = [].map((rout, index) => Object.assign(rout, { id: index + 1 }));

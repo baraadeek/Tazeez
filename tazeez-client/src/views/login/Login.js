@@ -1,61 +1,66 @@
 import React from "react";
-
-import { Form, Spinner } from "react-bootstrap";
-import { Controller, useForm } from "react-hook-form";
-import Alert from "@material-ui/lab/Alert";
-import { useDispatch } from "react-redux";
-
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 
-import loginImage from "views/examples/images/login-bg.jpg";
-import { loginAPI } from "views/examples/Login/api/login-api";
-import PageBanner from "views/examples/Common/PageBanner";
+import { Form, Spinner } from "react-bootstrap";
 
+import { Controller, useForm } from "react-hook-form";
+
+import Alert from "@material-ui/lab/Alert";
+
+// View
+import loginImage from "views/examples/images/login-bg.jpg";
+import PageBanner from "views/examples/Common/PageBanner";
+import AuthNavbar from "components/common-components/Navbars/AuthNavbar";
+import Footer from "views/examples/page/Footer";
+
+//i18n
 import { namespaces } from "i18n/i18n.constants";
 import { useTranslation } from "react-i18next";
 import translationKeys from "i18n/locales/translationKeys";
 
+// API
+import { ThunkDispatch } from "../../thunk-dispatch";
+import { loginThunk } from "./api/login-thunk-api";
+
 export default function Login() {
-  const dispatch = useDispatch();
   const history = useHistory();
   const { t } = useTranslation(namespaces.pages.login);
 
   const [showError, SetShowError] = React.useState(null);
   const { handleSubmit, control, formState } = useForm();
+
   const onSubmit = (data) => {
-    console.log(data);
-    dispatch(
-      loginAPI(data)
-        .then((response) => {
-          if (response?.status === 200) {
-            localStorage.setItem(
-              "login",
-              JSON.stringify({
-                store: response.data.token,
-                response: response.data,
-              })
-            );
-            history.push("/admin/index");
-          } else {
-            SetShowError(response?.message);
-          }
-        })
-        .catch((error) => {
-          SetShowError(error?.message);
-        })
-    ).catch((error) => {
-      SetShowError(error?.message);
-    });
+    ThunkDispatch(loginThunk(data))
+      .then((result) => {
+        if (result?.status === 200) {
+          localStorage.setItem(
+            "login",
+            JSON.stringify({
+              token: result.data.token,
+            })
+          );
+          history.push("/admin/index");
+        } else {
+          SetShowError(result?.message);
+        }
+      })
+      .catch((error) => {
+        SetShowError(error?.message);
+        console.error("loginThunk", error);
+      })
+      .finally(() => {});
   };
 
   return (
     <>
+      <AuthNavbar />
+
       <PageBanner
-        pageTitle={t(translationKeys.pages.login.signUp)}
+        pageTitle={t(translationKeys.pages.login.login)}
         homePageUrl="/"
         homePageText={t(translationKeys.common.homePage)}
-        activePageText={t("signIn")}
+        activePageText={t(translationKeys.pages.login.login)}
         bgImage="page-title-one"
       />
       <div className="signup-area ptb-100">
@@ -72,8 +77,7 @@ export default function Login() {
                 <div className="signup-head">
                   <h2>{t("signIn")}</h2>
                   <p>
-                    {t("createAccount")}{" "}
-                    <Link to="/auth/register">{t("signUp")}</Link>
+                    {t("createAccount")} <Link to="/signUp">{t("signUp")}</Link>
                   </p>
                 </div>
                 <div className="signup-form">
@@ -144,6 +148,7 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
