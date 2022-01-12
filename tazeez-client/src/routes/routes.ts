@@ -12,21 +12,18 @@ export type IRoute = {
   icon?: any;
 };
 
-const routes: IRoute[] = [
+export const normalRoutes: IRoute[] = [
   {
     name: ROUTES_NAME_ENUM.Home,
     path: ROUTES_PATH_ENUM.Home,
     component: Auth,
-    // icon: SupervisorAccountIcon,
-    isMain: true,
   },
-   {
+  {
     name: ROUTES_NAME_ENUM.Login,
     path: ROUTES_PATH_ENUM.Login,
     component: Login,
-    // icon: SupervisorAccountIcon,
     isMain: true,
   }
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
-export default routes;
+export const authRoutes : IRoute[] = [].map((rout, index) => Object.assign(rout, { id: index + 1 }));

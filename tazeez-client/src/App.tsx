@@ -4,7 +4,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import React, { Fragment, Suspense, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
-import routes from "routes/routes";
+import {normalRoutes, authRoutes} from "routes/routes";
 import Auth from "views/layouts/Auth";
 
 // Material Dashboard 2 React components
@@ -69,10 +69,10 @@ function App() {
   ) as boolean;
 
   if (isAuthenticated) {
-    const routs = routes.map((rout) => (
+    const routs = authRoutes.map((rout) => (
       <Route key={rout.id} path={rout.path} exact component={rout.component} />
     ));
-    const mainPage = routes.find((r) => r.isMain === true);
+    const mainPage = authRoutes.find((r) => r.isMain === true);
 
     return (
       <ThemeProvider theme={theme}>
@@ -83,7 +83,7 @@ function App() {
               color={sidenavColor}
               brand={null}
               brandName="Tazeez"
-              routes={routes.map((r) => ({
+              routes={authRoutes.map((r) => ({
                 type: "collapse",
                 name: r.name,
                 key: r.name.toLowerCase(),
@@ -119,8 +119,9 @@ function App() {
     );
   } else {
     return <Switch>
-       <Route  path={ROUTES_PATH_ENUM.Home} exact component={Auth} />
-       <Route  path={ROUTES_PATH_ENUM.Login} exact component={Login} />
+       {normalRoutes.map((rout) => (
+      <Route key={rout.id} path={rout.path} exact component={rout.component} />
+    ))}
        <Redirect to={ROUTES_PATH_ENUM.Home} />
     </Switch>
   }
