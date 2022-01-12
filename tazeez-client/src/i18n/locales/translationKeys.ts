@@ -1,7 +1,11 @@
 const translationKeys = {
   pages: {
-    home: {
+    login: {
       login: "login",
+      createAccount: "createAccount",
+      signUp: "signUp",
+      enterEmail: "enterEmail",
+      enterPassword: "enterPassword",
     },
   },
 };

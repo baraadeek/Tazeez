@@ -1,4 +1,5 @@
 import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "../translationKeys";
 
  const arabicTranslation = {
   [namespaces.common]: {
@@ -11,12 +12,12 @@ import { namespaces } from "i18n/i18n.constants";
     welcome: "مرحبا",
   },
   [namespaces.pages.login]:{
-    signIn: "تسجيل دخول",
+    [translationKeys.pages.login.login]: "تسجيل دخول",
     home: "الصفحة الرئيسية",
-    createAccount: "ألم تقم بحسابك بعد؟",
-    signUp: "سجل هنا",
-    enterEmail: "أدخل البريد الإلكتروني",
-    enterPassword: "أدخل الرقم السري"
+    [translationKeys.pages.login.createAccount]: "ألم تقم بحسابك بعد؟",
+    [translationKeys.pages.login.signUp]: "سجل هنا",
+    [translationKeys.pages.login.enterEmail]: "أدخل البريد الإلكتروني",
+    [translationKeys.pages.login.enterPassword]: "أدخل الرقم السري"
   }
 };
 
