@@ -9,6 +9,7 @@ import translationKeys from "../translationKeys";
 
      },
       [translationKeys.common.homePage]  : "الصفحة الرئيسية",
+      [translationKeys.common.about]  : "حول",
   },
   [namespaces.pages.home]: {
     welcome: "مرحبا",
