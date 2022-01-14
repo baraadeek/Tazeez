@@ -11,8 +11,6 @@ import { SignUpAPI } from "./api/sign-up-api";
 
 import SignupImage from "views/examples/images/signup-bg.jpg";
 import PageBanner from "views/examples/Common/PageBanner";
-import AuthNavbar from "components/common-components/Navbars/AuthNavbar";
-import Footer from "views/examples/page/Footer";
 
 //i18n
 import { namespaces } from "i18n/i18n.constants";
@@ -46,8 +44,6 @@ export default function SignUp() {
 
   return (
     <>
-      <AuthNavbar />
-
       <PageBanner
         pageTitle={t(translationKeys.pages.login.signUp)}
         homePageUrl="/"
@@ -197,7 +193,6 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

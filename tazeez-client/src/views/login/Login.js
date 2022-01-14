@@ -11,8 +11,6 @@ import Alert from "@material-ui/lab/Alert";
 // View
 import loginImage from "views/examples/images/login-bg.jpg";
 import PageBanner from "views/examples/Common/PageBanner";
-import AuthNavbar from "components/common-components/Navbars/AuthNavbar";
-import Footer from "views/examples/page/Footer";
 
 //i18n
 import { namespaces } from "i18n/i18n.constants";
@@ -54,8 +52,6 @@ export default function Login() {
 
   return (
     <>
-      <AuthNavbar />
-
       <PageBanner
         pageTitle={t(translationKeys.pages.login.login)}
         homePageUrl="/"
@@ -148,7 +144,6 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
