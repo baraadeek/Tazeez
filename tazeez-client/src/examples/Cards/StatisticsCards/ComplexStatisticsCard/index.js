@@ -25,48 +25,64 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/core-components/MDBox";
 import MDTypography from "components/core-components/MDTypography";
 
-function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
+function ComplexStatisticsCard({
+  color,
+  title,
+  count,
+  percentage,
+  icon,
+  mr,
+  ...rest
+}) {
   return (
-    <Card>
-      <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
-        <MDBox
-          variant="gradient"
-          bgColor={color}
-          color={color === "light" ? "dark" : "white"}
-          coloredShadow={color}
-          borderRadius="xl"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          width="4rem"
-          height="4rem"
-          mt={-3}
-        >
-          <Icon fontSize="medium" color="inherit">
+    <Card {...rest}>
+      {icon ? (
+        <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
+          <MDBox
+            position="absolute"
+            variant="gradient"
+            bgColor={color}
+            color={color === "light" ? "dark" : "white"}
+            coloredShadow={color}
+            borderRadius="xl"
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            width="4rem"
+            height="4rem"
+            mt={-3}
+          >
             {icon}
-          </Icon>
+          </MDBox>
         </MDBox>
-        <MDBox textAlign="right" lineHeight={1.25}>
-          <MDTypography variant="button" fontWeight="light" color="text">
-            {title}
-          </MDTypography>
-          <MDTypography variant="h4">{count}</MDTypography>
-        </MDBox>
+      ) : null}
+      <MDBox textAlign="right" lineHeight={1.25} mr={mr}>
+        <MDTypography variant="button" fontWeight="light" color="text">
+          {title}
+        </MDTypography>
+        {count ? <MDTypography variant="h4">{count}</MDTypography> : null}
       </MDBox>
       <Divider />
-      <MDBox pb={2} px={2}>
-        <MDTypography component="p" variant="button" color="text" display="flex">
+      {percentage ? (
+        <MDBox pb={2} px={2}>
           <MDTypography
-            component="span"
+            component="p"
             variant="button"
-            fontWeight="bold"
-            color={percentage.color}
+            color="text"
+            display="flex"
           >
-            {percentage.amount}
+            <MDTypography
+              component="span"
+              variant="button"
+              fontWeight="bold"
+              color={percentage.color}
+            >
+              {percentage.amount}
+            </MDTypography>
+            &nbsp;{percentage.label}
           </MDTypography>
-          &nbsp;{percentage.label}
-        </MDTypography>
-      </MDBox>
+        </MDBox>
+      ) : null}
     </Card>
   );
 }
@@ -74,11 +90,6 @@ function ComplexStatisticsCard({ color, title, count, percentage, icon }) {
 // Setting default values for the props of ComplexStatisticsCard
 ComplexStatisticsCard.defaultProps = {
   color: "info",
-  percentage: {
-    color: "success",
-    text: "",
-    label: "",
-  },
 };
 
 // Typechecking props for the ComplexStatisticsCard

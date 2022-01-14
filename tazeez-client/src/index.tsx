@@ -10,6 +10,7 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 // Soft UI Context Provider
 import { MaterialUIControllerProvider } from "context";
+import { configureStore } from "@reduxjs/toolkit";
 
 const logger = (store: any) => {
   return (next: any) => {
@@ -22,7 +23,11 @@ const logger = (store: any) => {
   };
 };
 
-const store = createStore(rootReducer, applyMiddleware(logger, thunk));
+
+export const store = configureStore({
+  reducer: rootReducer,
+});
+
 
 ReactDOM.render(
   <BrowserRouter>

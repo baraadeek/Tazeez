@@ -22,7 +22,8 @@ axiosAPI.interceptors.request.use(
       "Content-Type": "application/json",
       Accept: "application/json",
     };
-    const token = JSON.parse(localStorage.getItem("login"))?.store;
+    const token =
+      "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VzZWYiLCJlbWFpbCI6InlvdXNlZi5vZGVoLjE5OThAZ21haWwuY29tIiwiSWQiOiIxIiwiRGF0ZU9mSm9pbmciOiIyMDIxLTEyLTMxIiwianRpIjoiZmE5MDk5ODMtZmM2OS00MjM5LWEwNDctN2ViOGI5OTU3NGQ5IiwiZXhwIjoxNjQ0NzUyMjQ2LCJpc3MiOiJUYXplZXouY29tIiwiYXVkIjoiVGF6ZWV6LmNvbSJ9.593kJYvJk3oVIrVB4KC5BQawyziBfZzVUQbI8w5dMnY";
 
     const accessToken = token;
 

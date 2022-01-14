@@ -26,6 +26,7 @@ import MDBox from "components/core-components/MDBox";
 
 // Material Dashboard 2 PRO React context
 import { useMaterialUIController, setLayout } from "context";
+import pxToRem from "assets/theme/functions/pxToRem";
 
 function DashboardLayout({ children }) {
   const [controller, dispatch] = useMaterialUIController();
@@ -38,7 +39,7 @@ function DashboardLayout({ children }) {
 
   return (
     <MDBox
-      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
+      sx={({ breakpoints, transitions }) => ({
         p: 3,
         position: "relative",
 

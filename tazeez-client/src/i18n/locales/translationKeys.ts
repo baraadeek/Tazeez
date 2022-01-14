@@ -6,6 +6,11 @@ const translationKeys = {
       signUp: "signUp",
       enterEmail: "enterEmail",
       enterPassword: "enterPassword",
+      enterFirstName: "enterFirstName",
+      enterLastName: "enterLastName",
+      alreadyAccount:"alreadyAccount"
+
+
     },
   },
   common: {
