@@ -27,6 +27,7 @@ import theme from "assets/theme";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import Login from "views/login/Login";
 import HomeLayout from "views/layouts/HomeLayout/HomeLayout";
+import AdminLayout from "views/layouts/AdminLayout/AdminLayout";
 // import themeRTL from "assets/theme/theme-rtl";
 
 function App() {
@@ -68,41 +69,13 @@ function App() {
     (state) => state.authReducer.token !== null
   ) as boolean;
 
-  if (isAuthenticated) {
-    const routs = authRoutes.map((rout) => (
-      <Route key={rout.id} path={rout.path} exact component={rout.component} />
-    ));
+  if (true) {
+    // const routs = authRoutes.map((rout) => (
+    //   <Route key={rout.id} path={rout.path} exact component={rout.component} />
+    // ));
     const mainPage = authRoutes.find((r) => r.isMain === true);
 
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {layout === "dashboard" && (
-          <>
-            <Sidenav
-              color={sidenavColor}
-              brand={null}
-              brandName="Tazeez"
-              routes={authRoutes.map((r) => ({
-                type: "collapse",
-                name: r.name,
-                key: r.name.toLowerCase(),
-                icon: null,
-                route: r.path,
-                component: <r.component />,
-              }))}
-            />
-            <Configurator />
-            {/* {configsButton} */}
-          </>
-        )}
-        {layout === "vr" && <Configurator />}
-        <Switch>
-          {routs}
-          {/* <Route path="*" element={<Navigate to="/dashboard" />} /> */}
-        </Switch>
-      </ThemeProvider>
-    );
+    return <AdminLayout routes={authRoutes}>{"Ahmad"}</AdminLayout>;
   } else {
     return (
       <HomeLayout>
