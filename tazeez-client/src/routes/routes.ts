@@ -1,4 +1,6 @@
 import Auth from "views/layouts/Auth";
+import QuestionList from "views/question/components/question-list";
+import Templates from "views/template";
 import { ROUTES_NAME_ENUM } from "../common/constants/routesNameEnum";
 import { ROUTES_PATH_ENUM } from "../common/constants/routesPathEnum";
 import Login from "../views/login/Login";
@@ -31,7 +33,26 @@ export const normalRoutes: IRoute[] = [
     component: SignUp,
     isMain: true,
   },
+  {
+    name: ROUTES_NAME_ENUM.Template,
+    path: ROUTES_PATH_ENUM.Template,
+    component: Templates,
+        isMain: true,
+
+  },
+  {
+    name: ROUTES_NAME_ENUM.Template,
+    path: ROUTES_PATH_ENUM.Template,
+    component: Templates,
+  },
+   {
+    name: ROUTES_NAME_ENUM.Questions,
+    path: ROUTES_PATH_ENUM.Questions,
+    component: QuestionList,
+  }
   
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
-export const authRoutes : IRoute[] = [].map((rout, index) => Object.assign(rout, { id: index + 1 }));
+export const authRoutes: IRoute[] = [
+  
+].map((rout, index) => Object.assign(rout, { id: index + 1 }));
