@@ -4,8 +4,7 @@ import { Route, Redirect, Switch } from "react-router-dom";
 import React, { Fragment, Suspense, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
-import {normalRoutes, authRoutes} from "routes/routes";
-import Auth from "views/layouts/Auth";
+import { normalRoutes, authRoutes } from "routes/routes";
 
 // Material Dashboard 2 React components
 
@@ -27,6 +26,7 @@ import { useMaterialUIController } from "context";
 import theme from "assets/theme";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import Login from "views/login/Login";
+import HomeLayout from "views/layouts/HomeLayout/HomeLayout";
 // import themeRTL from "assets/theme/theme-rtl";
 
 function App() {
@@ -103,27 +103,22 @@ function App() {
         </Switch>
       </ThemeProvider>
     );
-
-    return (
-      <Fragment>
-        {/* <Layout onLogout={onLogout} currentUser={userName}> */}
-        <Suspense fallback={<div>Loading ...</div>}>
-          <Switch>
-            {routs}
-            <Route path="/" component={Auth} />
-            <Redirect to={mainPage!.path} />
-          </Switch>
-        </Suspense>
-        {/* </Layout> */}
-      </Fragment>
-    );
   } else {
-    return <Switch>
-       {normalRoutes.map((rout) => (
-      <Route key={rout.id} path={rout.path} exact component={rout.component} />
-    ))}
-       <Redirect to={ROUTES_PATH_ENUM.Home} />
-    </Switch>
+    return (
+      <HomeLayout>
+        <Switch>
+          {normalRoutes.map((rout) => (
+            <Route
+              key={rout.id}
+              path={rout.path}
+              exact
+              component={rout.component}
+            />
+          ))}
+          <Redirect to={ROUTES_PATH_ENUM.Home} />
+        </Switch>
+      </HomeLayout>
+    );
   }
 }
 
