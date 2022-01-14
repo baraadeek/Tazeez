@@ -16,25 +16,15 @@
 
 */
 import React from "react";
-import { useLocation, Route, Switch, Redirect } from "react-router-dom";
+import { useLocation} from "react-router-dom";
 // reactstrap components
-import { Container, Row, Col } from "reactstrap";
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "assets/scss/argon-dashboard-react.scss";
 
-// core components
-import AuthNavbar from "components/common-components/Navbars/AuthNavbar";
-import AuthFooter from "components/common-components/Footers/AuthFooter.js";
-
-// import routes from "routes.js";
-import TopHeader from "views/examples/TopHeader";
-import Navbar from "views/examples/page/Navbar";
-import Footer from "views/examples/page/Footer";
 import NewsletterForm from "views/examples/Common/NewsletterForm";
 import LatestBlogPost from "views/examples/Common/LatestBlogPost";
 import OurDoctors from "views/examples/Common/OurDoctors";
-import VideoIntro from "views/examples/Common/VideoIntro";
 import HeroSlider from "views/examples/HomeOne/HeroSlider";
 import Stats from "views/examples/HomeOne/Stats";
 import AboutSection from "views/examples/HomeOne/AboutSection";
@@ -57,25 +47,9 @@ const Auth = (props) => {
     mainContent.current.scrollTop = 0;
   }, [location]);
 
-  const getRoutes = (routes) => {
-    return routes.map((prop, key) => {
-      if (prop.layout === "/auth") {
-        return (
-          <Route
-            path={prop.layout + prop.path}
-            component={prop.component}
-            key={key}
-          />
-        );
-      } else {
-        return null;
-      }
-    });
-  };
 
   return (
     <>
-      <AuthNavbar />
 
       <HeroSlider />
 
@@ -93,7 +67,6 @@ const Auth = (props) => {
 
       <NewsletterForm />
 
-      <Footer />
       <div ref={mainContent}>
         {/* <Switch>{getRoutes(routes)}</Switch> */}
       </div>
