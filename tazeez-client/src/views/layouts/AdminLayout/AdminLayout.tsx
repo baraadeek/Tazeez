@@ -19,6 +19,7 @@ import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import { IRoute } from "routes/routes";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
+import { Route } from "react-router-dom";
 
 // import themeRTL from "assets/theme/theme-rtl";
 
@@ -40,16 +41,17 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
     whiteSidenav,
     darkMode,
   } = controller;
-  console.log(
-    "🚀 ~ file: AdminLayout.tsx ~ line 41 ~ sidenavColor",
-    sidenavColor
-  );
+
+      const routs = routes.map((rout) => (
+      <Route key={rout.id} path={rout.path} exact component={rout.component} />
+    ));
 
   return (
     <>
       <ThemeProvider theme={theme}>
         <DashboardLayout>
           <DashboardNavbar />
+          {routs}
           <CssBaseline />
           <Sidenav
             color={sidenavColor}
@@ -60,8 +62,7 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
               name: r.name,
               key: r.name.toLowerCase(),
               icon: null,
-              route: r.path,
-              component: <r.component />,
+              route: r.path
             }))}
           />
         </DashboardLayout>
