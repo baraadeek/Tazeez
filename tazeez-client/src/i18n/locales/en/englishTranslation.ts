@@ -20,6 +20,9 @@ const englishTranslation = {
     signUp: "Sign Up Here",
     enterEmail: "Enter email",
     enterPassword: "Enter Password",
+    [translationKeys.pages.login.enterFirstName]:"Last Name",
+    [translationKeys.pages.login.enterLastName]: "First Name",
+    [translationKeys.pages.login.alreadyAccount]: "Already have an account?"
   },
 };
 

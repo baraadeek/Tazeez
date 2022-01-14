@@ -24,4 +24,24 @@ export const END_POINTS = {
     url: "api/v1/questionnairetemplate",
     method: HTTP_METHOD_PUT,
   },
+  getTemplateList: {
+    url: "api/v1/questionnairetemplate",
+    method: HTTP_METHOD_GET,
+  },
+  getQuestionList: {
+    url: "api/v1/questionnairetemplate/{id}",
+    method: HTTP_METHOD_GET,
+  },
+  getProfile: {
+    url: "api/v1/user/{id}",
+    method: HTTP_METHOD_GET,
+  },
+  updateProfile: {
+    url: "api/v1/user/profile/me",
+    method: HTTP_METHOD_PUT,
+  },
+  uploadImage: {
+    url: "api/v1/user/fileretrive/profilepic",
+    method: HTTP_METHOD_GET,
+  },
 };
