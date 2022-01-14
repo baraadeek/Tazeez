@@ -30,7 +30,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/core-components/MDBox";
-import MDInput from "components/MDInput";
+import MDInput from "components/core-components/MDInput";
 
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
@@ -92,23 +92,23 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const handleCloseMenu = () => setOpenMenu(false);
 
   // Render the notifications menu
-  const renderMenu = () => (
-    <Menu
-      anchorEl={openMenu}
-      anchorReference={null}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "left",
-      }}
-      open={Boolean(openMenu)}
-      onClose={handleCloseMenu}
-      sx={{ mt: 2 }}
-    >
-      <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-      <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-      <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
-    </Menu>
-  );
+  // const renderMenu = () => (
+  //   <Menu
+  //     anchorEl={openMenu}
+  //     anchorReference={null}
+  //     anchorOrigin={{
+  //       vertical: "bottom",
+  //       horizontal: "left",
+  //     }}
+  //     open={Boolean(openMenu)}
+  //     onClose={handleCloseMenu}
+  //     sx={{ mt: 2 }}
+  //   >
+  //     <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
+  //     <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
+  //     <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
+  //   </Menu>
+  // );
 
   // Styles for the navbar icons
   const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
@@ -176,7 +176,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
               >
                 <Icon sx={iconsStyle}>notifications</Icon>
               </IconButton>
-              {renderMenu()}
+              {/* {renderMenu()} */}
             </MDBox>
           </MDBox>
         )}
