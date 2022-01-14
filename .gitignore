@@ -140,3 +140,5 @@ SqlCode/._1_User_schema.sql
 SqlCode/._2_ContactRequest_schema.sql
 SqlCode/._3_questionnaire_schema.sql
 BackEndCode/Tazeez/tazeez-backend.code-workspace
+tazeez-client/._tazeez-client.code-workspace
+tazeez-client/.vscode/settings.json
