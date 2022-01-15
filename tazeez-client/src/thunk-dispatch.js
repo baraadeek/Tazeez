@@ -1,5 +1,5 @@
 import { unwrapResult } from '@reduxjs/toolkit';
-import { store } from 'index';
+import { store } from 'store/configureStore';
 
 export const ThunkDispatch = thunkAPI => {
     return new Promise((resolve, reject) => {

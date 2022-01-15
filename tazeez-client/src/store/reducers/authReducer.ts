@@ -1,55 +1,67 @@
+import { LOCAL_STORAGE_KEYS } from "common/constants/constants";
 import { parseJwt } from "common/utils/utils";
-import { PURGE } from "store/actions/app/appActionTypes";
-import * as authActionTypes from "store/actions/auth/authActionsTypes";
+import { Action } from "redux";
+import { AppActionTypesEnum } from "store/actions/app/appActionTypes";
+import { ILoginActionResponse } from "store/actions/auth/authActionsCreators";
+import { AuthActionTypesEnum } from "store/actions/auth/authActionsTypes";
 
-export type IAuthReducerState = {
-  token: null | string;
-  expirationDate: null | string;
-  userName: null | string;
+export interface IAppReducerAction extends Action {
+  type: AppActionTypesEnum | AuthActionTypesEnum;
+  payload: any;
+}
+
+export type IAppReducerState = {
+  snackbarMessage?: string;
+  snackbarMessageType?: string;
+  snackbarTimeout: number;
+  isAuth: boolean;
+  expirationDate?: number;
+  token?: string | null;
+  user: null | Omit<ILoginActionResponse, "token">;
 };
 
-const initialState: IAuthReducerState = {
+const initialState: IAppReducerState = {
+  snackbarMessage: "",
+  snackbarTimeout: 3000,
+  snackbarMessageType: "",
+  isAuth: false,
+  expirationDate: undefined,
   token: null,
-  expirationDate: null,
-  userName: null,
+  user: null,
 };
 
-const authReducer = (state = initialState, action: any) => {
+export default function appReducer(
+  state = initialState,
+  action: IAppReducerAction
+): IAppReducerState {
   switch (action.type) {
-    case authActionTypes.AUTH_START:
+    case AppActionTypesEnum.SHOW_MESSAGE:
       return {
         ...state,
-        message: null,
-        loading: true,
+        snackbarMessage: action.payload.snackbarMessage,
+        snackbarMessageType: action.payload.snackbarMessageType,
       };
-    case authActionTypes.AUTH_FAIL:
+    case AppActionTypesEnum.DELETE_MESSAGE:
       return {
         ...state,
-        token: null,
-        expirationDate: null,
+        snackbarMessage: "",
+        snackbarMessageType: "",
       };
-    case authActionTypes.AUTH_SUCCESS:
-      let userName = parseJwt(action.token).unique_name || "";
+    case AuthActionTypesEnum.AUTH_LOG_IN_SUCCESS:
+      const { token, ...rest } = action.payload as ILoginActionResponse;
+      const { exp }: any = parseJwt(token);
+      localStorage.setItem(LOCAL_STORAGE_KEYS.token, token);
       return {
         ...state,
-        token: action.token,
-        expirationDate: action.expirationDate,
-        userName,
+        isAuth: true,
+        expirationDate: exp * 1000,
+        token: token,
+        user: rest,
       };
+    case AuthActionTypesEnum.AUTH_LOG_OUT_SUCCESS:
+      return initialState;
 
-    case authActionTypes.AUTH_LOGOUT:
-      return {
-        ...state,
-        token: null,
-        expirationDate: null,
-      };
-    case PURGE:
-      return {
-        ...initialState,
-      };
     default:
       return state;
   }
-};
-
-export default authReducer;
+}
