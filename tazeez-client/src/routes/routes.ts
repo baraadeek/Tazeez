@@ -14,6 +14,8 @@ export type IRoute = {
   id: number;
   isMain?: boolean;
   icon?: any;
+  isHidden?: boolean;
+  requireAdmin?: boolean;
 };
 
 export const normalRoutes: IRoute[] = [
@@ -21,37 +23,39 @@ export const normalRoutes: IRoute[] = [
     name: ROUTES_NAME_ENUM.Home,
     path: ROUTES_PATH_ENUM.Home,
     component: Auth,
+    isHidden: false,
   },
   {
     name: ROUTES_NAME_ENUM.Login,
     path: ROUTES_PATH_ENUM.Login,
     component: Login,
     isMain: true,
+    isHidden: false,
   },
   {
     name: ROUTES_NAME_ENUM.SignUp,
     path: ROUTES_PATH_ENUM.SignUp,
     component: SignUp,
     isMain: true,
+    isHidden: false,
   },
- 
-   
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
 export const authRoutes: IRoute[] = [
   {
-    name: ROUTES_NAME_ENUM.Template,
-    path: ROUTES_PATH_ENUM.Template,
+    name: ROUTES_NAME_ENUM.QuestionsTemplatesList,
+    path: ROUTES_PATH_ENUM.QuestionsTemplatesList,
     component: Templates,
     isMain: true,
+    isHidden: false,
   },
   {
-    name: ROUTES_NAME_ENUM.Questions,
-    path: ROUTES_PATH_ENUM.Questions,
+    name: ROUTES_NAME_ENUM.QuestionsTemplate,
+    path: ROUTES_PATH_ENUM.QuestionsTemplate,
     component: QuestionList,
-    
+    isHidden: true,
   },
-   {
+  {
     name: ROUTES_NAME_ENUM.Doctors,
     path: ROUTES_PATH_ENUM.Doctors,
     component: Doctors,

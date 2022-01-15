@@ -55,7 +55,7 @@ function App() {
     return (
       <AdminLayout routes={authRoutes}>
         {routs}
-        <Redirect to={ROUTES_PATH_ENUM.Template} />
+        <Redirect to={ROUTES_PATH_ENUM.QuestionsTemplatesList} />
       </AdminLayout>
     );
   } else {

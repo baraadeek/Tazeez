@@ -19,6 +19,8 @@ Coded by www.creative-tim.com
  * You can customized the colors for the entire Soft UI Dashboard PRO Material using thie file.
  */
 
+export const mainPrimaryColor = "#0046c0"
+
 export default {
   background: {
     default: "#f0f2f5",
@@ -55,7 +57,7 @@ export default {
   },
 
   info: {
-    main: "#1A73E8",
+    main: "#0046c0",
     focus: "#1662C4",
   },
 
@@ -108,8 +110,8 @@ export default {
     },
 
     info: {
-      main: "#49a3f1",
-      state: "#1A73E8",
+      main: mainPrimaryColor,
+      state: mainPrimaryColor,
     },
 
     success: {

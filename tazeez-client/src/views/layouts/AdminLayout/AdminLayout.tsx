@@ -51,10 +51,10 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
             color={sidenavColor}
             brand={null}
             brandName="Tazeez"
-            routes={routes.map((r) => ({
+            routes={routes.filter(x=> !x.isHidden).map((r) => ({
               type: "collapse",
               name: r.name,
-              key: r.name.toLowerCase(),
+              key: r.path.replace("/","").toLowerCase(),
               icon: null,
               route: r.path,
             }))}
