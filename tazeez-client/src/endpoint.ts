@@ -18,7 +18,7 @@ export const END_POINTS= {
     method: HttpMethods.GET,
   },
   addQuestion: {
-    url: "api/v1/questionnairetemplate",
+    url: "/api/v1/questionnairetemplate/{id}",
     method: HttpMethods.PUT,
   },
   getTemplateList: {

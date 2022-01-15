@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 // Components
-import MDTypography from "components/core-components/MDTypography/index";
 import moment from "moment";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
@@ -16,9 +15,6 @@ import { Controller, useForm } from "react-hook-form";
 
 // Icons
 import DescriptionIcon from "@material-ui/icons/Description";
-
-// Enum
-import { EMPTY_TEMPLATE_VIEW_TEXT } from "../enums";
 
 // Selector
 import { templateSelectors } from "../selectors/template-selectors";
@@ -178,17 +174,15 @@ export default function TemplateList() {
             </Grid>
           </>
         ) : (
-          <Grid
-            item
-            container
-            justify="center"
-            alignItems="center"
-            className={classes.noData}
-            xs={12}
-          >
-            <MDTypography type="h4" fontSize={16}>
-              {EMPTY_TEMPLATE_VIEW_TEXT}
-            </MDTypography>
+          <Grid item xl={3} md={4} sm={6} xs={12}>
+            {
+              <ComplexStatisticsCard
+                mr={0}
+                className={classes.card}
+                count={"Add New Template"}
+                onClick={() => setShow(true)}
+              />
+            }
           </Grid>
         )}
       </Grid>
