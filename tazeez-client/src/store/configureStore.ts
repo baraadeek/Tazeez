@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import axios from "axios";
 import storage from "redux-persist/lib/storage";
 import { LOCAL_STORAGE_KEYS } from "common/constants/constants";
 import { persistStore, persistReducer, PersistConfig } from "redux-persist";
