@@ -9,6 +9,7 @@ namespace Tazeez.DB.Models.DB
         {
             QuestionnaireAnswerText = new HashSet<QuestionnaireAnswerText>();
             QuestionnaireAnswerChoice = new HashSet<QuestionnaireAnswerChoice>();
+            Questionnaires = new HashSet<Questionnaire>();
         }
 
         public int Id { get; set; }
@@ -40,5 +41,7 @@ namespace Tazeez.DB.Models.DB
         public virtual ICollection<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
 
         public virtual ICollection<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
+
+        public virtual ICollection<Questionnaire> Questionnaires { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tazeez.Common.Extensions;
@@ -69,6 +70,78 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             _context.SaveChanges();
+        }
+
+        public PagedResult<QuestionnaireResponse> GetQuestionnaires(UserModel currentUser,
+                                                                    int page = 1,
+                                                                    int pageSize = 10,
+                                                                    int status = 0,
+                                                                    string sortColumn = "",
+                                                                    string sortDirection = "")
+        {
+            Log.Information($"Inside GetQuestionnaires");
+            var questionnaire = new PagedResult<QuestionnaireResponse>();
+            _context.IsIgnoreQuestionnaireTemplate = true;
+            
+            var allowedStatuses = new List<int> 
+            { 
+               (int)AssessmentStatusEnum.Open, 
+               (int)AssessmentStatusEnum.InReview,
+               (int)AssessmentStatusEnum.InProgress 
+            };
+            
+            var result = _context.Questionnaire
+                                 .Where(a => a.UserId == currentUser.Id && (status == 0 || a.Status == status))
+                                 .Select(a => new QuestionnaireResponse
+                                 {
+                                     Id = a.Id,
+                                     NumberOfQuestions = a.QuestionnaireQuestions.Count,
+                                     QuestionnaireTemplateName = a.QuestionnaireTemplate.Name,
+                                     QuestionnaireName = a.QuestionnaireGroup.Name,
+                                     QuestionnaireTemplateId = a.QuestionnaireTemplateId,
+                                     UserId = a.UserId,
+                                     Status = a.Status,
+                                     CompletedUtc = a.CompletedUtc,
+                                     DueDateUTC = a.DueDateUTC,
+                                     StatusOrder = a.Status == 10 ? 1 : a.Status == 3 ? 2 : a.Status == 2 ? 3 : 4,
+                                     CreatedUTC = a.CreatedUTC,
+                                     NumberOfAnsweredQuestions = a.QuestionnaireQuestions
+                                                                  .Count(a => a.Status == (int)AssessmentQuestionStatusEnum.Answered
+                                                                              || a.Status == (int)AssessmentQuestionStatusEnum.Released)
+                                 })
+                                 .Where(a => a.NumberOfQuestions > 0)
+                                 .OrderByDescending(a => a.CreatedUTC)
+                                 .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(sortColumn) && sortDirection.Equals("ascending", StringComparison.InvariantCultureIgnoreCase))
+            {
+                result = result.OrderBy(sortColumn);
+            }
+            else if (!string.IsNullOrWhiteSpace(sortColumn) && sortDirection.Equals("descending", StringComparison.InvariantCultureIgnoreCase))
+            {
+                result = result.OrderByDescending(sortColumn);
+            }
+
+            questionnaire = result.GetPaged(page, pageSize);
+
+            questionnaire.Filterable.Add("status", new FilterableKeyModel
+            {
+                Title = "status",
+                Values = ((AssessmentStatusEnum[])Enum.GetValues(typeof(AssessmentStatusEnum)))
+                                                        .Select(c => new FilterableValueModel()
+                                                        {
+                                                            Id = (int)c,
+                                                            Title = c.GetDescription().ToString()
+                                                        })
+                                                        .Where(a => allowedStatuses.Contains(a.Id))
+                                                        .ToList()
+            });
+
+            questionnaire.Sortable.Add("StatusOrder", "Status");
+            questionnaire.Sortable.Add("DueDateUTC", "Due Date");
+            questionnaire.Sortable.Add("QuestionnaireName", "Name");
+            Log.Information($"Finish GetQuestionnaires");
+            return questionnaire;
         }
 
         public QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel)
