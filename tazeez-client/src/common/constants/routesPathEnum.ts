@@ -3,6 +3,7 @@ export enum ROUTES_PATH_ENUM {
   Home = "/home",
   SignUp = "/signUp",
   Template = "/template",
-    Questions="/questions"
+  Questions = "/questions",
+    Doctors= "/doctors"
   }
   

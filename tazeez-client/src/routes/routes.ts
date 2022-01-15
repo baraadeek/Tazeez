@@ -1,3 +1,4 @@
+import Doctors from "views/doctor";
 import Auth from "views/layouts/Auth";
 import QuestionList from "views/question/components/question-list";
 import Templates from "views/template";
@@ -49,7 +50,13 @@ export const normalRoutes: IRoute[] = [
     name: ROUTES_NAME_ENUM.Questions,
     path: ROUTES_PATH_ENUM.Questions,
     component: QuestionList,
+  },   {
+    name: ROUTES_NAME_ENUM.Doctors,
+    path: ROUTES_PATH_ENUM.Doctors,
+    component: Doctors,
   }
+   
+   
   
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 

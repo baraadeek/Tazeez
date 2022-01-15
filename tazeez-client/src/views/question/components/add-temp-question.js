@@ -52,7 +52,7 @@ export default function AddTemplateQuestion() {
     const { questionChoices } = data;
 
     const question = {
-      id: 1,
+      templateId: 1,
       ...data,
       questionnaireQuestionTypeId: data.questionnaireQuestionTypeId.type,
     };
@@ -110,7 +110,7 @@ export default function AddTemplateQuestion() {
             </Grid>
             <Grid item>
               <MDButton
-                className={classes.buttonDelete}
+                classes={{ root: classes.buttonDelete }}
                 onClick={() => remove(index)}
                 variant={"contained"}
                 color={"primary"}
@@ -390,7 +390,7 @@ export default function AddTemplateQuestion() {
                       ) : null}
                       <Grid item>
                         <MDButton
-                          className={classes.append}
+                          classes={{ root: classes.append }}
                           onClick={() => {
                             append({
                               displayOrder: "",
