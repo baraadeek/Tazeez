@@ -1,9 +1,9 @@
 export enum ROUTES_PATH_ENUM {
-    Login = "/login",
+  Login = "/login",
   Home = "/home",
   SignUp = "/signUp",
-  Template = "/template",
-  Questions = "/questions",
-    Doctors= "/doctors"
-  }
-  
+  QuestionsTemplatesList = "/questions_templates_list",
+  QuestionsTemplate = `/questions_templates_list/:id`,
+  Questions = "/questions/:id",
+  Doctors = "/doctors",
+}
