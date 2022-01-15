@@ -17,7 +17,7 @@ export const axiosAPI = axios.create({
   headers : {
     "Content-Type": "application/json",
     Accept: "application/json",
-    common:`bearer ${localStorage.getItem("token")}`
+    Authorization:`${localStorage.getItem("token")}`
   }
 });
 
