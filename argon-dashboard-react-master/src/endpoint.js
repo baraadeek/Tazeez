@@ -21,6 +21,10 @@ export const END_POINTS = {
     method: HTTP_METHOD_GET,
   },
   addQuestion: {
+    url: "api/v1/questionnairetemplate/{id}",
+    method: HTTP_METHOD_PUT,
+  },
+  addTemplate: {
     url: "api/v1/questionnairetemplate",
     method: HTTP_METHOD_PUT,
   },

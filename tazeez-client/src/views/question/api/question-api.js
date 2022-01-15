@@ -4,7 +4,7 @@ import { END_POINTS } from "../../../endpoint";
 
 export const addQuestionAPI = async (data) => {
   const endpoint = { ...END_POINTS.addQuestion };
-  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  endpoint.url = formatParameterizedURL(endpoint.url, { id: data.templateId });
   endpoint.data = data;
   const response = await axiosAPI(endpoint);
 

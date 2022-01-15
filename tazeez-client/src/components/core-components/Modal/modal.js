@@ -10,13 +10,13 @@ import {
   Box,
   DialogActions,
   Grid,
-  makeStyles,
   Divider,
   IconButton,
   CircularProgress,
-} from "@material-ui/core";
+} from "@mui/material";
 import SuccessIcon from "@material-ui/icons/CheckCircleOutlineSharp";
 import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/core";
 
 // Core component
 import MDButton from "../MDButton";
@@ -179,7 +179,7 @@ const Modal = (props) => {
       </DialogContent>
       {dialogActions?.length ? (
         <DialogActions classes={{ root: classes.rootDialogActions }}>
-          <Grid container direction={"row"} justify={"flex-end"}>
+          <Grid container direction={"row"} justifyContent={"flex-end"}>
             {dialogActions?.map((button, index) => (
               <Grid style={{ marginRight: 3, marginLeft: 3 }} item>
                 <MDButton

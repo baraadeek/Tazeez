@@ -32,6 +32,7 @@ function ComplexStatisticsCard({
   percentage,
   icon,
   mr,
+  isCenter,
   ...rest
 }) {
   return (
@@ -60,28 +61,35 @@ function ComplexStatisticsCard({
         <MDTypography variant="button" fontWeight="light" color="text">
           {title}
         </MDTypography>
-        {count ? <MDTypography variant="h4">{count}</MDTypography> : null}
-      </MDBox>
-      <Divider />
-      {percentage ? (
-        <MDBox pb={2} px={2}>
-          <MDTypography
-            component="p"
-            variant="button"
-            color="text"
-            display="flex"
-          >
-            <MDTypography
-              component="span"
-              variant="button"
-              fontWeight="bold"
-              color={percentage.color}
-            >
-              {percentage.amount}
-            </MDTypography>
-            &nbsp;{percentage.label}
+        {count ? (
+          <MDTypography variant="h4" textAlign={isCenter ? "center" : ""}>
+            {count}
           </MDTypography>
-        </MDBox>
+        ) : null}
+      </MDBox>
+      {percentage ? (
+        <>
+          <Divider />
+
+          <MDBox pb={2} px={2}>
+            <MDTypography
+              component="p"
+              variant="button"
+              color="text"
+              display="flex"
+            >
+              <MDTypography
+                component="span"
+                variant="button"
+                fontWeight="bold"
+                color={percentage.color}
+              >
+                {percentage.amount}
+              </MDTypography>
+              &nbsp;{percentage.label}
+            </MDTypography>
+          </MDBox>
+        </>
       ) : null}
     </Card>
   );
