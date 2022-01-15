@@ -127,7 +127,7 @@ export default function TemplateList() {
           <Grid
             item
             container
-            justify="center"
+            justifyContent="center"
             alignItems="center"
             className={classes.noData}
             xs={12}
@@ -167,6 +167,7 @@ export default function TemplateList() {
                 <ComplexStatisticsCard
                   mr={0}
                   className={classes.card}
+                  isCenter={true}
                   count={"Add New Template"}
                   onClick={() => setShow(true)}
                 />
@@ -178,7 +179,8 @@ export default function TemplateList() {
             {
               <ComplexStatisticsCard
                 mr={0}
-                className={classes.card}
+                style={{ textAlign: "center" }}
+                isCenter={true}
                 count={"Add New Template"}
                 onClick={() => setShow(true)}
               />

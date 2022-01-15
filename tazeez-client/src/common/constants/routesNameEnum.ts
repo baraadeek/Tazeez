@@ -3,5 +3,6 @@ export enum ROUTES_NAME_ENUM {
   Home = "Home",
   SignUp = "SignUp",
   Template = "Template",
-Questions="Questions"
+  Questions = "Questions",
+Doctors= "Doctors"
 }

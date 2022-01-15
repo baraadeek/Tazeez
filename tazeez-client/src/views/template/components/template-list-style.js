@@ -30,7 +30,6 @@ const TemplateListStyle = (theme) => ({
     "justify-content": "center",
     display: "flex",
     "justify-items": "center",
-    paddingTop: 32,
   },
   badge: {
     backgroundColor: "#0046c0",
@@ -38,6 +37,9 @@ const TemplateListStyle = (theme) => ({
     height: 25,
     width: 25,
     borderRadius: "50%",
+  },
+  typography: {
+    textAlign: "center",
   },
 });
 
