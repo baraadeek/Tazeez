@@ -8,6 +8,7 @@ using Tazeez.DB.Models.DB;
 using Tazeez.Enums;
 using Tazeez.Models.Models;
 using Tazeez.ModelViews;
+using Tazeez.ModelViews.Enums;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
 using Tazeez.ModelViews.Response;
@@ -23,6 +24,51 @@ namespace Tazeez.Core.Managers.Questionnaires
         {
             _context = context;
             _mapper = mapper;
+        }
+
+        public void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire)
+        {
+
+            if (!createQuestionnaire.UserIds.Any())
+            {
+                throw new ServiceValidationException("Please select valid receivers");
+            }
+
+            var template = _context.QuestionnaireTemplate
+                                   .Include("QuestionnaireTemplateQuesions")
+                                   .FirstOrDefault(a => a.Id == createQuestionnaire.QuestionnaireTemplateId);
+
+            if (template == null)
+            {
+                throw new ServiceValidationException("Invalid questionnaire template id received");
+            }
+
+            var questionnaireGroup = _context.QuestionnaireGroup.Add(new QuestionnaireGroup 
+            { 
+                Name = createQuestionnaire.AssessmentName
+            }).Entity;
+
+            foreach (var id in createQuestionnaire.UserIds)
+            {
+                var questionnaire = new Questionnaire
+                {
+                    QuestionnaireTemplateId = createQuestionnaire.QuestionnaireTemplateId,
+                    DueDateUTC = createQuestionnaire.DueDate,
+                    Status = (int)AssessmentStatusEnum.Open
+                };
+
+                foreach (var templateQuestion in template.QuestionnaireTemplateQuesions)
+                {
+                    questionnaire.QuestionnaireQuestions.Add(new QuestionnaireQuestion
+                    {
+                        TemplateQuestionId = templateQuestion.Id
+                    });
+                }
+
+                questionnaireGroup.Questionnaires.Add(questionnaire);
+            }
+
+            _context.SaveChanges();
         }
 
         public QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel)

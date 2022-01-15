@@ -5,7 +5,7 @@ import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
 
 // Material UI
-import { Grid, CircularProgress, makeStyles } from "@material-ui/core";
+import { Grid, CircularProgress, makeStyles, Box } from "@material-ui/core";
 
 import TableCell from "@material-ui/core/TableCell";
 import GroupIcon from "@material-ui/icons/Group";
@@ -14,21 +14,25 @@ import GroupIcon from "@material-ui/icons/Group";
 import Table from "components/core-components/Table/table";
 
 // Constants
-import { getQuestionListThunk } from "../api/question-thunk-api";
-import { questionSelectors } from "../selectors/question-selectors";
+import { getDoctorListThunk } from "../api/doctor-thunk-api";
+import { doctorSelectors } from "../selectors/doctor-selectors";
 import questionListViewStyle from "./question-list-view-style";
 import { COLUMNS, QUESTION_TYPE_ID } from "../enums";
+import MDAvatar from "components/core-components/MDAvatar";
+import MDTypography from "components/core-components/MDTypography";
 
-import { purge } from "../slice/question-slice";
 import CardHeader from "components/core-components/card/CardHeader";
 import CardIcon from "components/core-components/card/CardIcon";
 import CardBody from "components/core-components/card/CardBody";
 import CardComponent from "components/core-components/card/CardComponent";
-import AddTemplateQuestion from "./add-temp-question";
+import { purge } from "../slice/doctor-slice";
+import DeleteDoctor from "./delete-doctor";
+import EditDoctor from "./edit-doctor";
+import AddDoctor from "./add-doctor";
 
 const useStyle = makeStyles(questionListViewStyle);
 
-function QuestionList() {
+function DoctorList() {
   //#region hooks
   const classes = useStyle();
   let { id } = useParams();
@@ -36,7 +40,7 @@ function QuestionList() {
   const dispatch = useDispatch();
   //#endregion
 
-  const questionList = useSelector(questionSelectors);
+  const doctorList = useSelector(doctorSelectors);
 
   //#region Life Cycle
 
@@ -56,7 +60,7 @@ function QuestionList() {
   }, []);
 
   async function dispatchGetQuestionListFunc() {
-    ThunkDispatch(getQuestionListThunk({ id: 1 }))
+    ThunkDispatch(getDoctorListThunk())
       .then((result) => {})
       .catch((error) => console.error("getQuestionListThunk", error))
       .finally(() => {});
@@ -74,19 +78,40 @@ function QuestionList() {
 
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
-        {item.displayOrder}
+        <Box display={"flex"} alignItems={"center"}>
+          <MDAvatar src={item.user.image} alt={item.user.fullName} size="sm" />
+          <Box display={"flex"} marginLeft={1} overflow={"hidden"}>
+            <MDTypography overFlow type={"h4"} fontcolor={"gray"}>
+              {item.user.fullName}
+            </MDTypography>
+          </Box>
+        </Box>
+      </TableCell>
+    );
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item?.user?.email}
+      </TableCell>
+    );
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item?.phoneNumber}
+      </TableCell>
+    );
+
+    rowColumn.push(
+      <TableCell className={tableCellClasses} key={key}>
+        {item?.city}
       </TableCell>
     );
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
-        {item?.question}
+        {item?.specialist}
       </TableCell>
     );
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {QUESTION_TYPE_ID[item.questionnaireQuestionTypeId]}
-      </TableCell>
-    );
+
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
         {moment(item.createdUTC).format("MMMM Do YYYY")}
@@ -100,22 +125,13 @@ function QuestionList() {
 
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
-        {item.score}
+        <Grid container justify="flex-end" direction="row" alignItems="center">
+          <EditDoctor id={item.id} />
+          <DeleteDoctor id={item.id} />
+        </Grid>
       </TableCell>
     );
 
-    const choices = item.questionChoices.map((choice) => choice.choice);
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {choices?.join(", ")}
-      </TableCell>
-    );
-
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {item.isOptional === false ? "No" : "Yes"}
-      </TableCell>
-    );
     row.push(rowColumn);
     return row;
   }
@@ -129,17 +145,17 @@ function QuestionList() {
               <GroupIcon />
             </CardIcon>
             <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
-              Questions
+              Doctors
             </h4>
           </CardHeader>
           <CardBody>
-            <AddTemplateQuestion />
+            <AddDoctor />
             {!false ? (
               <Table
                 renderDataTable={renderDataTable}
                 tableHead={COLUMNS}
-                tableData={questionList}
-                emptyTable={"No Questions available!"}
+                tableData={doctorList}
+                emptyTable={"No Doctors available!"}
                 customCellClasses={[
                   classes.center,
                   classes.right,
@@ -157,7 +173,7 @@ function QuestionList() {
               <Grid
                 container
                 alignContent="center"
-                justifyContent="center"
+                justify="center"
                 alignItems="center"
                 className={classes.minHeight}
               >
@@ -174,4 +190,4 @@ function QuestionList() {
   );
 }
 
-export default QuestionList;
+export default DoctorList;

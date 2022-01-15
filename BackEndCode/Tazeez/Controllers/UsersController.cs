@@ -42,6 +42,16 @@ namespace Tazeez.Controllers
             return Ok(result);
         }
 
+        [Route("api/v{version:apiVersion}/users")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult SearchUsers(int page = 1, int pageSize = 10, string searchText = "")
+        {
+            var result = _userManager.SearchUsers(page, pageSize, searchText);
+            return Ok(result);
+        }
+
         [Route("api/v{version:apiVersion}/doctor")]
         [HttpPut]
         [MapToApiVersion("1")]

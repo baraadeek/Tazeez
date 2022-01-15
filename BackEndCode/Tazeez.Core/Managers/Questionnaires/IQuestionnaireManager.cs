@@ -8,6 +8,8 @@ namespace Tazeez.Core.Managers.Questionnaires
 {
     public interface IQuestionnaireManager : IManager
     {
+        void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire);
+
         QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);
 
         QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);

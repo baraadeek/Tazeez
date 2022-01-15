@@ -145,7 +145,6 @@ export default createTheme({
     MuiRadio: { ...radio },
     MuiAutocomplete: { ...autocomplete },
     MuiPopover: { ...popover },
-    MuiButtonBase: { ...buttonBase },
     MuiIcon: { ...icon },
     MuiSvgIcon: { ...svgIcon },
     MuiLink: { ...link },
