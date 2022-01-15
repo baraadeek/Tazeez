@@ -31,6 +31,7 @@ import {
   getTemplateListThunk,
 } from "../api/template-thunk-api";
 import Modal from "components/core-components/Modal/modal";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 const useStyle = makeStyles(TemplateListStyle);
 
@@ -64,9 +65,9 @@ export default function TemplateList() {
       .finally(() => {});
   }
 
-  function onAddQuestion(params) {
+  function onAddNewTemplate(params) {
     if (watch("title"))
-      ThunkDispatch(addTemplateThunk({ name: watch("title") }))
+      ThunkDispatch(addTemplateThunk({ name: watch("title") ,}))
         .then((result) => {
           setShow(false);
           reset();
@@ -112,7 +113,7 @@ export default function TemplateList() {
               name: "Save",
               variant: "contained",
               color: "info",
-              onClick: () => onAddQuestion(),
+              onClick: () => onAddNewTemplate(),
             },
           ]}
         ></Modal>
@@ -142,11 +143,7 @@ export default function TemplateList() {
                   <ComplexStatisticsCard
                     mr={2}
                     onClick={() => {
-                      history.push("/admin/questions", {
-                        state: {
-                          id: item.id,
-                        },
-                      });
+                      history.push(ROUTES_PATH_ENUM.QuestionsTemplate.replace(":id", item.id));
                     }}
                     icon={<DescriptionIcon />}
                     title={`${
