@@ -1,4 +1,8 @@
-import { addDoctorThunk, getDoctorListThunk } from "../api/doctor-thunk-api";
+import {
+  addDoctorThunk,
+  getDoctorListThunk,
+  deleteDoctorThunk,
+} from "../api/doctor-thunk-api";
 import { doctorAdapter } from "../adapter/doctor-adapter";
 
 export const doctorExtraReducers = (builder) => {
@@ -8,5 +12,8 @@ export const doctorExtraReducers = (builder) => {
 
   builder.addCase(getDoctorListThunk.fulfilled, (state, { payload }) => {
     doctorAdapter.addMany(state.doctorList, payload.data.data);
+  });
+  builder.addCase(deleteDoctorThunk.fulfilled, (state, { payload }) => {
+    doctorAdapter.removeOne(state.doctorList, payload.id);
   });
 };

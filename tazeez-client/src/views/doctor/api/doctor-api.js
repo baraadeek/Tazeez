@@ -20,3 +20,19 @@ export const getDoctorListAPI = async (data) => {
 
   return response;
 };
+
+export const deleteDoctorAPI = async (data) => {
+  console.log(
+    "🚀 ~ file: doctor-api.js ~ line 25 ~ deleteDoctorAPI ~ data",
+    data
+  );
+  const endpoint = { ...END_POINTS.deleteDoctor };
+  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  console.log(
+    "🚀 ~ file: doctor-api.js ~ line 27 ~ deleteDoctorAPI ~ endpoint",
+    endpoint
+  );
+  const response = await axiosAPI(endpoint);
+
+  return response;
+};

@@ -43,10 +43,14 @@ export const END_POINTS= {
   },
   getDoctorList: {
     url: "api/v1/doctor?page=1&pageSize=10",
-    method: HTTP_METHOD_GET,
+    method: HttpMethods.GET,
   },
   updateDoctor: {
     url: "api/v1/doctor",
-    method: HTTP_METHOD_PUT,
+    method: HttpMethods.PUT,
   },
+  deleteDoctor: {
+    url: "api/v1/doctor/{id}",
+    method: HttpMethods.DELETE,
+  }
 };

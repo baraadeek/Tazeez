@@ -157,7 +157,7 @@ function QuestionList() {
               <Grid
                 container
                 alignContent="center"
-                justify="center"
+                justifyContent="center"
                 alignItems="center"
                 className={classes.minHeight}
               >

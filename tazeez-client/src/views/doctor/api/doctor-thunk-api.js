@@ -1,8 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addDoctorAPI, getDoctorListAPI } from "./doctor-api";
+
+import { addDoctorAPI, getDoctorListAPI, deleteDoctorAPI } from "./doctor-api";
 
 export const addDoctorThunk = createAsyncThunk(
-  "question/addDoctor",
+  "doctor/addDoctor",
   async (data, { dispatch }) => {
     const response = await addDoctorAPI(data);
 
@@ -11,10 +12,19 @@ export const addDoctorThunk = createAsyncThunk(
 );
 
 export const getDoctorListThunk = createAsyncThunk(
-  "question/getDoctorList",
+  "doctor/getDoctorList",
   async (data, { dispatch }) => {
     const response = await getDoctorListAPI(data);
 
     return response;
+  }
+);
+
+export const deleteDoctorThunk = createAsyncThunk(
+  "doctor/deleteDoctor",
+  async (data, { dispatch }) => {
+    const response = await deleteDoctorAPI(data);
+
+    return data;
   }
 );

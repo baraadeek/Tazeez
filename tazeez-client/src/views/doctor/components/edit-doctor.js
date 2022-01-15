@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 
 // Icon
 import EditIcon from "@material-ui/icons/Edit";
-import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
 
 //  Components
 import Modal from "components/core-components/Modal/modal";

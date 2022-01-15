@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { ThunkDispatch } from "thunk-dispatch";
 
 // Icon
 import DeleteIcon from "@material-ui/icons/Delete";
-import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
+import { makeStyles, Tooltip } from "@material-ui/core";
+import IconButton from "@mui/material/IconButton";
 
 //  Components
 import Modal from "components/core-components/Modal/modal";
-import { ThunkDispatch } from "thunk-dispatch";
+import { deleteDoctorThunk } from "../api/doctor-thunk-api";
 
 const useStyle = makeStyles({
   deleteIcon: {
@@ -16,7 +18,8 @@ const useStyle = makeStyles({
 });
 
 function DeleteDoctor(props) {
-  const { data, dispatchDeleteDoctor } = props;
+  const { id } = props;
+  console.log("🚀 ~ file: delete-doctor.js ~ line 21 ~ DeleteDoctor ~ id", id);
 
   const classes = useStyle(props);
 
@@ -28,7 +31,7 @@ function DeleteDoctor(props) {
    * @description will delete Doctor.
    */
   async function dispatchDeleteDoctorFunc() {
-    ThunkDispatch(dispatchDeleteDoctor(data))
+    ThunkDispatch(deleteDoctorThunk({ id: id }))
       .then(() => {
         setOpenDeleteDoctorModal(false);
       })

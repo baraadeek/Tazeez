@@ -41,10 +41,6 @@ function DoctorList() {
   //#endregion
 
   const doctorList = useSelector(doctorSelectors);
-  console.log(
-    "🚀 ~ file: doctor-list.js ~ line 39 ~ DoctorList ~ doctorList",
-    doctorList
-  );
 
   //#region Life Cycle
 

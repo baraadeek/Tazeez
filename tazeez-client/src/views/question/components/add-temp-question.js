@@ -5,14 +5,11 @@ import { Controller, useForm, useFieldArray } from "react-hook-form";
 import classNames from "classnames";
 
 // Material
-import {
-  FormControlLabel,
-  Grid,
-  makeStyles,
-  Switch,
-  TextField,
-} from "@material-ui/core";
+import { Grid, makeStyles } from "@material-ui/core";
 import Autocomplete from "@mui/material/Autocomplete";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Switch from "@mui/material/Switch";
+import TextField from "@mui/material/TextField";
 
 // Styles
 import AddTempQuestionStyle from "./add-temp-question-style";
@@ -99,7 +96,7 @@ export default function AddTemplateQuestion() {
           <Grid
             container
             direction="row"
-            justify="space-between"
+            justifyContent="space-between"
             alignItems="center"
             spacing={1}
           >
@@ -373,7 +370,7 @@ export default function AddTemplateQuestion() {
                     <Grid
                       container
                       direction="row"
-                      justify={ShowError ? "space-between" : "flex-end"}
+                      justifyContent={ShowError ? "space-between" : "flex-end"}
                       alignItems="center"
                       spacing={1}
                     >
@@ -411,7 +408,7 @@ export default function AddTemplateQuestion() {
                 <Grid
                   container
                   direction={"row"}
-                  justify={"flex-end"}
+                  justifyContent={"flex-end"}
                   className={classes.save}
                 >
                   {dialogActions?.map((button, index) => (
@@ -437,7 +434,7 @@ export default function AddTemplateQuestion() {
       <Grid
         container
         direction="row"
-        justify="flex-end"
+        justifyContent="flex-end"
         alignItems="center"
         spacing={1}
       >
