@@ -2,41 +2,34 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { Provider } from "react-redux";
-import { Action, applyMiddleware, createStore } from "redux";
-import rootReducer from "store/reducers/rootReducer";
-import thunk from "redux-thunk";
 import "./i18n/i18n";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 // Soft UI Context Provider
 import { MaterialUIControllerProvider } from "context";
-import { configureStore } from "@reduxjs/toolkit";
+import axios from "axios";
+import { persistor, store } from "store/configureStore";
+import { PersistGate } from "redux-persist/integration/react";
 
-const logger = (store: any) => {
-  return (next: any) => {
-    return (action: Action) => {
-      console.log("this is Logger (Middleware)", action);
-      const result = next(action);
-      console.log("Middleware next state", store.getState());
-      return result;
-    };
-  };
-};
-
-
-export const store = configureStore({
-  reducer: rootReducer,
+axios.create({
+  baseURL: "https://localhost:5001/",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    common: `bearer ${localStorage.getItem("token")}`,
+  },
 });
-
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <React.StrictMode>
-        <MaterialUIControllerProvider>
-          <App />
-        </MaterialUIControllerProvider>
-      </React.StrictMode>
+      <PersistGate persistor={persistor}>
+        <React.StrictMode>
+          <MaterialUIControllerProvider>
+            <App />
+          </MaterialUIControllerProvider>
+        </React.StrictMode>
+      </PersistGate>
     </Provider>
   </BrowserRouter>,
   document.getElementById("root")

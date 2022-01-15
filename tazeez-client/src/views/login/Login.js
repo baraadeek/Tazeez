@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom";
 
 import { Form, Spinner } from "react-bootstrap";
 
@@ -18,36 +17,20 @@ import { useTranslation } from "react-i18next";
 import translationKeys from "i18n/locales/translationKeys";
 
 // API
-import { ThunkDispatch } from "../../thunk-dispatch";
-import { loginThunk } from "./api/login-thunk-api";
+import { logInAction } from "store/actions/auth/authActionsCreators";
 
 export default function Login() {
-  const history = useHistory();
   const { t } = useTranslation(namespaces.pages.login);
-
   const [showError, SetShowError] = React.useState(null);
   const { handleSubmit, control, formState } = useForm();
 
-  const onSubmit = (data) => {
-    ThunkDispatch(loginThunk(data))
-      .then((result) => {
-        if (result?.status === 200) {
-          localStorage.setItem(
-            "login",
-            JSON.stringify({
-              token: result.data.token,
-            })
-          );
-          history.push("/admin/index");
-        } else {
-          SetShowError(result?.message);
-        }
-      })
-      .catch((error) => {
-        SetShowError(error?.message);
-        console.error("loginThunk", error);
-      })
-      .finally(() => {});
+  const onSubmit = async (data) => {
+    try {
+      await logInAction(data);
+      window.location.reload();
+    } catch (error) {
+      SetShowError(error.message);
+    }
   };
 
   return (

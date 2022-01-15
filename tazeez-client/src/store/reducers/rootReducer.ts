@@ -6,8 +6,8 @@ import templateSlice from "views/template/slice/template-slice";
 import authReducer from "./authReducer";
 
 const rootReducer = combineReducers({
-    authReducer,
-    user,
+  auth: authReducer,
+  user,
   template: templateSlice,
   question: questionSlice,
   doctor:doctorSlice
