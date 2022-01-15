@@ -160,15 +160,13 @@ export default function TemplateList() {
               );
             })}
             <Grid item xl={3} md={4} sm={6} xs={12}>
-              {
-                <ComplexStatisticsCard
-                  mr={0}
-                  className={classes.card}
-                  isCenter={true}
-                  count={"Add New Template"}
-                  onClick={() => setShow(true)}
-                />
-              }
+              <ComplexStatisticsCard
+                mr={0}
+                className={classes.card}
+                isCenter={true}
+                count={"Add New Template"}
+                onClick={() => setShow(true)}
+              />
             </Grid>
           </>
         ) : (

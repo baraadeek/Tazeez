@@ -7,6 +7,7 @@ import { doctorExtraReducers } from "./doctor-extra-reducers";
 
 export const initialState = {
   doctorList: doctorAdapter.getInitialState(),
+  users: [],
 };
 
 /**
