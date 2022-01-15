@@ -15,7 +15,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useLocation, Route, Switch, Redirect } from "react-router-dom";
 // reactstrap components
 import { Container } from "reactstrap";
@@ -25,10 +25,32 @@ import AdminFooter from "components/Footers/AdminFooter.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "routes.js";
+import { ThunkDispatch } from "thunk-dispatch";
+import { getUserThunk } from "core-components/profile/api/user-thunk-api";
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
   const location = useLocation();
+
+  const data =
+    localStorage.getItem("login") &&
+    JSON.parse(localStorage.getItem("login"))?.response;
+
+  const get = useCallback(dispatchGetFunc, []);
+
+  useEffect(
+    (_) => {
+      get();
+    },
+    [get]
+  );
+
+  async function dispatchGetFunc() {
+    ThunkDispatch(getUserThunk({ id: data.id }))
+      .then((result) => {})
+      .catch((error) => console.error("getUserThunk", error))
+      .finally(() => {});
+  }
 
   React.useEffect(() => {
     document.documentElement.scrollTop = 0;
@@ -81,9 +103,6 @@ const Admin = (props) => {
           brandText={getBrandText(props.location.pathname)}
         />
         <Switch>{getRoutes(routes)}</Switch>
-        <Container fluid>
-          <AdminFooter />
-        </Container>
       </div>
     </>
   );

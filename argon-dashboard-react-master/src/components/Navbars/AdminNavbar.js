@@ -15,6 +15,8 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
+import { userSelectors } from "core-components/profile/selectors/user-selectors";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 // reactstrap components
 import {
@@ -33,48 +35,49 @@ import {
   Container,
   Media,
 } from "reactstrap";
+import AvatarWithText from "views/examples/avatar/Avatar";
+import UserAvatar from "views/examples/UserAvatar";
 
 const AdminNavbar = (props) => {
   const history = useHistory();
+  const data =
+    localStorage.getItem("login") &&
+    JSON.parse(localStorage.getItem("login"))?.response;
+  console.log("🚀 ~ file: AdminNavbar.js ~ line 40 ~ AdminNavbar ~ data", data);
+
+  const user = useSelector(userSelectors)[0];
+  console.log("🚀 ~ file: AdminNavbar.js ~ line 49 ~ AdminNavbar ~ user", user);
 
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
         <Container fluid>
           <Link
-            className="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"
+            className="h4 mb-0 text-block text-uppercase d-none d-lg-inline-block"
             to="/"
           >
             {props.brandText}
           </Link>
-          <Form className="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
-            <FormGroup className="mb-0">
-              <InputGroup className="input-group-alternative">
-                <InputGroupAddon addonType="prepend">
-                  <InputGroupText>
-                    <i className="fas fa-search" />
-                  </InputGroupText>
-                </InputGroupAddon>
-                <Input placeholder="Search" type="text" />
-              </InputGroup>
-            </FormGroup>
-          </Form>
+
           <Nav className="align-items-center d-none d-md-flex" navbar>
             <UncontrolledDropdown nav>
               <DropdownToggle className="pr-0" nav>
                 <Media className="align-items-center">
-                  <span className="avatar avatar-sm rounded-circle">
-                    <img
-                      alt="..."
-                      src={
-                        require("../../assets/img/theme/team-4-800x800.jpg")
-                          .default
-                      }
+                  {user ? (
+                    <UserAvatar
+                      showName
+                      users={[user]}
+                      showFullName
+                      size="lg"
+                      typographyType={"h1"}
                     />
-                  </span>
-                  <Media className="ml-2 d-none d-lg-block">
+                  ) : null}
+                  <Media
+                    className="ml-2 d-none d-lg-block"
+                    style={{ color: "black" }}
+                  >
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {user?.firstName + " " + user?.lastName}
                     </span>
                   </Media>
                 </Media>
@@ -87,18 +90,7 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
-                </DropdownItem>
+
                 <DropdownItem divider />
                 <DropdownItem
                   to="/login"
