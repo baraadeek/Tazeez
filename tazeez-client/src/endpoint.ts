@@ -52,5 +52,9 @@ export const END_POINTS= {
   deleteDoctor: {
     url: "api/v1/doctor/{id}",
     method: HttpMethods.DELETE,
+  },
+    getUsers: {
+    url: "api/v1/users?page=1&pageSize=50",
+    method: HttpMethods.GET,
   }
 };
