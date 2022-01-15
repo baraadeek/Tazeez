@@ -48,7 +48,7 @@ namespace Tazeez.Controllers
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult SearchUsers(int page = 1, int pageSize = 10, string searchText = "")
         {
-            var result = _userManager.SearchUsers(page, pageSize, searchText);
+            var result = _userManager.SearchUsers(LoggedInUser, page, pageSize, searchText);
             return Ok(result);
         }
 

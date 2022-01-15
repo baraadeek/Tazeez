@@ -9,6 +9,8 @@ namespace Tazeez.Models.Models
     {
         public bool IgnoreFilterOnEntity { get; set; }
 
+        public bool IsIgnoreQuestionnaireTemplate { get; set; }
+
         private readonly IConfigurationSettings _configuration;
 
         public TazeezContext()
@@ -242,6 +244,8 @@ namespace Tazeez.Models.Models
 
                 entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("TemplateId_QuestionnaireTemplateId_idx");
 
+                entity.HasIndex(e => e.UserId).HasDatabaseName("UserId_QuestionnaireUserId_idx");
+
                 entity.HasIndex(e => e.Id, "Id_UNIQUE").IsUnique();
 
                 entity.Property(e => e.QuestionnaireGroupId).HasColumnType("int(11)");
@@ -249,6 +253,8 @@ namespace Tazeez.Models.Models
                 entity.Property(e => e.QuestionnaireTemplateId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Status).HasColumnType("int(11)");
+                
+                entity.Property(e => e.UserId).HasColumnType("int(11)");
 
                 entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
 
@@ -274,6 +280,11 @@ namespace Tazeez.Models.Models
                     .WithMany(p => p.Questionnaires)
                     .HasForeignKey(d => d.QuestionnaireGroupId)
                     .HasConstraintName("GroupId_QuestionnaireGroupId");
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Questionnaires)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("UserId_QuestionnaireUserId");
             });
             
             modelBuilder.Entity<QuestionnaireQuestion>(entity =>
@@ -475,7 +486,7 @@ namespace Tazeez.Models.Models
             modelBuilder.Entity<User>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<ContactRequest>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireTemplateQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
-            modelBuilder.Entity<QuestionnaireTemplate>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<QuestionnaireTemplate>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity || IsIgnoreQuestionnaireTemplate);
             modelBuilder.Entity<QuestionnaireGroup>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireAnswerText>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);

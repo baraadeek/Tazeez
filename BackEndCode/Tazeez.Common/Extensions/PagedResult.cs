@@ -58,6 +58,7 @@ namespace Tazeez.Common.Extensions
             Data = new List<T>();
             Sortable = new Dictionary<string, string>();
             Pagination = new PagedResultBase();
+            Filterable = new Dictionary<string, FilterableKeyModel>();
         }
 
         [DataMember(Name = "pagination")]
@@ -68,5 +69,26 @@ namespace Tazeez.Common.Extensions
 
         [DataMember(Name = "data")]
         public IList<T> Data { get; set; }
+
+        [DataMember(Name = "filterable")]
+        public Dictionary<string, FilterableKeyModel> Filterable { get; set; }
+    }
+
+    public class FilterableValueModel
+    {
+        [DataMember(Name = "id")]
+        public int Id { get; set; }
+
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+    }
+
+    public class FilterableKeyModel
+    {
+        [DataMember(Name = "title")]
+        public string Title { get; set; }
+
+        [DataMember(Name = "values")]
+        public List<FilterableValueModel> Values { get; set; }
     }
 }
