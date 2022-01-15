@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { Form, Spinner } from "react-bootstrap";
 
@@ -18,17 +18,18 @@ import translationKeys from "i18n/locales/translationKeys";
 
 // API
 import { logInAction } from "store/actions/auth/authActionsCreators";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 export default function Login() {
   const { t } = useTranslation(namespaces.pages.login);
-
+  const history = useHistory();
   const [showError, SetShowError] = React.useState(null);
   const { handleSubmit, control, formState } = useForm();
 
   const onSubmit = async (data) => {
     try {
-      const re = await logInAction(data);
-      console.log("🚀 ~ file: Login.js ~ line 38 ~ onSubmit ~ re", re);
+      await logInAction(data);
+      history.push(ROUTES_PATH_ENUM.Template);
     } catch (error) {
       SetShowError(error.message);
     }
