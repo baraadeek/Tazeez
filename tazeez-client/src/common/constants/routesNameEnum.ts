@@ -6,5 +6,4 @@ export enum ROUTES_NAME_ENUM {
   QuestionsTemplate = "Questions Template",
   Questions = "Questions",
   Doctors = "Doctors",
-  DoctorList = "DoctorsList"
 }
