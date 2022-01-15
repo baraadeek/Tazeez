@@ -184,8 +184,9 @@ const Modal = (props) => {
               <Grid style={{ marginRight: 3, marginLeft: 3 }} item>
                 <MDButton
                   color={button.color || "dark"}
-                  onClick={button.onClick}
+                  onClick={button?.onClick}
                   variant={button.variant || "outlined"}
+                  type={button.type}
                 >
                   {button.name}
                 </MDButton>

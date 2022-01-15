@@ -32,25 +32,8 @@ import Services from "views/examples/HomeOne/Services";
 import OurExpertise from "views/examples/HomeOne/OurExpertise";
 
 const Auth = (props) => {
-  const mainContent = React.useRef(null);
-  const location = useLocation();
-
-  React.useEffect(() => {
-    document.body.classList.add("bg-default");
-    return () => {
-      document.body.classList.remove("bg-default");
-    };
-  }, []);
-  React.useEffect(() => {
-    document.documentElement.scrollTop = 0;
-    document.scrollingElement.scrollTop = 0;
-    mainContent.current.scrollTop = 0;
-  }, [location]);
-
-
   return (
     <>
-
       <HeroSlider />
 
       <Stats />
@@ -66,10 +49,6 @@ const Auth = (props) => {
       <LatestBlogPost />
 
       <NewsletterForm />
-
-      <div ref={mainContent}>
-        {/* <Switch>{getRoutes(routes)}</Switch> */}
-      </div>
     </>
   );
 };

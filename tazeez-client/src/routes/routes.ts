@@ -33,26 +33,18 @@ export const normalRoutes: IRoute[] = [
     component: SignUp,
     isMain: true,
   },
-  {
-    name: ROUTES_NAME_ENUM.Template,
-    path: ROUTES_PATH_ENUM.Template,
-    component: Templates,
-        isMain: true,
-
-  },
-  {
-    name: ROUTES_NAME_ENUM.Template,
-    path: ROUTES_PATH_ENUM.Template,
-    component: Templates,
-  },
-   {
-    name: ROUTES_NAME_ENUM.Questions,
-    path: ROUTES_PATH_ENUM.Questions,
-    component: QuestionList,
-  }
-  
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
 export const authRoutes: IRoute[] = [
-  
+  {
+    name: ROUTES_NAME_ENUM.Template,
+    path: ROUTES_PATH_ENUM.Template,
+    component: Templates,
+    isMain: true,
+  },
+  {
+    name: ROUTES_NAME_ENUM.Questions,
+    path: ROUTES_PATH_ENUM.Questions,
+    component: QuestionList,
+  },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));

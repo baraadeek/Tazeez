@@ -43,13 +43,11 @@ import sidenavLogoLabel from "examples/Sidenav/styles/sidenav";
 import {
   useMaterialUIController,
   setMiniSidenav,
-  setTransparentSidenav,
-  setWhiteSidenav,
 } from "context";
 
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
-  let { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
+  let { miniSidenav, transparentSidenav, whiteSidenav, darkMode } = controller;
   
   const location = useLocation();
   const collapseName = location.pathname.replace("/", "");
@@ -68,8 +66,6 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
     // A function that sets the mini state of the sidenav.
     function handleMiniSidenav() {
       setMiniSidenav(dispatch, window.innerWidth < 1200);
-      setTransparentSidenav(dispatch, window.innerWidth < 1200 ? false : transparentSidenav);
-      setWhiteSidenav(dispatch, window.innerWidth < 1200 ? false : whiteSidenav);
     }
 
     /** 
