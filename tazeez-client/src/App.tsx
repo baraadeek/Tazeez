@@ -48,7 +48,16 @@ function App() {
   ) as boolean;
 
   if (isAuthenticated) {
-    return <AdminLayout routes={authRoutes}>{"Ahmad"}</AdminLayout>;
+    const routs = authRoutes.map((rout) => (
+      <Route key={rout.id} path={rout.path} exact component={rout.component} />
+    ));
+
+    return (
+      <AdminLayout routes={authRoutes}>
+        {routs}
+        <Redirect to={ROUTES_PATH_ENUM.Template} />
+      </AdminLayout>
+    );
   } else {
     return (
       <HomeLayout>

@@ -11,15 +11,12 @@ import { useMaterialUIController } from "context";
 
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
-import Configurator from "examples/Configurator";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
-import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import { IRoute } from "routes/routes";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import { Route } from "react-router-dom";
 
 // import themeRTL from "assets/theme/theme-rtl";
 
@@ -42,16 +39,13 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
     darkMode,
   } = controller;
 
-      const routs = routes.map((rout) => (
-      <Route key={rout.id} path={rout.path} exact component={rout.component} />
-    ));
-
+ 
   return (
     <>
       <ThemeProvider theme={theme}>
         <DashboardLayout>
           <DashboardNavbar />
-          {routs}
+          {props.children}
           <CssBaseline />
           <Sidenav
             color={sidenavColor}
@@ -62,7 +56,7 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
               name: r.name,
               key: r.name.toLowerCase(),
               icon: null,
-              route: r.path
+              route: r.path,
             }))}
           />
         </DashboardLayout>
