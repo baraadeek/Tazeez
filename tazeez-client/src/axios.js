@@ -1,4 +1,5 @@
 import axios from "axios";
+import { LOCAL_STORAGE_KEYS } from "common/constants/constants";
 
 
 export const axiosAPI = axios.create({
@@ -6,7 +7,7 @@ export const axiosAPI = axios.create({
   headers : {
     "Content-Type": "application/json",
     Accept: "application/json",
-    Authorization:`${localStorage.getItem("token")}`
+    Authorization:`${localStorage.getItem(LOCAL_STORAGE_KEYS.token)}`
   }
 });
 
