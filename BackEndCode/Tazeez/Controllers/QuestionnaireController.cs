@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tazeez.Core.Managers.Questionnaires;
-using Tazeez.Core.Managers.Users;
 using Tazeez.Infrastructure;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
