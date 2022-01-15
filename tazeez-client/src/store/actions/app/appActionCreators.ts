@@ -3,8 +3,8 @@ import { AppActionTypesEnum, MessageTypesEnum } from "./appActionTypes";
 import { AxiosPromise, AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { HttpMethods } from "common/constants/httpMethods";
-import { store } from "index";
 import { axiosAPI } from "../../../axios";
+import { store } from "store/configureStore";
 
 export function purgeApp() {
   const payload = { type: AppActionTypesEnum.PURGE };
