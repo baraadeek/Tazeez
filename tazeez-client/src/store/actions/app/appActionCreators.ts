@@ -1,10 +1,13 @@
-import { PURGE } from "./appActionTypes";
+import { AppActionTypesEnum, MessageTypesEnum } from "./appActionTypes";
 // import { MESSAGE_TYPES } from "constants/constants";
-import axios from "axios";
+import { AxiosPromise, AxiosResponse } from "axios";
 import { Dispatch } from "react";
+import { HttpMethods } from "common/constants/httpMethods";
+import { store } from "index";
+import { axiosAPI } from "../../../axios";
 
 export function purgeApp() {
-  const payload = { type: PURGE };
+  const payload = { type: AppActionTypesEnum.PURGE };
   return (dispatch: Dispatch<typeof payload>) => {
     dispatch(payload);
   };
@@ -52,19 +55,6 @@ export function purgeApp() {
 //   };
 // }
 
-export const dispatchWhenSuccess = (actionType: string, data: any) => {
-  return {
-    type: actionType + "_SUCCESS",
-    data: data,
-  };
-};
-
-export const dispatchWhenFailure = (actionType: string, err: any) => {
-  return {
-    type: actionType + "_FAILURE",
-  };
-};
-
 export type IAPICaller = {
   method: "put" | "get" | "delete" | "options" | "post" | "head";
   url: string;
@@ -73,26 +63,100 @@ export type IAPICaller = {
   onStart?: () => void;
   onSuccess?: (res: any) => void;
   onFailure?: (err: any) => void;
-};
+}; 
 
-export const apiCaller = (
-  { method, url, data, actionType, onStart, onSuccess, onFailure }: IAPICaller,
-  rest: any
-) => {
-  return async (dispatch: Dispatch<any>) => {
-    onStart && onStart();
-
-    return new Promise((resolve) => {
-      return axios[method](url, data)
-        .then((res) => {
-          resolve(res);
-          dispatch(dispatchWhenSuccess(actionType, res.data));
-          onSuccess && onSuccess(res);
-        })
-        .catch((err: any) => {
-          dispatch(dispatchWhenFailure(actionType, err));
-          onFailure && onFailure(err);
-        });
+export function showSuccessMessage(message: string, timeout?: number) {
+  return (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: AppActionTypesEnum.SHOW_MESSAGE,
+      payload: {
+        snackbarMessageType: MessageTypesEnum.SUCCESS,
+        snackbarMessage: message,
+        snackbarTimeout: timeout,
+      },
     });
   };
+}
+
+export function showErrorMessage(message: string | any) {
+  return (dispatch: Dispatch<any>) => {
+    dispatch({
+      type: AppActionTypesEnum.SHOW_MESSAGE,
+      payload: {
+        snackbarMessageType: MessageTypesEnum.ERROR,
+        snackbarMessage: message,
+      },
+    });
+  };
+}
+
+const dispatchWhenSuccess = (actionType: string, data?: any, rest?: any) => {
+  return {
+    type: actionType + "_SUCCESS",
+    payload: data,
+    ...rest,
+  };
 };
+
+const dispatchWhenFailure = (
+  dispatch: Dispatch<any>,
+  actionType: string,
+  err?: IHttpError,
+  rest?: any
+) => {
+  const errMsg = `${err?.message} (${err?.status})` || "Something went wrong";
+
+  dispatch(showErrorMessage(errMsg));
+
+  return {
+    type: actionType + "_FAILURE",
+    ...rest,
+  };
+};
+
+interface IHttpError {
+  status: number;
+  message: string;
+}
+
+interface IApiCallerParams {
+  method: HttpMethods;
+  url: string;
+  data?: any;
+  actionType: string;
+  successMsg?: string;
+  // onStart?: Function;
+  // onSuccess?: Function;
+  // onFailure?: Function;
+}
+
+export function apiCaller<Type = any>(
+  apiCallerParam: IApiCallerParams,
+  rest?: any
+) {
+  return store.dispatch(apiCallerDis(apiCallerParam, rest)) as AxiosPromise<Type>;
+}
+
+export function apiCallerDis(apiCallerParam: IApiCallerParams, rest?: any) {
+  const { method, url, data, actionType, successMsg } = apiCallerParam;
+
+  return async (dispatch: Dispatch<any>): Promise<any> => {
+    try {
+      const response: AxiosResponse = await axiosAPI[method](url, data, {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+
+      !!successMsg && dispatch(showSuccessMessage(successMsg));
+      dispatch(dispatchWhenSuccess(actionType, response.data, { ...rest }));
+
+      return response;
+    } catch (error: any) {
+      const errorObj: IHttpError = error?.message;
+      dispatch(dispatchWhenFailure(dispatch, actionType, errorObj));
+      throw errorObj;
+    }
+  };
+}
