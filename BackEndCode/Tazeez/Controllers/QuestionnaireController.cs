@@ -22,6 +22,16 @@ namespace Tazeez.Controllers
             _questionnaireManager = questionnaireManager;
         }
 
+        [Route("api/v{version:apiVersion}/questionnaire")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult CraeteQuestionnaire(CreateQuestionnaireRequest createQuestionnaire)
+        {
+            _questionnaireManager.CraeteQuestionnaire(LoggedInUser, createQuestionnaire);
+            return Ok();
+        }
+        
         [Route("api/v{version:apiVersion}/questionnairetemplate")]
         [HttpPut]
         [MapToApiVersion("1")]

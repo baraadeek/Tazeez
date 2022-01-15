@@ -70,7 +70,27 @@ namespace Tazeez.Core.Managers.Users
             Log.Information($"Finish GetDoctor for doctorId => {doctorId}");
             return _mapper.Map<DoctorModel>(doctor);
         }
-        
+
+        public PagedResult<SearchUserModel> SearchUsers(UserModel currentUser, int page = 1, int pageSize = 10, string searchText = "")
+        {
+            Log.Information($"Inside SearchUsers => page => {page}, pageSize => {pageSize}");
+
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to search on system users");
+            }
+
+            var users = _context.User
+                                .Where(a => (string.IsNullOrWhiteSpace(searchText)
+                                            || (a.Email.Contains(searchText, StringComparison.InvariantCultureIgnoreCase))
+                                            || ((a.FirstName.Replace(" ", string.Empty) +
+                                                a.LastName.Replace(" ", string.Empty)).Contains(searchText, StringComparison.InvariantCultureIgnoreCase))))
+                                .GetPaged(page, pageSize);
+
+            Log.Information($"Finish SearchUsers => page => {page}, pageSize => {pageSize}");
+            return _mapper.Map<PagedResult<SearchUserModel>>(users);
+        }
+
         public PagedResult<DoctorModel> GetDoctors(int page = 1, int pageSize = 10)
         {
             Log.Information($"Inside GetDoctor => page => {page}, pageSize => {pageSize}");

@@ -11,8 +11,10 @@ namespace Tazeez.Core.Mapper
         public Mapping()
         {
             CreateMap<PagedResult<Doctor>, PagedResult<DoctorModel>>().ReverseMap();
+            CreateMap<PagedResult<User>, PagedResult<SearchUserModel>>().ReverseMap();
             CreateMap<Doctor, DoctorModel>().ReverseMap();
             CreateMap<User, UserModel>().ReverseMap();
+            CreateMap<User, SearchUserModel>().ReverseMap();
             CreateMap<User, LoginResponse>().ReverseMap();
             CreateMap<ContactRequest, ContactRequestModel>().ReverseMap();
             CreateMap<QuestionnaireTemplate, QuestionnaireTemplateModel>().ReverseMap();
