@@ -38,6 +38,8 @@ namespace Tazeez.Core.Managers.Users
         /// <returns></returns>
         PagedResult<DoctorModel> GetDoctors(int page = 1, int pageSize = 10);
 
+        PagedResult<SearchUserModel> SearchUsers(UserModel currentUser, int page = 1, int pageSize = 10, string searchText = "");
+
         /// <summary>
         /// Archived doctor
         /// </summary>
