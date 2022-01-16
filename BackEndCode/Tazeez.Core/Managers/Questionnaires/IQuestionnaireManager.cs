@@ -16,6 +16,8 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                                     string sortColumn = "",
                                                                     string sortDirection = "");
 
+        QuestionnaireQuestionResponse GetQuestionnaireQuestions(UserModel currentUser, int id, int questionId);
+
         void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire);
 
         QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);

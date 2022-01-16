@@ -72,6 +72,102 @@ namespace Tazeez.Core.Managers.Questionnaires
             _context.SaveChanges();
         }
 
+        public QuestionnaireQuestionResponse GetQuestionnaireQuestions(UserModel currentUser, int id, int questionId)
+        {
+            Log.Information($"Inside GetAssessmentQuestions assessmentId => {id}");
+
+            _context.IsIgnoreQuestionnaireTemplate = true;
+
+            var assessment = _context.Questionnaire
+                                     .Include("User")
+                                     .Include("QuestionnaireGroup")
+                                     .FirstOrDefault(a => a.Id == id
+                                                             && (a.UserId == currentUser.Id || currentUser.IsAdmin));
+
+            if (assessment == null)
+            {
+                throw new ServiceValidationException("Questionnaire not found");
+            }
+
+            var isUserHasFullAccess = assessment.UserId == currentUser.Id || currentUser.IsAdmin;
+
+            var assessmentQuestionBriefs = _context.QuestionnaireQuestion
+                                                   .Where(a => a.QuestionnaireId == id)
+                                                   .OrderBy(a => a.QuestionnaireTemplateQuesion.DisplayOrder)
+                                                   .Select(q => new QuestionnaireQuestionBrief
+                                                   {
+                                                       QuestionId = q.Id,
+                                                       Status = (AssessmentQuestionStatusEnum)q.Status,
+                                                       DisplayOrder = q.QuestionnaireTemplateQuesion.DisplayOrder,
+                                                       IsOptional = q.QuestionnaireTemplateQuesion.IsOptional
+                                                   })
+                                                   .ToList();
+
+            if (assessmentQuestionBriefs.Count == 0)
+            {
+                if (isUserHasFullAccess)
+                {
+                    return new QuestionnaireQuestionResponse
+                    {
+                        Question = ""
+                    };
+                }
+
+                throw new ServiceValidationException("You have no permission to view this question");
+            }
+
+            QuestionnaireQuestionBrief currentQuestion = null;
+            int previousQuestionId = 0;
+            int nextQuestionId = 0;
+            if (questionId == 0)
+            {
+                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(a => a.Status == (int)AssessmentQuestionStatusEnum.Open);
+                if (currentQuestion == null)
+                {
+                    currentQuestion = assessmentQuestionBriefs.FirstOrDefault();
+                }
+            }
+            else
+            {
+                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(q => q.QuestionId == questionId);
+            }
+
+            var currentQuestionIndex = assessmentQuestionBriefs.IndexOf(currentQuestion);
+            questionId = currentQuestion.QuestionId;
+            previousQuestionId = currentQuestionIndex > 0 ? assessmentQuestionBriefs[currentQuestionIndex - 1].QuestionId : 0;
+            nextQuestionId = currentQuestionIndex >= assessmentQuestionBriefs.Count - 1 ? 0 : assessmentQuestionBriefs[currentQuestionIndex + 1].QuestionId;
+            
+            var response = new QuestionnaireQuestionResponse
+            {
+                PreviousQuestionId = previousQuestionId,
+                NextQuestionId = nextQuestionId,
+                CurrentQuestionIndex = currentQuestionIndex + 1,
+                NumberOfQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)AssessmentQuestionStatusEnum.Open),
+                NumberOfAllQuestions = assessmentQuestionBriefs.Count,
+                OwnerId = assessment.UserId,
+                Question = "",
+                UserName = $"{assessment.User.FirstName} {assessment.User.LastName}" 
+            };
+
+            if (assessment.Status == (int)AssessmentStatusEnum.Completed)
+            {
+                response.NumberOfAnsweredQuestions = response.NumberOfQuestions;
+            }
+            else
+            {
+                response.NumberOfAnsweredQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)AssessmentQuestionStatusEnum.Open);
+                response.NumberOfNotAnsweredQuestions = _context.QuestionnaireQuestion
+                                                                .Count(a => a.QuestionnaireId == assessment.Id
+                                                                            && a.Status == (int)AssessmentQuestionStatusEnum.Open);
+            }
+
+
+            response.AssessmentStatus = assessment.Status;
+
+            Log.Information($"Finish GetAssessmentQuestions assessmentId => {id}");
+            return response;
+        }
+
         public PagedResult<QuestionnaireResponse> GetQuestionnaires(UserModel currentUser,
                                                                     int page = 1,
                                                                     int pageSize = 10,
