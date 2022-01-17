@@ -1,4 +1,5 @@
 import Doctors from "views/doctor";
+import ProfileDoctor from "views/examples/home/doctor/components/Profile-doctor";
 import Auth from "views/layouts/Auth";
 import QuestionList from "views/question/components/question-list";
 import Templates from "views/template";
@@ -38,6 +39,15 @@ export const normalRoutes: IRoute[] = [
     component: SignUp,
     isMain: true,
     isHidden: false,
+  },
+   {
+    name: ROUTES_NAME_ENUM.Doctor,
+    path: ROUTES_PATH_ENUM.Doctor,
+    component: ProfileDoctor,
+    isMain: true,
+    isHidden: false,
+
+    
   },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 

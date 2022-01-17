@@ -29,23 +29,13 @@ import i18n from "i18n/i18n";
 // } fromp "core-components/page-direction/enum/enum";
 
 const AuthNavbar = () => {
-  const {t} = useTranslation(namespaces.common);
+  const { t } = useTranslation(namespaces.pages.authNavbar);
+
   const data =
     localStorage.getItem("login") &&
     JSON.parse(localStorage.getItem("login"))?.response;
 
-  // const pageDirection = useSelector(
-  //   (state) => state.pageDirection.pageDirection
-  // );
-
-  // let isAR = pageDirection === PAGE_DIRECTION.ar.key;
   let isAR = false;
-
-  const dispatch = useDispatch();
-
-  // function onPageDirection(language) {
-  //   dispatch(setPageDirection(language));
-  // }
 
   const history = useHistory();
 
@@ -126,7 +116,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                  {t(translationKeys.common.homePage)}
+                    {t(translationKeys.pages.authNavbar.homePage)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -138,8 +128,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                  {t(translationKeys.common.about)}
-
+                    {t(translationKeys.pages.authNavbar.about)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -151,7 +140,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "الخدمات" : "Services"}
+                    {t(translationKeys.pages.authNavbar.services)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -163,7 +152,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "الدكاترة" : "Doctors"}
+                    {t(translationKeys.pages.authNavbar.doctors)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -175,7 +164,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "مدونة" : "Blog"}
+                    {t(translationKeys.pages.authNavbar.blog)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -187,7 +176,7 @@ const AuthNavbar = () => {
                   {...navLinkProps}
                 >
                   <span className="nav-link-inner--text">
-                    {isAR ? "التواصل" : "Contact"}
+                    {t(translationKeys.pages.authNavbar.contact)}
                   </span>
                 </NavLink>
               </NavItem>
@@ -210,7 +199,7 @@ const AuthNavbar = () => {
                     tag={Link}
                   >
                     <span className="nav-link-inner--text">
-                      {isAR ? "تسجيل الدخول" : "Login"}
+                      {t(translationKeys.pages.authNavbar.login)}
                     </span>
                   </NavLink>
                 )}

@@ -38,3 +38,12 @@ export const getUsersAPI = async (data) => {
 
   return response;
 };
+
+export const getUserAPI = async (data) => {
+  const endpoint = { ...END_POINTS.user };
+  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  endpoint.data = data;
+  const response = await axiosAPI(endpoint);
+
+  return response;
+};
