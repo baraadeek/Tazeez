@@ -22,8 +22,19 @@ import translationKeys from "../translationKeys";
     [translationKeys.pages.login.enterPassword]: "أدخل الرقم السري",
     [translationKeys.pages.login.enterFirstName]: "الاسم الاول",
      [translationKeys.pages.login.enterLastName]: "الاسم الاخير",
-    [translationKeys.pages.login.alreadyAccount]: "هل لديك حساب؟"
+    [translationKeys.pages.login.alreadyAccount]: "هل لديك حساب؟",
+        [translationKeys.pages.login.homePage]:"الصفحة الرئيسية",
 
+
+   },
+  [namespaces.pages.authNavbar]:{
+    [translationKeys.pages.authNavbar.login]: "تسجيل دخول",
+   [translationKeys.pages.authNavbar.homePage]:  "الصفحة الرئيسية",
+    [translationKeys.pages.authNavbar.about]: "حول",
+     [translationKeys.pages.authNavbar.blog]: "مدونة",
+                [translationKeys.pages.authNavbar.contact]: "تواصل",
+                [translationKeys.pages.authNavbar.doctors]: "الدكاترة",
+                                [translationKeys.pages.authNavbar.services]: "الخدمات",
 
   }
 }; 

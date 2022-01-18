@@ -130,9 +130,6 @@ const Modal = (props) => {
           {closeButton ? closeButtonIcon : null}
         </Grid>
       </Box>
-      <Grid sm={12}>
-        <Divider />
-      </Grid>
     </DialogTitle>
   );
 

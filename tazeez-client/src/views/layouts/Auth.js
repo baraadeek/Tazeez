@@ -16,7 +16,7 @@
 
 */
 import React from "react";
-import { useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 // reactstrap components
 import "assets/plugins/nucleo/css/nucleo.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -24,12 +24,12 @@ import "assets/scss/argon-dashboard-react.scss";
 
 import NewsletterForm from "views/examples/Common/NewsletterForm";
 import LatestBlogPost from "views/examples/Common/LatestBlogPost";
-import OurDoctors from "views/examples/Common/OurDoctors";
 import HeroSlider from "views/examples/HomeOne/HeroSlider";
 import Stats from "views/examples/HomeOne/Stats";
 import AboutSection from "views/examples/HomeOne/AboutSection";
 import Services from "views/examples/HomeOne/Services";
 import OurExpertise from "views/examples/HomeOne/OurExpertise";
+import OurDoctors from "views/examples/home/doctor/components/OurDoctors";
 
 const Auth = (props) => {
   return (

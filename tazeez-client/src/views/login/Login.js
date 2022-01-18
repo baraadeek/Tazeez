@@ -38,7 +38,7 @@ export default function Login() {
       <PageBanner
         pageTitle={t(translationKeys.pages.login.login)}
         homePageUrl="/"
-        homePageText={t(translationKeys.common.homePage)}
+        homePageText={t(translationKeys.pages.login.homePage)}
         activePageText={t(translationKeys.pages.login.login)}
         bgImage="page-title-one"
       />
@@ -54,7 +54,7 @@ export default function Login() {
             <div className="col-lg-6 ptb-100">
               <div className="signup-item">
                 <div className="signup-head">
-                  <h2>{t("signIn")}</h2>
+                  <h2>{t(translationKeys.pages.login.login)}</h2>
                   <p>
                     {t("createAccount")} <Link to="/signUp">{t("signUp")}</Link>
                   </p>
@@ -109,7 +109,7 @@ export default function Login() {
                             {formState.isSubmitting ? (
                               <Spinner animation="border" variant="light" />
                             ) : (
-                              t("signIn")
+                              t(translationKeys.pages.login.login)
                             )}
                           </button>
                         </div>
