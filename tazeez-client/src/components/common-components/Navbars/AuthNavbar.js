@@ -15,20 +15,22 @@ import AvatarWithText from "views/examples/avatar/Avatar";
 
 import Logo from "views/examples/images/logo.png";
 import Reorder from "@material-ui/icons/Reorder";
-import { useDispatch } from "react-redux";
 // import { setPageDirection } from "core-components/page-direction/slice/page-direction";
-import { useSelector } from "react-redux";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import { languages, namespaces } from "i18n/i18n.constants";
 import { useTranslation } from "react-i18next";
 import translationKeys from "i18n/locales/translationKeys";
 import i18n from "i18n/i18n";
+import { setDirection } from "context";
+import { useDispatch } from "react-redux";
+
 // import {
 //   PAGE_DIRECTION,
 //   disabledOnly,
 // } fromp "core-components/page-direction/enum/enum";
 
 const AuthNavbar = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation(namespaces.pages.authNavbar);
 
   const data =
@@ -88,6 +90,7 @@ const AuthNavbar = () => {
                           onClick={(e) => {
                             i18n.changeLanguage(languages.ar);
                             // onPageDirection("ar"); // rtl
+                            setDirection(dispatch, "rtl");
                           }}
                         >
                           AR
@@ -99,6 +102,8 @@ const AuthNavbar = () => {
                           to=""
                           onClick={(e) => {
                             i18n.changeLanguage(languages.en);
+                            setDirection(dispatch, "ltr");
+
                           }}
                         >
                           EN
