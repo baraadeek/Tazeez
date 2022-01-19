@@ -2,7 +2,7 @@ import { Action } from "redux";
 
 export interface IAppReducerAction extends Action {
   type: string;
-  value: any;
+  value: any | string | "rtl" | "ltr";
 }
 
 const initialState = {
@@ -18,12 +18,23 @@ const initialState = {
   darkMode: false,
 };
 
-export type IAppReducerState = typeof initialState;
+export type IAppReducerState = {
+  miniSidenav: boolean;
+  transparentSidenav: boolean;
+  whiteSidenav: boolean;
+  sidenavColor: string;
+  transparentNavbar: boolean;
+  fixedNavbar: boolean;
+  openConfigurator: boolean;
+  direction: "ltr" | "rtl";
+  layout: string;
+  darkMode: boolean;
+};
 
 export default function appReducer(
   state = initialState,
   action: IAppReducerAction
-): IAppReducerState {
+) {
   switch (action.type) {
     case "MINI_SIDENAV": {
       return { ...state, miniSidenav: action.value };
@@ -47,14 +58,15 @@ export default function appReducer(
       return { ...state, openConfigurator: action.value };
     }
     case "DIRECTION": {
-      return { ...state, direction: action.value };
+      return { ...state, direction: action.value as "rtl" | "ltr" };
     }
     case "LAYOUT": {
       return { ...state, layout: action.value };
     }
     case "DARKMODE": {
-      return { ...state, darkMode: action.value };
+      return { ...state, darkMode: action.value as boolean };
     }
-    default: return state;
+    default:
+      return state;
   }
 }
