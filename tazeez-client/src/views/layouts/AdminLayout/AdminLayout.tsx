@@ -3,12 +3,6 @@ import * as React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider, EmotionCache } from "@emotion/react";
-import createCache from "@emotion/cache";
-import { useMaterialUIController } from "context";
-
 // Material Dashboard 2 React example components
 import Sidenav from "examples/Sidenav";
 
@@ -17,8 +11,6 @@ import theme from "assets/theme";
 import { IRoute } from "routes/routes";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import AuthNavbar from "components/common-components/Navbars/AuthNavbar";
-import { IAppReducerState } from "store/reducers/appReducer";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "store/reducers/rootReducer";
 
@@ -37,7 +29,6 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <AuthNavbar />
         <DashboardLayout>
           <DashboardNavbar />
           {props.children}
