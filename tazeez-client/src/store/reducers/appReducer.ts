@@ -18,6 +18,8 @@ const initialState = {
   darkMode: false,
 };
 
+export type IAppDirection = "rtl" | "ltr";
+
 export type IAppReducerState = {
   miniSidenav: boolean;
   transparentSidenav: boolean;
@@ -26,7 +28,7 @@ export type IAppReducerState = {
   transparentNavbar: boolean;
   fixedNavbar: boolean;
   openConfigurator: boolean;
-  direction: "ltr" | "rtl";
+  direction: IAppDirection;
   layout: string;
   darkMode: boolean;
 };
@@ -58,7 +60,7 @@ export default function appReducer(
       return { ...state, openConfigurator: action.value };
     }
     case "DIRECTION": {
-      return { ...state, direction: action.value as "rtl" | "ltr" };
+      return { ...state, direction: action.value as IAppDirection };
     }
     case "LAYOUT": {
       return { ...state, layout: action.value };
