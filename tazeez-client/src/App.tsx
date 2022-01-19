@@ -2,7 +2,7 @@ import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 // import routes from "./routes/routes";
 import React, { useEffect, useMemo, useState } from "react";
-import { useSelector } from "react-redux";
+import {  useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
 import { normalRoutes, authRoutes } from "routes/routes";
 
@@ -10,7 +10,6 @@ import { normalRoutes, authRoutes } from "routes/routes";
 import rtlPlugin from "stylis-plugin-rtl";
 import { EmotionCache } from "@emotion/react";
 import createCache from "@emotion/cache";
-import { useMaterialUIController } from "context";
 
 // Material Dashboard 2 React themes
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
@@ -19,13 +18,11 @@ import AdminLayout from "views/layouts/AdminLayout/AdminLayout";
 // import themeRTL from "assets/theme/theme-rtl";
 
 function App() {
-  const [controller, dispatch] = useMaterialUIController();
+  const direction = useSelector<IRootReducer, string>(
+    (state) => state.app.direction
+  );
   // const { t } = useTranslation(namespaces.pages.home);
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
-  const [rtlCache, setRtlCache] = useState<EmotionCache | null>(null);
-
-  const { direction } = controller;
+  const [, setRtlCache] = useState<EmotionCache | null>(null);
 
   // Cache for the rtl
   useMemo(() => {
