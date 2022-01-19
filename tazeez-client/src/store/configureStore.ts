@@ -19,7 +19,7 @@ const logger = (store: any) => {
 const persistConfig:PersistConfig<any> = {
   key: LOCAL_STORAGE_KEYS.persistedRoot,
   storage,
-whitelist:["auth"]
+whitelist:["auth", "app"]
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
