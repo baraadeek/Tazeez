@@ -1,3 +1,4 @@
+import { AppDirectionEnum } from "common/constants/directionEnum";
 import { Action } from "redux";
 
 export interface IAppReducerAction extends Action {
@@ -18,7 +19,6 @@ const initialState = {
   darkMode: false,
 };
 
-export type IAppDirection = "rtl" | "ltr";
 
 export type IAppReducerState = {
   miniSidenav: boolean;
@@ -28,7 +28,7 @@ export type IAppReducerState = {
   transparentNavbar: boolean;
   fixedNavbar: boolean;
   openConfigurator: boolean;
-  direction: IAppDirection;
+  direction: AppDirectionEnum;
   layout: string;
   darkMode: boolean;
 };
@@ -60,7 +60,7 @@ export default function appReducer(
       return { ...state, openConfigurator: action.value };
     }
     case "DIRECTION": {
-      return { ...state, direction: action.value as IAppDirection };
+      return { ...state, direction: action.value as AppDirectionEnum };
     }
     case "LAYOUT": {
       return { ...state, layout: action.value };
