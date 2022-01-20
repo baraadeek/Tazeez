@@ -13,6 +13,8 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "store/reducers/rootReducer";
+import { useIsRtl } from "common/hooks/appHooks";
+import themeRTL from "assets/theme/theme-rtl";
 
 // import themeRTL from "assets/theme/theme-rtl";
 
@@ -25,10 +27,11 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   const sidenavColor = useSelector<IRootReducer, string>(
     (state) => state.app.sidenavColor
   );
+  const isRtl = useIsRtl();
 
   return (
-    <>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={isRtl ? themeRTL : theme}>
+        <CssBaseline />
         <DashboardLayout>
           <DashboardNavbar />
           {props.children}
@@ -49,7 +52,6 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
           />
         </DashboardLayout>
       </ThemeProvider>
-    </>
   );
 };
 
