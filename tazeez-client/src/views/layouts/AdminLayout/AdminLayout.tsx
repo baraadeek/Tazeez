@@ -15,8 +15,12 @@ import { useSelector } from "react-redux";
 import { IRootReducer } from "store/reducers/rootReducer";
 import { useIsRtl } from "common/hooks/appHooks";
 import themeRTL from "assets/theme/theme-rtl";
+import { EmotionCache } from "@emotion/react";
 
-// import themeRTL from "assets/theme/theme-rtl";
+// RTL plugins
+import rtlPlugin from "stylis-plugin-rtl";
+import { CacheProvider } from "@emotion/react";
+import createCache from "@emotion/cache";
 
 interface IAdminLayoutProps {
   routes: IRoute[];
@@ -27,9 +31,25 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   const sidenavColor = useSelector<IRootReducer, string>(
     (state) => state.app.sidenavColor
   );
+  const [rtlCache, setRtlCache] = React.useState<EmotionCache>();
   const isRtl = useIsRtl();
 
+  // Cache for the rtl
+  React.useMemo(() => {
+    const cacheRtl = createCache({
+      key: "rtl",
+      //@ts-ignore
+      stylisPlugins: [rtlPlugin],
+    });
+
+    setRtlCache(cacheRtl);
+  }, []);
+
+  const Parent = isRtl ? CacheProvider : React.Fragment;
+
   return (
+    //@ts-ignore
+    <Parent value={rtlCache}>
       <ThemeProvider theme={isRtl ? themeRTL : theme}>
         <CssBaseline />
         <DashboardLayout>
@@ -52,6 +72,7 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
           />
         </DashboardLayout>
       </ThemeProvider>
+    </Parent>
   );
 };
 
