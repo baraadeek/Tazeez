@@ -10,7 +10,7 @@ export interface IAppReducerAction extends Action {
   payload: any;
 }
 
-export type IAppReducerState = {
+export type IAuthReducerState = {
   snackbarMessage?: string;
   snackbarMessageType?: string;
   snackbarTimeout: number;
@@ -20,7 +20,7 @@ export type IAppReducerState = {
   user: null | Omit<ILoginActionResponse, "token">;
 };
 
-const initialState: IAppReducerState = {
+const initialState: IAuthReducerState = {
   snackbarMessage: "",
   snackbarTimeout: 3000,
   snackbarMessageType: "",
@@ -30,10 +30,10 @@ const initialState: IAppReducerState = {
   user: null,
 };
 
-export default function appReducer(
+export default function authReducer(
   state = initialState,
   action: IAppReducerAction
-): IAppReducerState {
+): IAuthReducerState {
   switch (action.type) {
     case AppActionTypesEnum.SHOW_MESSAGE:
       return {
