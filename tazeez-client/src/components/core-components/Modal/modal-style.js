@@ -60,7 +60,7 @@ const ModalStyle = (theme) => ({
   rootDialogContent: {
     padding: "0px !important",
   },
-  rootDialogTitle: { padding: "0px 24px !important", height: 48 },
+  rootDialogTitle: { padding: "0px 16px !important", height: 48 },
   titleColor: ({ titleColor }) => titleColor,
   height: {
     height: 48,

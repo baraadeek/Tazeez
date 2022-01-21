@@ -317,16 +317,6 @@ export default function AddTemplateQuestion() {
                 </Grid>
                 <Grid container xs={12}>
                   <Grid item xs={12} className={classes.containerGridChoices}>
-                    <MDTypography
-                      type="h5"
-                      fontSize={16}
-                      className={classNames(
-                        classes.containerGridChoices,
-                        classes.marginBottom
-                      )}
-                    >
-                      Question Type:
-                    </MDTypography>
                     <Controller
                       name="questionnaireQuestionTypeId"
                       control={control}
@@ -353,6 +343,7 @@ export default function AddTemplateQuestion() {
                             <TextField
                               {...params}
                               minLength={1}
+                              label={"Question Type"}
                               variant="outlined"
                               InputProps={{
                                 ...params.InputProps,

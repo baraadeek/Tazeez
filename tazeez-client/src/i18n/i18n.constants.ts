@@ -2,7 +2,10 @@ export const namespaces = {
   pages: {
     home: "pages.home",
     login: "pages.login",
+    authNavbar:"pages.authNavbar"
   },
+  
+
   common: "common",
 };
 

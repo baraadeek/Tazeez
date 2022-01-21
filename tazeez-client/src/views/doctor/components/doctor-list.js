@@ -79,10 +79,14 @@ function DoctorList() {
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
         <Box display={"flex"} alignItems={"center"}>
-          <MDAvatar src={item.user.image} alt={item.user.fullName} size="sm" />
+          <MDAvatar
+            src={item?.user?.image}
+            alt={item?.user?.fullName}
+            size="sm"
+          />
           <Box display={"flex"} marginLeft={1} overflow={"hidden"}>
             <MDTypography overFlow type={"h4"} fontcolor={"gray"}>
-              {item.user.fullName}
+              {item?.user?.fullName}
             </MDTypography>
           </Box>
         </Box>

@@ -32,7 +32,6 @@ function QuestionList() {
   //#region hooks
   const classes = useStyle();
   let { id } = useParams();
-  const history = useHistory();
   const dispatch = useDispatch();
   //#endregion
 
@@ -56,7 +55,7 @@ function QuestionList() {
   }, []);
 
   async function dispatchGetQuestionListFunc() {
-    ThunkDispatch(getQuestionListThunk({ id: 1 }))
+    ThunkDispatch(getQuestionListThunk({ id }))
       .then((result) => {})
       .catch((error) => console.error("getQuestionListThunk", error))
       .finally(() => {});

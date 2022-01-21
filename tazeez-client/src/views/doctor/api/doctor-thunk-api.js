@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getUserAPI } from "views/examples/profile/api/user-api";
 
-import { addDoctorAPI, getDoctorListAPI, deleteDoctorAPI } from "./doctor-api";
+import {
+  addDoctorAPI,
+  getDoctorListAPI,
+  deleteDoctorAPI,
+  getUsersAPI,
+} from "./doctor-api";
 
 export const addDoctorThunk = createAsyncThunk(
   "doctor/addDoctor",
@@ -23,8 +29,26 @@ export const getDoctorListThunk = createAsyncThunk(
 export const deleteDoctorThunk = createAsyncThunk(
   "doctor/deleteDoctor",
   async (data, { dispatch }) => {
-    const response = await deleteDoctorAPI(data);
+    await deleteDoctorAPI(data);
 
     return data;
+  }
+);
+
+export const getUsersThunk = createAsyncThunk(
+  "doctor/getUsers",
+  async (data, { dispatch }) => {
+    const response = await getUsersAPI(data);
+
+    return response;
+  }
+);
+
+export const getUserThunk = createAsyncThunk(
+  "doctor/getUser",
+  async (data, { dispatch }) => {
+    const response = await getUserAPI(data);
+
+    return response;
   }
 );

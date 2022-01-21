@@ -13,7 +13,7 @@ export const getTemplateListAPI = async (data) => {
 
 export const addTemplateAPI = async (data) => {
   const endpoint = { ...END_POINTS.addQuestion };
-  endpoint.url = formatParameterizedURL(endpoint.url, data);
+  endpoint.url = endpoint.url.replace("{id}", "");
   endpoint.data = data;
   const response = await axiosAPI(endpoint);
 

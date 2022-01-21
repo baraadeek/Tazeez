@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { ThunkDispatch } from "thunk-dispatch";
 import { Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
@@ -23,7 +23,7 @@ import Slate from "components/core-components/TextEditor/uncontrolled-text-edite
 import { USERS } from "../enums";
 
 // API
-import { addDoctorThunk } from "../api/doctor-thunk-api";
+import { addDoctorThunk, getUsersThunk } from "../api/doctor-thunk-api";
 import { useSelector } from "react-redux";
 import { htmlToDraftJs } from "components/core-components/TextEditor/utils";
 
@@ -39,14 +39,32 @@ export default function DoctorModal(props) {
       htmlToDraftJs(doctor.description, editorRef);
     }
   }, []);
+
   const { control, errors, reset, handleSubmit } = useForm();
+  const usersList = useSelector((state) => state.doctor.users);
 
   const classes = useStyle();
 
   function getOptionLabel(option) {
-    return option?.title || "";
+    return option?.fullName || "";
   }
   const editorRef = React.useRef();
+
+  const getUsers = useCallback(dispatchGetUsersThunkFunc, []);
+
+  useEffect(
+    (_) => {
+      getUsers();
+    },
+    [getUsers]
+  );
+
+  async function dispatchGetUsersThunkFunc() {
+    ThunkDispatch(getUsersThunk())
+      .then((result) => {})
+      .catch((error) => console.error("getUsersThunk", error))
+      .finally(() => {});
+  }
 
   const handleOnSubmit = (data) => {
     const item = {
@@ -155,7 +173,7 @@ export default function DoctorModal(props) {
                     onChange={(_, data) => {
                       onChange(data);
                     }}
-                    options={USERS.map((option) => option)}
+                    options={usersList.map((option) => option)}
                     renderInput={(params) => (
                       <TextField
                         {...params}
