@@ -71,7 +71,7 @@ function Overview() {
           <Grid item xs={12} md={12} xl={12}>
             {user ? (
               <Form onSubmit={handleSubmit(onSubmit)}>
-                <CardHeader className="bg-white border-0">
+                <div style={{ marginTop: 8 }} className="bg-white border-0">
                   <Row className="align-items-center">
                     <Col xs="8">
                       <MDTypography
@@ -88,7 +88,7 @@ function Overview() {
                       </MDButton>
                     </Col>
                   </Row>
-                </CardHeader>
+                </div>
                 <div className="pl-lg-4">
                   <Row>
                     <Col lg="6">

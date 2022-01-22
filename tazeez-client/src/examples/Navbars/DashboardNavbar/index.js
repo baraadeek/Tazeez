@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 // react-router components
-import { useLocation } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -99,8 +99,8 @@ function DashboardNavbar({ absolute, light, isMini }) {
     setOpenConfigurator(dispatch, !openConfigurator);
   const classes = useStyle();
   const user = useSelector((state) => state.auth.user);
-  console.log("🚀 ~ file: index.js ~ line 104 ~ DashboardNavbar ~ user", user);
   const [anchorEl, setAnchorEl] = useState(null);
+  const history = useHistory();
 
   const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover);
   const renderMenu = () => (
@@ -149,7 +149,13 @@ function DashboardNavbar({ absolute, light, isMini }) {
         <Divider className={classes.styleDivider} />
 
         <Divider className={classes.styleDivider} />
-        <MenuItem onClick={() => {}} className={dropdownItem}>
+        <MenuItem
+          onClick={() => {
+            history.push("/profile");
+            setAnchorEl(null);
+          }}
+          className={dropdownItem}
+        >
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>
