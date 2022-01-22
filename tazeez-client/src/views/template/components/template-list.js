@@ -32,6 +32,7 @@ import {
 } from "../api/template-thunk-api";
 import Modal from "components/core-components/Modal/modal";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import MDButton from "components/core-components/MDButton";
 
 const useStyle = makeStyles(TemplateListStyle);
 
@@ -67,7 +68,7 @@ export default function TemplateList() {
 
   function onAddNewTemplate(params) {
     if (watch("title"))
-      ThunkDispatch(addTemplateThunk({ name: watch("title") ,}))
+      ThunkDispatch(addTemplateThunk({ name: watch("title") }))
         .then((result) => {
           setShow(false);
           reset();
@@ -137,13 +138,35 @@ export default function TemplateList() {
           </Grid>
         ) : templateList && templateList.length > 0 ? (
           <>
+            <Grid
+              container
+              direction="row"
+              justifyContent={"flex-end"}
+              alignItems="center"
+              spacing={1}
+              mr={2}
+              className={classes.gridButton}
+            >
+              <MDButton
+                type="submit"
+                className={classes.button}
+                onClick={() => setShow(true)}
+              >
+                Add New Template
+              </MDButton>
+            </Grid>
             {templateList.map((item) => {
               return (
                 <Grid item xl={3} md={4} sm={6} xs={12}>
                   <ComplexStatisticsCard
                     mr={2}
                     onClick={() => {
-                      history.push(ROUTES_PATH_ENUM.QuestionsTemplate.replace(":id", item.id));
+                      history.push(
+                        ROUTES_PATH_ENUM.QuestionsTemplate.replace(
+                          ":id",
+                          item.id
+                        )
+                      );
                     }}
                     icon={<DescriptionIcon />}
                     title={`${
@@ -159,15 +182,6 @@ export default function TemplateList() {
                 </Grid>
               );
             })}
-            <Grid item xl={3} md={4} sm={6} xs={12}>
-              <ComplexStatisticsCard
-                mr={0}
-                className={classes.card}
-                isCenter={true}
-                count={"Add New Template"}
-                onClick={() => setShow(true)}
-              />
-            </Grid>
           </>
         ) : (
           <Grid item xl={3} md={4} sm={6} xs={12}>

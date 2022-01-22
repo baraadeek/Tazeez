@@ -7,5 +7,5 @@ export enum ROUTES_PATH_ENUM {
   Questions = "/questions/:id",
   Doctors = "/doctors",
     Doctor = "/doctor/:id",
-
+Profile='/profile'
 }
