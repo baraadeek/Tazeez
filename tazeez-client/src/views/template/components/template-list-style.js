@@ -42,19 +42,12 @@ const TemplateListStyle = (theme) => ({
   },
   button: {
     textTransform: "capitalize",
-    display: "inline-block",
     fontSize: "15px",
-    color: "#ffffff !important",
-    backgroundColor: "#0046c0 !important",
     fontWeight: 500,
     padding: "8px 24px",
     marginBottom: 16,
     marginTop: 16,
     borderRadius: "4px",
-    "&:hover": {
-      color: "#0046c0 !important",
-      backgroundColor: "#111111 !important",
-    },
   },
   gridButton: {
     marginRight: 16,

@@ -142,7 +142,7 @@ function QuestionList() {
             {!false ? (
               <Table
                 renderDataTable={renderDataTable}
-                tableHead={COLUMNS}
+                tableHead={COLUMNS.map((q) => t(translationKeys.question[q]))}
                 tableData={questionList}
                 emptyTable={t(translationKeys.question.available)}
                 customCellClasses={[

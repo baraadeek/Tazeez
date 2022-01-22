@@ -31,6 +31,9 @@ import {
   navbarMobileMenu,
 } from "examples/Navbars/DashboardNavbar/styles";
 
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "i18n/locales/translationKeys";
 // Material Dashboard 2 PRO React context
 import {
   useMaterialUIController,
@@ -64,6 +67,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
     darkMode,
   } = controller;
   const route = useLocation().pathname.split("/").slice(1);
+  const { t } = useTranslation(namespaces.template);
 
   useEffect(() => {
     // Setting the navbar type
@@ -159,7 +163,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
           <ListItemIcon>
             <PersonIcon fontSize="small" />
           </ListItemIcon>
-          My Profile
+          {t(translationKeys.profile.myProfile)}
         </MenuItem>
 
         <Divider className={classes.styleDivider} />
@@ -167,7 +171,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
           <ListItemIcon>
             <ExitToAppIcon fontSize="small" />
           </ListItemIcon>
-          Log out
+          {t(translationKeys.profile.logOut)}
         </MenuItem>
       </MenuList>
     </Popover>

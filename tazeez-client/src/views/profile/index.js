@@ -18,6 +18,9 @@ import { getUserThunk, updateUserThunk } from "./api/user-thunk-api";
 import { makeStyles } from "@material-ui/core";
 import ProfileStyle from "./profile-style";
 import MDButton from "components/core-components/MDButton";
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
 
 const useStyles = makeStyles(ProfileStyle);
 
@@ -29,6 +32,7 @@ function Overview() {
   const auth = useSelector((state) => state.auth.user);
 
   const get = useCallback(dispatchGetFunc, []);
+  const { t } = useTranslation(namespaces.profile);
 
   useEffect(
     (_) => {
@@ -79,12 +83,17 @@ function Overview() {
                         fontWeight="medium"
                         textTransform="capitalize"
                       >
-                        User information
+                        {t(translationKeys.profile.userInformation)}
                       </MDTypography>
                     </Col>
                     <Col className="text-right" xs="4">
-                      <MDButton type="submit" className={classes.editProfile}>
-                        Edit Profile
+                      <MDButton
+                        type="submit"
+                        variant="contained"
+                        color="info"
+                        className={classes.editProfile}
+                      >
+                        {t(translationKeys.profile.editProfile)}
                       </MDButton>
                     </Col>
                   </Row>
@@ -98,7 +107,7 @@ function Overview() {
                           fontWeight="bold"
                           textTransform="capitalize"
                         >
-                          Email: &nbsp;
+                          {t(translationKeys.profile.email)} &nbsp;
                         </MDTypography>
 
                         <Input
@@ -119,7 +128,7 @@ function Overview() {
                           fontWeight="bold"
                           textTransform="capitalize"
                         >
-                          First name: &nbsp;
+                          {t(translationKeys.profile.firstName)} &nbsp;
                         </MDTypography>
 
                         <Controller
@@ -144,7 +153,7 @@ function Overview() {
                           fontWeight="bold"
                           textTransform="capitalize"
                         >
-                          Last name: &nbsp;
+                          {t(translationKeys.profile.lastName)} &nbsp;
                         </MDTypography>
 
                         <Controller
@@ -171,7 +180,7 @@ function Overview() {
                   fontWeight="medium"
                   textTransform="capitalize"
                 >
-                  Contact information
+                  {t(translationKeys.profile.contactInformation)}
                 </MDTypography>
 
                 <div className="pl-lg-4">
@@ -183,7 +192,7 @@ function Overview() {
                           fontWeight="bold"
                           textTransform="capitalize"
                         >
-                          City: &nbsp;
+                          {t(translationKeys.profile.city)} &nbsp;
                         </MDTypography>
                         <Controller
                           name="city"
@@ -208,7 +217,7 @@ function Overview() {
                           fontWeight="bold"
                           textTransform="capitalize"
                         >
-                          Phone Number: &nbsp;
+                          {t(translationKeys.profile.phoneNumber)} &nbsp;
                         </MDTypography>
                         <Controller
                           name="phoneNumber"

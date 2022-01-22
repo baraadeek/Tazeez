@@ -7,6 +7,8 @@ export const namespaces = {
   template: "template",
   question: "question",
   common: "common",
+  profile: "profile",
+  doctor: "doctor",
 };
 
 export const languages = {

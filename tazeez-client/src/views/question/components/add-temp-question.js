@@ -78,6 +78,7 @@ export default function AddTemplateQuestion() {
   };
   const dialogActions = [
     {
+      color: "info",
       name: t(translationKeys.question.close),
       onClick: () => {
         setShow(false);

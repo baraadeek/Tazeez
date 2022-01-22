@@ -20,7 +20,7 @@ import MDBox from "components/core-components/MDBox";
 import MDAvatar from "components/core-components/MDAvatar";
 import { useSelector } from "react-redux";
 import { userSelectors } from "views/profile/selectors/user-selectors";
-import Profile from "../../profile.png";
+import Account from "./account.png";
 
 // Images
 
@@ -108,7 +108,8 @@ function Header({ children, onChange }) {
               }}
             >
               <MDAvatar
-                src={(image.length ? image : user?.image) || Profile}
+                bgColor="greyLight"
+                src={(image.length ? image : user?.image) || Account}
                 alt="profile-image"
                 size="xl"
                 shadow="sm"

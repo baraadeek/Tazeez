@@ -1,12 +1,12 @@
 export const COLUMNS = [
-  "Order",
-  "Question Name",
-  "Question Type",
-  "Created",
-  "Due Date",
-  "Score",
-  "Choices",
-  "Optional",
+  "order",
+  "questionName",
+  "questionType",
+  "created",
+  "lastUpdated",
+  "score",
+  "choice",
+  "optional",
 ];
 
 export const QUESTION_TYPE_ID = {

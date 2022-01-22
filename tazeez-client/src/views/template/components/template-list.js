@@ -115,6 +115,7 @@ export default function TemplateList() {
           variant={"delete"}
           dialogActions={[
             {
+              color: "info",
               name: t(translationKeys.template.close),
               onClick: () => setShow(false),
             },
@@ -158,6 +159,8 @@ export default function TemplateList() {
               <MDButton
                 type="submit"
                 className={classes.button}
+                variant="contained"
+                color="info"
                 onClick={() => setShow(true)}
               >
                 {t(translationKeys.template.add)}
