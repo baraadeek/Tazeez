@@ -50,6 +50,10 @@ import adminNavbarLinksStyle from "./adminNavbarLinksStyle";
 import { useSelector } from "react-redux";
 import UserAvatar from "components/core-components/user-avatar/UserAvatar";
 import classNames from "classnames";
+import { useIsRtl } from "common/hooks/appHooks";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import { purgeApp } from "store/actions/app/appActionCreators";
+import { logOutActionPayload } from "store/actions/auth/authActionsCreators";
 
 const useStyle = makeStyles(adminNavbarLinksStyle);
 
@@ -101,77 +105,88 @@ function DashboardNavbar({ absolute, light, isMini }) {
   const user = useSelector((state) => state.auth.user);
   const [anchorEl, setAnchorEl] = useState(null);
   const history = useHistory();
+  const isRtl = useIsRtl();
 
   const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover);
-  const renderMenu = () => (
-    <Popover
-      classes={{ paper: classes.color }}
-      onDismiss={() => {
-        setAnchorEl(null);
-      }}
-      onClose={() => {
-        setAnchorEl(null);
-      }}
-      open={!!anchorEl}
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-    >
-      <MenuList role="menu" className={classes.paddingMenuList}>
-        <Grid
-          container
-          item
-          direction="row"
-          alignItems="center"
-          className={classes.paddingGrid}
-        >
-          <Grid item marginRight={12}>
-            <UserAvatar
-              showName
-              users={[user]}
-              showFullName
-              size="xl"
-              typographyType={"h1"}
-            />
-          </Grid>
-          <Grid item>
-            <MDTypography className={classes.typographyFont} heading={3}>
-              {`${user?.firstName} ${user?.lastName}`}
-            </MDTypography>
-          </Grid>
-        </Grid>
-        <Divider className={classes.styleDivider} />
 
-        <Divider className={classes.styleDivider} />
-        <MenuItem
-          onClick={() => {
-            history.push("/profile");
-            setAnchorEl(null);
-          }}
-          className={dropdownItem}
-        >
-          <ListItemIcon>
-            <PersonIcon fontSize="small" />
-          </ListItemIcon>
-          My Profile
-        </MenuItem>
+  const onLogout = () => {
+    dispatch(purgeApp());
+    dispatch(logOutActionPayload())
+    history.push(ROUTES_PATH_ENUM.Home);
+  };
 
-        <Divider className={classes.styleDivider} />
-        <MenuItem onClick={() => {}} className={dropdownItem}>
-          <ListItemIcon>
-            <ExitToAppIcon fontSize="small" />
-          </ListItemIcon>
-          Log out
-        </MenuItem>
-      </MenuList>
-    </Popover>
-  );
+  const renderMenu = () => {
+    const horizontal = isRtl ? "left" : "right";
+    return (
+      <Popover
+        classes={{ paper: classes.color }}
+        onDismiss={() => {
+          setAnchorEl(null);
+        }}
+        onClose={() => {
+          setAnchorEl(null);
+        }}
+        open={!!anchorEl}
+        anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "top",
+          horizontal: horizontal,
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: horizontal,
+        }}
+      >
+        <MenuList role="menu" className={classes.paddingMenuList}>
+          <Grid
+            container
+            item
+            direction="row"
+            alignItems="center"
+            className={classes.paddingGrid}
+          >
+            <Grid item marginRight={12}>
+              <UserAvatar
+                showName
+                users={[user]}
+                showFullName
+                size="xl"
+                typographyType={"h1"}
+              />
+            </Grid>
+            <Grid item>
+              <MDTypography className={classes.typographyFont} heading={3}>
+                {`${user?.firstName} ${user?.lastName}`}
+              </MDTypography>
+            </Grid>
+          </Grid>
+          <Divider className={classes.styleDivider} />
+
+          <Divider className={classes.styleDivider} />
+          <MenuItem
+            onClick={() => {
+              history.push(ROUTES_PATH_ENUM.Profile);
+              setAnchorEl(null);
+            }}
+            className={dropdownItem}
+          >
+            <ListItemIcon>
+              <PersonIcon fontSize="small" />
+            </ListItemIcon>
+            My Profile
+          </MenuItem>
+
+          <Divider className={classes.styleDivider} />
+          <MenuItem onClick={onLogout} className={dropdownItem}>
+            <ListItemIcon>
+              <ExitToAppIcon fontSize="small" />
+            </ListItemIcon>
+            Log out
+          </MenuItem>
+        </MenuList>
+      </Popover>
+    );
+  };
 
   // Styles for the navbar icons
   const iconsStyle = ({
