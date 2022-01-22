@@ -24,11 +24,16 @@ import { QUESTION_TYPE } from "../enums";
 
 // API
 import { addQuestionThunk } from "../api/question-thunk-api";
+import translationKeys from "i18n/locales/translationKeys";
+import { namespaces } from "i18n/i18n.constants";
+import { useTranslation } from "react-i18next";
 
 const useStyle = makeStyles(AddTempQuestionStyle);
 
 export default function AddTemplateQuestion() {
   const { control, errors, reset, handleSubmit, watch } = useForm();
+
+  const { t } = useTranslation(namespaces.question);
 
   const classes = useStyle();
 
@@ -73,7 +78,7 @@ export default function AddTemplateQuestion() {
   };
   const dialogActions = [
     {
-      name: "Close",
+      name: t(translationKeys.question.close),
       onClick: () => {
         setShow(false);
         reset();
@@ -82,7 +87,7 @@ export default function AddTemplateQuestion() {
       },
     },
     {
-      name: "Save",
+      name: t(translationKeys.question.save),
       variant: "contained",
       color: "info",
       type: "submit",
@@ -102,7 +107,7 @@ export default function AddTemplateQuestion() {
           >
             <Grid item>
               <MDTypography type="h5" fontSize={16} className={classes.Choice}>
-                Choice:
+                {t(translationKeys.question.choice)}
               </MDTypography>
             </Grid>
             <Grid item>
@@ -112,7 +117,7 @@ export default function AddTemplateQuestion() {
                 variant={"contained"}
                 color={"primary"}
               >
-                delete
+                {t(translationKeys.question.delete)}
               </MDButton>
             </Grid>
           </Grid>
@@ -139,7 +144,7 @@ export default function AddTemplateQuestion() {
         <Grid container xs={12}>
           <Grid item xs={6} className={classes.containerGridChoices}>
             <MDTypography type="h5" fontSize={16} className={classes.margin}>
-              Score choice:
+              {t(translationKeys.question.score)}
             </MDTypography>
 
             <Controller
@@ -163,7 +168,7 @@ export default function AddTemplateQuestion() {
           </Grid>
           <Grid item xs={6} className={classes.containerGridChoices}>
             <MDTypography type="h5" fontSize={16} className={classes.margin}>
-              Order choice:
+              {t(translationKeys.question.order)}
             </MDTypography>
             <Controller
               name={`questionChoices.${index}.displayOrder`}
@@ -207,7 +212,7 @@ export default function AddTemplateQuestion() {
                       fontSize={16}
                       className={classes.marginBottom}
                     >
-                      Question Name:
+                      {t(translationKeys.question.questionName)}
                     </MDTypography>
                     <Controller
                       name="question"
@@ -236,7 +241,7 @@ export default function AddTemplateQuestion() {
                       fontSize={16}
                       className={classes.margin}
                     >
-                      Score:
+                      {t(translationKeys.question.score)}
                     </MDTypography>
                     <Controller
                       name="score"
@@ -263,7 +268,7 @@ export default function AddTemplateQuestion() {
                       fontSize={16}
                       className={classes.margin}
                     >
-                      Order:
+                      {t(translationKeys.question.order)}
                     </MDTypography>
                     <Controller
                       name="displayOrder"
@@ -292,7 +297,7 @@ export default function AddTemplateQuestion() {
                       fontSize={16}
                       className={classes.marginBottom}
                     >
-                      Optional:
+                      {t(translationKeys.question.isOptional)}
                     </MDTypography>
                     <FormControlLabel
                       control={
@@ -311,7 +316,11 @@ export default function AddTemplateQuestion() {
                           }}
                         />
                       }
-                      label={watch("isOptional") ? "Yes" : "No"}
+                      label={
+                        watch("isOptional")
+                          ? t(translationKeys.question.yes)
+                          : t(translationKeys.question.no)
+                      }
                     />
                   </Grid>
                 </Grid>
@@ -372,7 +381,7 @@ export default function AddTemplateQuestion() {
                             fontSize={16}
                             className={classes.massage}
                           >
-                            You must add choices
+                            {t(translationKeys.question.mustChoice)}
                           </MDTypography>
                         </Grid>
                       ) : null}
@@ -418,7 +427,7 @@ export default function AddTemplateQuestion() {
               </form>
             </>
           }
-          title={"Add New Question"}
+          title={t(translationKeys.question.add)}
           variant={"delete"}
         ></Modal>
       ) : null}
@@ -436,7 +445,7 @@ export default function AddTemplateQuestion() {
             color={"info"}
             className={classes.addNewQuestion}
           >
-            Add New Question
+            {t(translationKeys.question.add)}
           </MDButton>
         </Grid>
       </Grid>

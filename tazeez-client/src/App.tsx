@@ -2,7 +2,7 @@ import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 // import routes from "./routes/routes";
 import React, { useEffect, useMemo, useState } from "react";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
 import { normalRoutes, authRoutes } from "routes/routes";
 

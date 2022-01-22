@@ -33,10 +33,15 @@ import {
 import Modal from "components/core-components/Modal/modal";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import MDButton from "components/core-components/MDButton";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "i18n/locales/translationKeys";
 
 const useStyle = makeStyles(TemplateListStyle);
 
 export default function TemplateList() {
+  const { t } = useTranslation(namespaces.template);
+
   const classes = useStyle();
   const history = useHistory();
 
@@ -101,17 +106,20 @@ export default function TemplateList() {
                   autoFocus
                   minLength={2}
                   autoComplete="off"
-                  placeholder={"Title"}
+                  placeholder={t(translationKeys.template.title)}
                 />
               )}
             />
           }
-          title={"Add New Template"}
+          title={t(translationKeys.template.add)}
           variant={"delete"}
           dialogActions={[
-            { name: "Close", onClick: () => setShow(false) },
             {
-              name: "Save",
+              name: t(translationKeys.template.close),
+              onClick: () => setShow(false),
+            },
+            {
+              name: t(translationKeys.template.save),
               variant: "contained",
               color: "info",
               onClick: () => onAddNewTemplate(),
@@ -152,7 +160,7 @@ export default function TemplateList() {
                 className={classes.button}
                 onClick={() => setShow(true)}
               >
-                Add New Template
+                {t(translationKeys.template.add)}
               </MDButton>
             </Grid>
             {templateList.map((item) => {
@@ -190,7 +198,7 @@ export default function TemplateList() {
                 mr={0}
                 style={{ textAlign: "center" }}
                 isCenter={true}
-                count={"Add New Template"}
+                count={t(translationKeys.template.add)}
                 onClick={() => setShow(true)}
               />
             }

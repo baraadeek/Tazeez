@@ -58,6 +58,7 @@ const TemplateListStyle = (theme) => ({
   },
   gridButton: {
     marginRight: 16,
+    marginLeft: 16,
   },
 });
 
