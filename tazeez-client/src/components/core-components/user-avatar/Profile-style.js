@@ -8,7 +8,6 @@ const UserStyle = (theme) => ({
     border: "none",
   },
   avatar: {
-    backgroundColor: "#0046c0",
     backgroundPosition: "center",
     backgroundSize: "80%",
     backgroundRepeat: "no-repeat",
