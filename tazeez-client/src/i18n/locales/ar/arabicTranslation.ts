@@ -65,7 +65,7 @@ const arabicTranslation = {
     [translationKeys.profile.firstName]: "الأسم الأول",
     [translationKeys.profile.lastName]: "الأسم الأخير",
     [translationKeys.profile.email]: "البريد الالكتروني",
-    [translationKeys.profile.city]: "City",
+    [translationKeys.profile.city]: "المدينة",
     [translationKeys.profile.phoneNumber]: "رقم الهاتف",
     [translationKeys.profile.contactInformation]: "معلومات التواصل",
     [translationKeys.profile.editProfile]: "تعديل الملف الشخصي",

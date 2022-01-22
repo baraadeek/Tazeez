@@ -76,27 +76,14 @@ function Overview() {
             {user ? (
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <div style={{ marginTop: 8 }} className="bg-white border-0">
-                  <Row className="align-items-center">
-                    <Col xs="8">
-                      <MDTypography
-                        variant="h6"
-                        fontWeight="medium"
-                        textTransform="capitalize"
-                      >
-                        {t(translationKeys.profile.userInformation)}
-                      </MDTypography>
-                    </Col>
-                    <Col className="text-right" xs="4">
-                      <MDButton
-                        type="submit"
-                        variant="contained"
-                        color="info"
-                        className={classes.editProfile}
-                      >
-                        {t(translationKeys.profile.editProfile)}
-                      </MDButton>
-                    </Col>
-                  </Row>
+                  <MDButton
+                    type="submit"
+                    variant="contained"
+                    color="info"
+                    className={classes.editProfile}
+                  >
+                    {t(translationKeys.profile.editProfile)}
+                  </MDButton>
                 </div>
                 <div className="pl-lg-4">
                   <Row>
