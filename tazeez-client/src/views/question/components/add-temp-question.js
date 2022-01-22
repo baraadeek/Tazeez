@@ -434,6 +434,7 @@ export default function AddTemplateQuestion() {
             onClick={() => setShow(true)}
             variant={"contained"}
             color={"info"}
+            className={classes.addNewQuestion}
           >
             Add New Question
           </MDButton>
