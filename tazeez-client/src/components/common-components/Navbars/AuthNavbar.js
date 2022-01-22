@@ -89,7 +89,6 @@ const AuthNavbar = () => {
                           to=""
                           onClick={(e) => {
                             i18n.changeLanguage(languages.ar);
-                            // onPageDirection("ar"); // rtl
                             setDirection(dispatch, "rtl");
                           }}
                         >

@@ -6,11 +6,6 @@ import { useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
 import { normalRoutes, authRoutes } from "routes/routes";
 
-// RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { EmotionCache } from "@emotion/react";
-import createCache from "@emotion/cache";
-
 // Material Dashboard 2 React themes
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import HomeLayout from "views/layouts/HomeLayout/HomeLayout";
@@ -22,18 +17,6 @@ function App() {
     (state) => state.app.direction
   );
   // const { t } = useTranslation(namespaces.pages.home);
-  const [, setRtlCache] = useState<EmotionCache | null>(null);
-
-  // Cache for the rtl
-  useMemo(() => {
-    const cacheRtl = createCache({
-      key: "rtl",
-      //@ts-ignore
-      stylisPlugins: [rtlPlugin],
-    });
-
-    setRtlCache(cacheRtl);
-  }, []);
 
   // Setting the dir attribute for the body element
   useEffect(() => {
