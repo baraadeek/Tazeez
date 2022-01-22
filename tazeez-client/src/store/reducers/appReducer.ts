@@ -1,5 +1,6 @@
 import { AppDirectionEnum } from "common/constants/directionEnum";
 import { Action } from "redux";
+import { AppActionTypesEnum } from "store/actions/app/appActionTypes";
 
 export interface IAppReducerAction extends Action {
   type: string;
@@ -18,7 +19,6 @@ const initialState = {
   layout: "dashboard",
   darkMode: false,
 };
-
 
 export type IAppReducerState = {
   miniSidenav: boolean;
@@ -68,6 +68,8 @@ export default function appReducer(
     case "DARKMODE": {
       return { ...state, darkMode: action.value as boolean };
     }
+    case AppActionTypesEnum.PURGE:
+      return state;
     default:
       return state;
   }

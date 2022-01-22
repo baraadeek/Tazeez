@@ -42,3 +42,11 @@ export type ISignUpActionData = {
 //        url: APIS.auth.signUp.url,
 //     });
 //  }
+
+
+
+export function logOutActionPayload() {
+  return {
+    type: AuthActionTypesEnum.AUTH_LOG_OUT,
+  };
+}

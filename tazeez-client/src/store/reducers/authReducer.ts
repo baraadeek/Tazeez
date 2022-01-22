@@ -58,9 +58,13 @@ export default function authReducer(
         token: token,
         user: rest,
       };
-    case AuthActionTypesEnum.AUTH_LOG_OUT_SUCCESS:
+    case AuthActionTypesEnum.AUTH_LOG_OUT:
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.persistedRoot);
+      localStorage.removeItem(LOCAL_STORAGE_KEYS.token);
       return initialState;
 
+    case AppActionTypesEnum.PURGE:
+      return state;
     default:
       return state;
   }

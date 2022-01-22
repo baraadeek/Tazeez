@@ -52,6 +52,8 @@ import UserAvatar from "components/core-components/user-avatar/UserAvatar";
 import classNames from "classnames";
 import { useIsRtl } from "common/hooks/appHooks";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import { purgeApp } from "store/actions/app/appActionCreators";
+import { logOutActionPayload } from "store/actions/auth/authActionsCreators";
 
 const useStyle = makeStyles(adminNavbarLinksStyle);
 
@@ -107,11 +109,11 @@ function DashboardNavbar({ absolute, light, isMini }) {
 
   const dropdownItem = classNames(classes.dropdownItem, classes.primaryHover);
 
-
-
-  const onLogout = () =>{
-    
-  }
+  const onLogout = () => {
+    dispatch(purgeApp());
+    dispatch(logOutActionPayload())
+    history.push(ROUTES_PATH_ENUM.Home);
+  };
 
   const renderMenu = () => {
     const horizontal = isRtl ? "left" : "right";

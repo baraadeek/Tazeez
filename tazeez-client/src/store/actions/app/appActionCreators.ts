@@ -7,10 +7,7 @@ import { axiosAPI } from "../../../axios";
 import { store } from "store/configureStore";
 
 export function purgeApp() {
-  const payload = { type: AppActionTypesEnum.PURGE };
-  return (dispatch: Dispatch<typeof payload>) => {
-    dispatch(payload);
-  };
+  return { type: AppActionTypesEnum.PURGE };
 }
 
 // export function showMessage(message) {
@@ -63,7 +60,7 @@ export type IAPICaller = {
   onStart?: () => void;
   onSuccess?: (res: any) => void;
   onFailure?: (err: any) => void;
-}; 
+};
 
 export function showSuccessMessage(message: string, timeout?: number) {
   return (dispatch: Dispatch<any>) => {
@@ -134,7 +131,9 @@ export function apiCaller<Type = any>(
   apiCallerParam: IApiCallerParams,
   rest?: any
 ) {
-  return store.dispatch(apiCallerDis(apiCallerParam, rest)) as AxiosPromise<Type>;
+  return store.dispatch(
+    apiCallerDis(apiCallerParam, rest)
+  ) as AxiosPromise<Type>;
 }
 
 export function apiCallerDis(apiCallerParam: IApiCallerParams, rest?: any) {
