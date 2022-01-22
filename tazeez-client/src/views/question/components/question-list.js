@@ -42,7 +42,6 @@ function QuestionList() {
   const { t } = useTranslation(namespaces.question);
 
   //#region Life Cycle
-
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
   useEffect(

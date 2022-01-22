@@ -71,7 +71,7 @@ function DashboardNavbar({ absolute, light, isMini }) {
     darkMode,
   } = controller;
   const route = useLocation().pathname.split("/").slice(1);
-  const { t } = useTranslation(namespaces.template);
+  const { t } = useTranslation(namespaces.profile);
 
   useEffect(() => {
     // Setting the navbar type

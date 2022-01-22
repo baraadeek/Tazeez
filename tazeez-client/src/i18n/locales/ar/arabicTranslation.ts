@@ -79,7 +79,7 @@ const arabicTranslation = {
     [translationKeys.doctor.close]: "أغلق",
     [translationKeys.doctor.lastUpdated]: "التحديث الاخير ",
     [translationKeys.doctor.created]: "الأنشاء",
-    [translationKeys.doctor.email]: "Email",
+    [translationKeys.doctor.email]: "البريد الالكتروني",
     [translationKeys.doctor.description]: "وصف",
     [translationKeys.doctor.users]: "المستخدمون",
     [translationKeys.doctor.specialist]: "التخصص",
@@ -90,8 +90,8 @@ const arabicTranslation = {
     [translationKeys.doctor.delete]: "حذف",
     [translationKeys.doctor.deleteMassage]: "هل تريد حذف هذا الطبيب؟",
     [translationKeys.doctor.deleteDoctor]: "حذف الطبيب",
-    [translationKeys.doctor.addDoctor]: "إضافة الطبيب",
-    [translationKeys.doctor.editDoctor]: "تعديل الطبيب",
+    [translationKeys.doctor.addDoctor]: "إضافة طبيب",
+    [translationKeys.doctor.editDoctor]: "تعديل طبيب",
   },
 };
 

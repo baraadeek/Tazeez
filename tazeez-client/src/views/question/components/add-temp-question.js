@@ -353,7 +353,7 @@ export default function AddTemplateQuestion() {
                             <TextField
                               {...params}
                               minLength={1}
-                              label={"Question Type"}
+                              label={t(translationKeys.question.questionType)}
                               variant="outlined"
                               InputProps={{
                                 ...params.InputProps,
