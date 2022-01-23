@@ -1,5 +1,7 @@
 ﻿using Tazeez.Common.Extensions;
+using Tazeez.DataAccess.Models;
 using Tazeez.DB.Models.DB;
+using Tazeez.Models;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Response;
@@ -23,6 +25,10 @@ namespace Tazeez.Core.Mapper
             CreateMap<QuestionnaireQuestion, QuestionnaireQuestionModel>().ReverseMap();
             CreateMap<QuestionnaireTemplateQuestion, QuestionnaireTemplateQuestionModel>().ReverseMap();
             CreateMap<QuestionChoice, QuestionChoiceModel>().ReverseMap();
+
+            CreateMap<QuestionAttachment, AttachmentModel>().ForMember(model => model.SourceId, m => m.MapFrom(e => e.QuestionId));
+            CreateMap<QuestionAttachment, QuestionAttachmentModel>().ReverseMap();
+
         }
     }
 }

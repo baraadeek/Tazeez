@@ -55,7 +55,8 @@ namespace Tazeez.Core.Managers.Questionnaires
                 {
                     QuestionnaireTemplateId = createQuestionnaire.QuestionnaireTemplateId,
                     DueDateUTC = createQuestionnaire.DueDate,
-                    Status = (int)AssessmentStatusEnum.Open
+                    Status = (int)AssessmentStatusEnum.Open,
+                    UserId = id
                 };
 
                 foreach (var templateQuestion in template.QuestionnaireTemplateQuesions)
@@ -97,7 +98,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                    .Select(q => new QuestionnaireQuestionBrief
                                                    {
                                                        QuestionId = q.Id,
-                                                       Status = (AssessmentQuestionStatusEnum)q.Status,
+                                                       Status = (QuestionStatusEnum)q.Status,
                                                        DisplayOrder = q.QuestionnaireTemplateQuesion.DisplayOrder,
                                                        IsOptional = q.QuestionnaireTemplateQuesion.IsOptional
                                                    })
@@ -121,7 +122,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             int nextQuestionId = 0;
             if (questionId == 0)
             {
-                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(a => a.Status == (int)AssessmentQuestionStatusEnum.Open);
+                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(a => a.Status == (int)QuestionStatusEnum.Open);
                 if (currentQuestion == null)
                 {
                     currentQuestion = assessmentQuestionBriefs.FirstOrDefault();
@@ -142,7 +143,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                 PreviousQuestionId = previousQuestionId,
                 NextQuestionId = nextQuestionId,
                 CurrentQuestionIndex = currentQuestionIndex + 1,
-                NumberOfQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)AssessmentQuestionStatusEnum.Open),
+                NumberOfQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)QuestionStatusEnum.Open),
                 NumberOfAllQuestions = assessmentQuestionBriefs.Count,
                 OwnerId = assessment.UserId,
                 Question = "",
@@ -155,10 +156,10 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
             else
             {
-                response.NumberOfAnsweredQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)AssessmentQuestionStatusEnum.Open);
+                response.NumberOfAnsweredQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)QuestionStatusEnum.Open);
                 response.NumberOfNotAnsweredQuestions = _context.QuestionnaireQuestion
                                                                 .Count(a => a.QuestionnaireId == assessment.Id
-                                                                            && a.Status == (int)AssessmentQuestionStatusEnum.Open);
+                                                                            && a.Status == (int)QuestionStatusEnum.Open);
             }
 
 
@@ -202,8 +203,8 @@ namespace Tazeez.Core.Managers.Questionnaires
                                      StatusOrder = a.Status == 10 ? 1 : a.Status == 3 ? 2 : a.Status == 2 ? 3 : 4,
                                      CreatedUTC = a.CreatedUTC,
                                      NumberOfAnsweredQuestions = a.QuestionnaireQuestions
-                                                                  .Count(a => a.Status == (int)AssessmentQuestionStatusEnum.Answered
-                                                                              || a.Status == (int)AssessmentQuestionStatusEnum.Released)
+                                                                  .Count(a => a.Status == (int)QuestionStatusEnum.Answered
+                                                                              || a.Status == (int)QuestionStatusEnum.Released)
                                  })
                                  .Where(a => a.NumberOfQuestions > 0)
                                  .OrderByDescending(a => a.CreatedUTC)

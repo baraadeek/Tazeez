@@ -6,7 +6,7 @@ namespace Tazeez.ModelViews.Response
     {
         public int QuestionId { get; set; }
 
-        public AssessmentQuestionStatusEnum Status { get; set; }
+        public QuestionStatusEnum Status { get; set; }
 
         public int DisplayOrder { get; set; }
 

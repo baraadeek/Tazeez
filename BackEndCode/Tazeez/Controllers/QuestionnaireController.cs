@@ -51,9 +51,9 @@ namespace Tazeez.Controllers
         [HttpGet]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetQuestionnaireQuestions(int id)
+        public IActionResult GetQuestionnaireQuestions(int id, int questionId)
         {
-            var res = _questionnaireManager.GetQuestionnaireQuestions(LoggedInUser, id);
+            var res = _questionnaireManager.GetQuestionnaireQuestions(LoggedInUser, id, questionId);
             return Ok(res);
         }
         

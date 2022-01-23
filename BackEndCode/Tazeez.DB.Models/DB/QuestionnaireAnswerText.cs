@@ -18,6 +18,8 @@ namespace Tazeez.DB.Models.DB
 
         public bool Archived { get; set; }
 
+        public bool IsDraft { get; set; }
+
         public QuestionnaireQuestion QuestionnaireQuestion { get; set; }
 
         public User User { get; set; }

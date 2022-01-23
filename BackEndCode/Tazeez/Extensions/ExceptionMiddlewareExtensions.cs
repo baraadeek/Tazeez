@@ -14,8 +14,8 @@ using Serilog.Events;
 using Tazeez.Common.Extensions;
 using Tazeez.Core.Managers.Common;
 using Tazeez.ModelViews;
-using Tazeez.ModelViews.Logging;
 using Tazeez;
+using Tazeez.Common.Logging;
 
 namespace JustProtect.Extensions
 {
