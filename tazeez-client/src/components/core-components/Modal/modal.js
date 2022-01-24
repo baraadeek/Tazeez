@@ -112,7 +112,7 @@ const Modal = (props) => {
           {title || (defaultTitle?.length && isLoading) ? (
             <Grid item>
               <Grid container alignItems={"center"} style={{ height: 32 }}>
-                <Grid item style={{ marginRight: 10 }}>
+                <Grid item>
                   <SuccessIcon classes={{ root: classes.iconClass }} />
                 </Grid>
                 <Grid item style={{ marginBottom: -4 }}>

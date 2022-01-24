@@ -10,7 +10,9 @@ import IconButton from "@mui/material/IconButton";
 //  Components
 import Modal from "components/core-components/Modal/modal";
 import { deleteDoctorThunk } from "../api/doctor-thunk-api";
-
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
 const useStyle = makeStyles({
   deleteIcon: {
     padding: "4px !important",
@@ -19,9 +21,10 @@ const useStyle = makeStyles({
 
 function DeleteDoctor(props) {
   const { id } = props;
-  console.log("🚀 ~ file: delete-doctor.js ~ line 21 ~ DeleteDoctor ~ id", id);
 
   const classes = useStyle(props);
+
+  const { t } = useTranslation(namespaces.doctor);
 
   const [openDeleteDoctorModal, setOpenDeleteDoctorModal] = useState(false);
 
@@ -46,20 +49,23 @@ function DeleteDoctor(props) {
         fullWidth
         showHeader={true}
         maxWidth={"sm"}
-        description={"Do you want to delete this Doctor?"}
-        title={"Delete Doctor"}
+        description={t(translationKeys.doctor.deleteMassage)}
+        title={t(translationKeys.doctor.deleteDoctor)}
         variant={"delete"}
         dialogActions={[
-          { name: "Close", onClick: () => setOpenDeleteDoctorModal(false) },
           {
-            name: "Delete",
+            name: t(translationKeys.doctor.close),
+            onClick: () => setOpenDeleteDoctorModal(false),
+          },
+          {
+            name: t(translationKeys.doctor.delete),
             variant: "contained",
             color: "primary",
             onClick: () => dispatchDeleteDoctorFunc(),
           },
         ]}
       ></Modal>
-      <Tooltip title="delete">
+      <Tooltip title={t(translationKeys.doctor.delete)}>
         <IconButton
           onClick={() => setOpenDeleteDoctorModal(true)}
           className={classes.deleteIcon}

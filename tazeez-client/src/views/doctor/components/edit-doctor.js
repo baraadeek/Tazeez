@@ -10,6 +10,9 @@ import IconButton from "@mui/material/IconButton";
 import Modal from "components/core-components/Modal/modal";
 import DoctorModal from "./doctor-modal";
 
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
 const useStyle = makeStyles({
   editIcon: {
     padding: "4px !important",
@@ -22,6 +25,7 @@ function EditDoctor(props) {
   const classes = useStyle(props);
 
   const [openEditDoctorModal, setOpenEditDoctorModal] = useState(false);
+  const { t } = useTranslation(namespaces.doctor);
 
   return (
     <React.Fragment>
@@ -38,10 +42,10 @@ function EditDoctor(props) {
             id={id}
           />
         }
-        title={"Edit Doctor"}
+        title={t(translationKeys.doctor.editDoctor)}
         variant={"delete"}
       ></Modal>
-      <Tooltip title="Edit">
+      <Tooltip title={t(translationKeys.doctor.editDoctor)}>
         <IconButton
           onClick={() => setOpenEditDoctorModal(true)}
           className={classes.editIcon}

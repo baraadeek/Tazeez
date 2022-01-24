@@ -29,6 +29,9 @@ import { purge } from "../slice/doctor-slice";
 import DeleteDoctor from "./delete-doctor";
 import EditDoctor from "./edit-doctor";
 import AddDoctor from "./add-doctor";
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
 
 const useStyle = makeStyles(questionListViewStyle);
 
@@ -41,6 +44,7 @@ function DoctorList() {
   //#endregion
 
   const doctorList = useSelector(doctorSelectors);
+  const { t } = useTranslation(namespaces.doctor);
 
   //#region Life Cycle
 
@@ -149,7 +153,7 @@ function DoctorList() {
               <GroupIcon />
             </CardIcon>
             <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
-              Doctors
+              {t(translationKeys.doctor.doctors)}
             </h4>
           </CardHeader>
           <CardBody>
@@ -157,9 +161,9 @@ function DoctorList() {
             {!false ? (
               <Table
                 renderDataTable={renderDataTable}
-                tableHead={COLUMNS}
+                tableHead={COLUMNS.map((d) => t(translationKeys.doctor[d]))}
                 tableData={doctorList}
-                emptyTable={"No Doctors available!"}
+                emptyTable={t(translationKeys.doctor.available)}
                 customCellClasses={[
                   classes.center,
                   classes.right,
