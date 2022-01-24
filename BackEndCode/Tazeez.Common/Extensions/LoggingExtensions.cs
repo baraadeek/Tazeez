@@ -3,7 +3,7 @@ using Serilog.Events;
 using System;
 using System.Text;
 using System.Threading.Tasks;
-using Tazeez.ModelViews.Logging;
+using Tazeez.Common.Logging;
 
 namespace Tazeez.Common.Extensions
 {
