@@ -57,7 +57,7 @@ export default {
   },
 
   info: {
-    main: "#0046c0",
+    main: mainPrimaryColor,
     focus: "#1662C4",
   },
 
@@ -260,4 +260,5 @@ export default {
   tabs: {
     indicator: { boxShadow: "#ddd" },
   },
+  
 };
