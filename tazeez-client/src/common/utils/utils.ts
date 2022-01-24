@@ -126,3 +126,6 @@ export function getCircularReplacer() {
 export function conditionalRender(render: boolean, component: any) {
   return render ? component : null;
 }
+
+export const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
+
