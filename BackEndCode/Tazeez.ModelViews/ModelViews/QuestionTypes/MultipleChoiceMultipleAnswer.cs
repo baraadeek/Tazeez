@@ -16,19 +16,19 @@ namespace Tazeez.Models.QuestionTypes
     {
         public MultipleChoiceMultipleAnswer()
         {
-            AssessmentQuestionAnswerChoice = new List<QuestionnaireQuestionAnswerChoiceModel>();
+            QuestionnaireQuestionAnswerChoice = new List<QuestionnaireQuestionAnswerChoiceModel>();
             AssessmentQuestionAnswerText = new List<QuestionnaireAnswerTextModel>();
         }
 
         public string AdditionalAnswer { get; set; }
 
-        public List<QuestionnaireQuestionAnswerChoiceModel> AssessmentQuestionAnswerChoice { get; set; }
+        public List<QuestionnaireQuestionAnswerChoiceModel> QuestionnaireQuestionAnswerChoice { get; set; }
 
         public decimal Score => AnswerChoices.Where(a => a.IsChecked).Sum(a => a.Score);
 
         public List<QuestionnaireAnswerTextModel> AssessmentQuestionAnswerText { get; set; }
 
-        public override int? AnsweredByUserId { get => AssessmentQuestionAnswerChoice.Any() ? AssessmentQuestionAnswerChoice.First().UserId : null; }
+        public override int? AnsweredByUserId { get => QuestionnaireQuestionAnswerChoice.Any() ? QuestionnaireQuestionAnswerChoice.First().UserId : null; }
 
         public override bool ValidateAnswer(AssessmentQuestionRequest assessmentQuestionRequest, UserModel currentUser, TazeezContext _context)
         {
@@ -36,7 +36,7 @@ namespace Tazeez.Models.QuestionTypes
                                     .Select(a => a.Id)
                                     .ToList();
 
-            var templateAnswerChoicesIds = AssessmentTemplateQuestion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
                                                                      .Select(a => a.Id)
                                                                      .ToList();
 
@@ -52,7 +52,7 @@ namespace Tazeez.Models.QuestionTypes
         {
             QuestionnaireQuestionAnswerChoiceRequest assessmentQuestionAnswerChoice = (QuestionnaireQuestionAnswerChoiceRequest)assessmentQuestion;
 
-            var templateAnswerChoicesIds = AssessmentTemplateQuestion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
                                                                      .Select(a => a.Id)
                                                                      .ToList();
 
@@ -70,7 +70,7 @@ namespace Tazeez.Models.QuestionTypes
             
             ValidateAnswer(assessmentQuestionAnswerChoiceRequest, currentUser, _context, _mapper);
 
-            var isDraft = IsDraft(existingQuestion, _context, assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds);
+            var isDraft = IsDraft(existingQuestion, assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds);
 
             foreach (var answer in assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds)
             {

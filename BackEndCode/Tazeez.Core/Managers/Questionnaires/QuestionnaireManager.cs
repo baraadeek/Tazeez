@@ -5,9 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tazeez.Common.Extensions;
+using Tazeez.Core.Managers.Helper;
 using Tazeez.DB.Models.DB;
 using Tazeez.Enums;
 using Tazeez.Models.Models;
+using Tazeez.Models.QuestionTypes;
+using Tazeez.Models.Requests;
+using Tazeez.Models.Responses;
+using Tazeez.Models.Responses.QuestionsPaginationResponse;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.Enums;
 using Tazeez.ModelViews.ModelViews;
@@ -20,11 +25,13 @@ namespace Tazeez.Core.Managers.Questionnaires
     {
         private readonly TazeezContext _context;
         private readonly IMapper _mapper;
+        private readonly IHelperManager _helperManager;
 
-        public QuestionnaireManager(TazeezContext context, IMapper mapper)
+        public QuestionnaireManager(TazeezContext context, IMapper mapper, IHelperManager helperManager)
         {
             _context = context;
             _mapper = mapper;
+            _helperManager = helperManager;
         }
 
         public void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire)
@@ -73,27 +80,38 @@ namespace Tazeez.Core.Managers.Questionnaires
             _context.SaveChanges();
         }
 
-        public QuestionnaireQuestionResponse GetQuestionnaireQuestions(UserModel currentUser, int id, int questionId)
+        public QuestionnaireQuestionsResponseV1 GetQuestionnaireQuestions(UserModel currentUser,
+                                                                       int questionnaireId,
+                                                                       int page,
+                                                                       int pageSize,
+                                                                       int questionId = 0,
+                                                                       SearchTextRequest searchText = null)
         {
-            Log.Information($"Inside GetAssessmentQuestions assessmentId => {id}");
+            Log.Information($"Inside GetQuestionnaireQuestions questionnaireId => {questionnaireId}");
+            if (searchText != null && !string.IsNullOrWhiteSpace(searchText.SearchText))
+            {
+                searchText.SearchText = _helperManager.Base64ToString(searchText.SearchText);
+            }
 
-            _context.IsIgnoreQuestionnaireTemplate = true;
-
-            var assessment = _context.Questionnaire
-                                     .Include("User")
+            var questionnaire = _context.Questionnaire
                                      .Include("QuestionnaireGroup")
-                                     .FirstOrDefault(a => a.Id == id
-                                                             && (a.UserId == currentUser.Id || currentUser.IsAdmin));
+                                     .Include("User")
+                                     .Include("QuestionnaireTemplate")
+                                     .FirstOrDefault(a => a.Id == questionnaireId && (a.UserId == currentUser.Id || currentUser.IsAdmin));
 
-            if (assessment == null)
+            if (questionnaire == null)
             {
                 throw new ServiceValidationException("Questionnaire not found");
             }
 
-            var isUserHasFullAccess = assessment.UserId == currentUser.Id || currentUser.IsAdmin;
-
             var assessmentQuestionBriefs = _context.QuestionnaireQuestion
-                                                   .Where(a => a.QuestionnaireId == id)
+                                                   .Where(a => a.QuestionnaireId == questionnaireId
+                                                               && (searchText == null 
+                                                                   || string.IsNullOrWhiteSpace(searchText.SearchText) 
+                                                                   || a.QuestionnaireTemplateQuesion
+                                                                       .Question
+                                                                       .Contains(searchText.SearchText, StringComparison.InvariantCultureIgnoreCase))
+                                                               && (questionId == 0 || a.Id == questionId))
                                                    .OrderBy(a => a.QuestionnaireTemplateQuesion.DisplayOrder)
                                                    .Select(q => new QuestionnaireQuestionBrief
                                                    {
@@ -101,71 +119,38 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                        Status = (QuestionStatusEnum)q.Status,
                                                        DisplayOrder = q.QuestionnaireTemplateQuesion.DisplayOrder,
                                                        IsOptional = q.QuestionnaireTemplateQuesion.IsOptional
-                                                   })
-                                                   .ToList();
+                                                   });
 
-            if (assessmentQuestionBriefs.Count == 0)
+            var assessmentQuestions = assessmentQuestionBriefs.GetPaged(page, pageSize);
+            var assessmentQuestionsDetails = LoadAssessmentQuestion(currentUser,
+                                                                    questionnaire,
+                                                                    false,
+                                                                    assessmentQuestions.Data.Select(a => a.QuestionId).ToList());
+
+            var response = new QuestionnaireQuestionsResponseV1
             {
-                if (isUserHasFullAccess)
+                Questions = new PagedResult<BaseQuestionTypeResponse>
                 {
-                    return new QuestionnaireQuestionResponse
-                    {
-                        Question = ""
-                    };
-                }
-
-                throw new ServiceValidationException("You have no permission to view this question");
-            }
-
-            QuestionnaireQuestionBrief currentQuestion = null;
-            int previousQuestionId = 0;
-            int nextQuestionId = 0;
-            if (questionId == 0)
-            {
-                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(a => a.Status == (int)QuestionStatusEnum.Open);
-                if (currentQuestion == null)
-                {
-                    currentQuestion = assessmentQuestionBriefs.FirstOrDefault();
-                }
-            }
-            else
-            {
-                currentQuestion = assessmentQuestionBriefs.FirstOrDefault(q => q.QuestionId == questionId);
-            }
-
-            var currentQuestionIndex = assessmentQuestionBriefs.IndexOf(currentQuestion);
-            questionId = currentQuestion.QuestionId;
-            previousQuestionId = currentQuestionIndex > 0 ? assessmentQuestionBriefs[currentQuestionIndex - 1].QuestionId : 0;
-            nextQuestionId = currentQuestionIndex >= assessmentQuestionBriefs.Count - 1 ? 0 : assessmentQuestionBriefs[currentQuestionIndex + 1].QuestionId;
-            
-            var response = new QuestionnaireQuestionResponse
-            {
-                PreviousQuestionId = previousQuestionId,
-                NextQuestionId = nextQuestionId,
-                CurrentQuestionIndex = currentQuestionIndex + 1,
-                NumberOfQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)QuestionStatusEnum.Open),
-                NumberOfAllQuestions = assessmentQuestionBriefs.Count,
-                OwnerId = assessment.UserId,
-                Question = "",
-                UserName = $"{assessment.User.FirstName} {assessment.User.LastName}" 
+                    Data = _mapper.Map<List<BaseQuestionTypeResponse>>(assessmentQuestionsDetails.OrderBy(a => a.QuestionnaireTemplateQuesion.DisplayOrder)
+                                                                                                 .ToList()),
+                    Pagination = assessmentQuestions.Pagination
+                },
+                QuestionnaireTitle = questionnaire.QuestionnaireGroup.Name,
+                QuestionnaireTemplateName = questionnaire.QuestionnaireTemplate.Name,
+                QuestionnaireTemplate = questionnaire.QuestionnaireTemplate.Id,
+                OwnerId = questionnaire.UserId
             };
 
-            if (assessment.Status == (int)AssessmentStatusEnum.Completed)
-            {
-                response.NumberOfAnsweredQuestions = response.NumberOfQuestions;
-            }
-            else
-            {
-                response.NumberOfAnsweredQuestions = assessmentQuestionBriefs.Count(a => a.Status != (int)QuestionStatusEnum.Open);
-                response.NumberOfNotAnsweredQuestions = _context.QuestionnaireQuestion
-                                                                .Count(a => a.QuestionnaireId == assessment.Id
-                                                                            && a.Status == (int)QuestionStatusEnum.Open);
-            }
-
-
-            response.AssessmentStatus = assessment.Status;
-
-            Log.Information($"Finish GetAssessmentQuestions assessmentId => {id}");
+            var assignedUsersIds = response.Questions.Data.Select(q => q.AssignedUserId).ToList();
+            assignedUsersIds.AddRange(response.Questions.Data.Where(a => a.AnsweredByUserId.HasValue).Select(q => q.AnsweredByUserId.Value).ToList());
+            assignedUsersIds.Add(questionnaire.UserId);
+            assignedUsersIds = assignedUsersIds.Distinct().ToList();
+            response.AssignedUsers = _context.User
+                                             .Where(u => assignedUsersIds.Contains(u.Id))
+                                             .ToList()
+                                             .ToDictionary(x => x.Id, x => _mapper.Map<SearchUserModel>(x));
+            response.OwnerId = questionnaire.UserId;
+            Log.Information($"Finish GetQuestionnaireQuestions questionnaireId => {questionnaireId}");
             return response;
         }
 
@@ -349,7 +334,6 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireTemplateModel>(questionnaireTemplate);
         }
 
-
         public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
         {
             if (!currentUser.IsAdmin)
@@ -382,6 +366,42 @@ namespace Tazeez.Core.Managers.Questionnaires
                               })
                               .ToList();
             return res;
+        }
+
+
+        private List<BaseQuestionType> LoadAssessmentQuestion(UserModel currentUser,
+                                                              Questionnaire assessment,
+                                                              bool isReadOnly,
+                                                              List<int> assessmentQuestionsIds)
+        {
+            var assessmentQuestions = _context.QuestionnaireQuestion
+                                             .Include("QuestionnaireAnswerChoice")
+                                             .Include("QuestionnaireAnswerText")
+                                             .Include("QuestionAttachment")
+                                             .Where(a => a.QuestionnaireId == assessment.Id
+                                                         && assessmentQuestionsIds.Contains(a.Id))
+                                             .ToList();
+
+            if (assessmentQuestions == null)
+            {
+                throw new ServiceValidationException("Question not found, or you not have a permissions");
+            }
+
+            var assessmentTemplateQuestionsIds = assessmentQuestions.Select(a => a.TemplateQuestionId).ToList();
+
+            var assessmentTemplateQuestion = _context.QuestionnaireTemplateQuestion
+                                                     .Include("QuestionChoices")
+                                                     .Include("QuestionnaireTemplate")
+                                                     .Where(a => assessmentTemplateQuestionsIds.Contains(a.Id))
+                                                     .ToList()
+                                                     .ToDictionary(x => x.Id, v => v);
+
+            return _helperManager.ManipulateQuestionByTypeV1(currentUser,
+                                                             assessmentQuestions,
+                                                             assessmentTemplateQuestion,
+                                                             assessmentQuestionsIds,
+                                                             assessmentTemplateQuestionsIds, 
+                                                             isReadOnly);
         }
 
     }

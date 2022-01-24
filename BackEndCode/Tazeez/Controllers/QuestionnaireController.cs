@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tazeez.Core.Managers.Questionnaires;
 using Tazeez.Infrastructure;
-using Tazeez.ModelViews;
+using Tazeez.Models.Requests;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
 
@@ -48,12 +48,16 @@ namespace Tazeez.Controllers
         }
         
         [Route("api/v{version:apiVersion}/questionnaire/{id}/Questions")]
-        [HttpGet]
+        [HttpPost]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetQuestionnaireQuestions(int id, int questionId)
+        public IActionResult GetQuestionnaireQuestions(int id,
+                                                        int page = 1,
+                                                        int pageSize = 10,
+                                                        int questionId = 0,
+                                                        SearchTextRequest searchText = null)
         {
-            var res = _questionnaireManager.GetQuestionnaireQuestions(LoggedInUser, id, questionId);
+            var res = _questionnaireManager.GetQuestionnaireQuestions(LoggedInUser, id, page, pageSize, questionId, searchText);
             return Ok(res);
         }
         

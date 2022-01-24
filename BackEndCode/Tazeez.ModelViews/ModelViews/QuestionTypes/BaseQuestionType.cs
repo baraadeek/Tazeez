@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using JustProtect.Models;
 using System.Collections.Generic;
 using System.Linq;
 using Tazeez.Common.Extensions;
@@ -17,8 +16,6 @@ namespace Tazeez.Models.QuestionTypes
 {
     public abstract class BaseQuestionType
     {
-        private readonly List<string> QuestionDataKeys = new() { "Question", "Question Type", "Answer Choices" };
-
         protected BaseQuestionType()
         {
             QuestionAttachment = new List<QuestionAttachmentModel>();
@@ -27,31 +24,21 @@ namespace Tazeez.Models.QuestionTypes
 
         public int QuestionId { get; set; }
 
-        public int CommentsCount { get; set; }
-
         public int AttachmentsCount { get; set; }
 
         public decimal? TargetScore { get; set; }
 
         public int QuestionnaireId { get; set; }
 
-        public bool Skipped { get; set; }
-
         public int DisplayOrder { get; set; }
 
         public bool IsOptional { get; set; }
-
-        public int TotalAssignees { get; set; }
 
         public int QuestionType { get; set; }
 
         public string QuestionText { get; set; }
 
         public bool IsReadOnly { get; set; }
-
-        public bool IsPredecessor { get; set; }
-
-        public bool IsGap { get; set; }
 
         public List<QuestionChoiceResponse> AnswerChoices { get; set; }
 
@@ -69,11 +56,7 @@ namespace Tazeez.Models.QuestionTypes
 
         public List<QuestionAttachmentModel> QuestionAttachment { get; set; }
 
-        public QuestionnaireTemplateQuestionModel AssessmentTemplateQuestion { get; set; }
-
-        public virtual void LoadQuestionMetaData(IDictionary<string, string> questionRecord)
-        {
-        }
+        public QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuesion { get; set; }
 
         public abstract int? AnsweredByUserId { get; }
         
@@ -305,7 +288,7 @@ namespace Tazeez.Models.QuestionTypes
                 else if (StaticData.MultipleChoiceQuestion.Contains(QuestionType))
                 {
                     List<int> choiceIds = existingQuestion.QuestionnaireAnswerChoice.Select(a => a.QuestionChoiceId).ToList();
-                    isDraft = IsDraft(existingQuestion, _context, choiceIds);
+                    isDraft = IsDraft(existingQuestion, choiceIds);
                 }
                 else if (StaticData.TextAnswerQuestionType.Contains(QuestionType) 
                     && (existingQuestion.QuestionnaireAnswerText.FirstOrDefault() == null 
@@ -318,14 +301,12 @@ namespace Tazeez.Models.QuestionTypes
             return isDraft;
         }
 
-        protected bool IsDraft(QuestionnaireQuestion existingQuestion, TazeezContext _context, List<int> choiceIds)
+        protected bool IsDraft(QuestionnaireQuestion existingQuestion, List<int> choiceIds)
         {
             bool isDraft;
-            var isAdditionalInformationConditionMet = false;
-            var isAdditionalAttachmentConditionMet = false;
 
-            isDraft = ((isAdditionalAttachmentConditionMet) && !existingQuestion.QuestionAttachment.Any())
-                            || ((isAdditionalInformationConditionMet) && !existingQuestion.QuestionnaireAnswerText.Any(a => !string.IsNullOrWhiteSpace(a.Text) && a.Archived != true))
+            isDraft = (!existingQuestion.QuestionAttachment.Any())
+                            || (!existingQuestion.QuestionnaireAnswerText.Any(a => !string.IsNullOrWhiteSpace(a.Text) && a.Archived != true))
                             || !choiceIds.Any();
 
             foreach (var answerChoice in existingQuestion.QuestionnaireAnswerChoice)
