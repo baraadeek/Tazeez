@@ -8,25 +8,29 @@ const translationKeys = {
       enterPassword: "enterPassword",
       enterFirstName: "enterFirstName",
       enterLastName: "enterLastName",
-      alreadyAccount:"alreadyAccount",
-    homePage: "homePage",
-
+      alreadyAccount: "alreadyAccount",
+      homePage: "homePage",
     },
     authNavbar: {
-            login: "login",
- homePage: "homePage",
+      login: "login",
+      homePage: "homePage",
       about: "about",
       blog: "blog",
       contact: "contact",
       doctors: "doctors",
-    services:"services"
-    }
+      services: "services",
+    },
   },
   common: {
     homePage: "homePage",
     about: "about",
   },
-  
+  authRoutes: {
+    questionsTemplatesList: "questionsTemplatesList",
+    questionsTemplate: "questionsTemplate",
+    doctors: "doctors",
+    profile: "profile",
+  },
 };
 
 export default translationKeys;

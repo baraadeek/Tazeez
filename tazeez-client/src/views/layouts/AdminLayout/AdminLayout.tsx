@@ -8,7 +8,7 @@ import Sidenav from "examples/Sidenav";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
-import { IRoute } from "routes/routes";
+import { IAuthRoutes } from "routes/routes";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useSelector } from "react-redux";
@@ -21,9 +21,14 @@ import { EmotionCache } from "@emotion/react";
 import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+import { AppDirectionEnum } from "common/constants/directionEnum";
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+import { getKeyValue } from "common/utils/utils";
 
 interface IAdminLayoutProps {
-  routes: IRoute[];
+  routes: IAuthRoutes[];
 }
 
 const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
@@ -33,11 +38,12 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   );
   const [rtlCache, setRtlCache] = React.useState<EmotionCache>();
   const isRtl = useIsRtl();
+  const {t} = useTranslation(namespaces.routes.authRoutes);
 
   // Cache for the rtl
   React.useMemo(() => {
     const cacheRtl = createCache({
-      key: "rtl",
+      key: AppDirectionEnum.rtl,
       //@ts-ignore
       stylisPlugins: [rtlPlugin],
     });
@@ -58,13 +64,11 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
           <CssBaseline />
           <Sidenav
             color={sidenavColor}
-            brand={null}
-            brandName="Tazeez"
             routes={routes
               .filter((x) => !x.isHidden)
               .map((r) => ({
                 type: "collapse",
-                name: r.name,
+                name: t(getKeyValue(translationKeys.authRoutes, r.translationKey as any)),
                 key: r.path.replace("/", "").toLowerCase(),
                 icon: null,
                 route: r.path,
@@ -77,3 +81,5 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
 };
 
 export default AdminLayout;
+
+

@@ -21,23 +21,25 @@ const englishTranslation = {
     enterEmail: "Enter email",
     enterPassword: "Enter Password",
     [translationKeys.pages.login.homePage]: "Home",
-
-
-    [translationKeys.pages.login.enterFirstName]:"Last Name",
+    [translationKeys.pages.login.enterFirstName]: "Last Name",
     [translationKeys.pages.login.enterLastName]: "First Name",
-    [translationKeys.pages.login.alreadyAccount]: "Already have an account?"
+    [translationKeys.pages.login.alreadyAccount]: "Already have an account?",
   },
-   [namespaces.pages.authNavbar]: {
-     [translationKeys.pages.authNavbar.homePage]: "Home Page",
-     [translationKeys.pages.authNavbar.about]: "About",
-     [translationKeys.pages.authNavbar.blog]: "Blog",
-                [translationKeys.pages.authNavbar.contact]: "Contact",
-     [translationKeys.pages.authNavbar.doctors]: "Doctors",
-                                [translationKeys.pages.authNavbar.services]: "Services",
-
-
-
+  [namespaces.pages.authNavbar]: {
+    [translationKeys.pages.authNavbar.homePage]: "Home Page",
+    [translationKeys.pages.authNavbar.about]: "About",
+    [translationKeys.pages.authNavbar.blog]: "Blog",
+    [translationKeys.pages.authNavbar.contact]: "Contact",
+    [translationKeys.pages.authNavbar.doctors]: "Doctors",
+    [translationKeys.pages.authNavbar.services]: "Services",
+    [translationKeys.pages.authNavbar.login]: "Login",
   },
+  [namespaces.routes.authRoutes]:{
+    [translationKeys.authRoutes.doctors]:"Doctors",
+    [translationKeys.authRoutes.profile]:"Profile",
+    [translationKeys.authRoutes.questionsTemplate]:"Questions Template",
+    [translationKeys.authRoutes.questionsTemplatesList]:"Questions Templates List",
+  }
 };
 
 export default englishTranslation;

@@ -2,9 +2,11 @@ export const namespaces = {
   pages: {
     home: "pages.home",
     login: "pages.login",
-    authNavbar:"pages.authNavbar"
+    authNavbar: "pages.authNavbar",
   },
-  
+  routes: {
+    authRoutes: "routes.authRoutes",
+  },
 
   common: "common",
 };
