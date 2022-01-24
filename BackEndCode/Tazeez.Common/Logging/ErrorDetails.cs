@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Tazeez.ModelViews.Logging
+namespace Tazeez.Common.Logging
 {
     public class ErrorDetails
     {

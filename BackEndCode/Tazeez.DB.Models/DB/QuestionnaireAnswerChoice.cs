@@ -12,6 +12,8 @@ namespace Tazeez.DB.Models.DB
 
         public int UserId { get; set; }
 
+        public bool IsDraft { get; set; }
+
         public DateTime CreatedUTC { get; set; }
 
         public DateTime LastUpdatedUTC { get; set; }

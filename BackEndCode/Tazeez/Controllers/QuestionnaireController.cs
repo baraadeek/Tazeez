@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tazeez.Core.Managers.Questionnaires;
 using Tazeez.Infrastructure;
-using Tazeez.ModelViews;
+using Tazeez.Models.Requests;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
 
@@ -44,6 +44,20 @@ namespace Tazeez.Controllers
                                                 string sortDirection = "")
         {
             var res = _questionnaireManager.GetQuestionnaires(LoggedInUser, page, pageSize, status, sortColumn, sortDirection);
+            return Ok(res);
+        }
+        
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/Questions")]
+        [HttpPost]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult GetQuestionnaireQuestions(int id,
+                                                        int page = 1,
+                                                        int pageSize = 10,
+                                                        int questionId = 0,
+                                                        SearchTextRequest searchText = null)
+        {
+            var res = _questionnaireManager.GetQuestionnaireQuestions(LoggedInUser, id, page, pageSize, questionId, searchText);
             return Ok(res);
         }
         
