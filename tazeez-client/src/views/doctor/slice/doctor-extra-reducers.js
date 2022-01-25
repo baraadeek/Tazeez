@@ -8,7 +8,7 @@ import { doctorAdapter } from "../adapter/doctor-adapter";
 
 export const doctorExtraReducers = (builder) => {
   builder.addCase(addDoctorThunk.fulfilled, (state, { payload }) => {
-    doctorAdapter.addOne(state.doctorList, payload.data);
+    doctorAdapter.upsertOne(state.doctorList, payload.data);
   });
 
   builder.addCase(getDoctorListThunk.fulfilled, (state, { payload }) => {
