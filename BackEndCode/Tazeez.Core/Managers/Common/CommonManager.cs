@@ -1,10 +1,15 @@
 ﻿using AutoMapper;
+using JustProtect.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Tazeez.DB.Models.DB;
+using Tazeez.Enums;
 using Tazeez.Infrastructure;
+using Tazeez.Models;
 using Tazeez.Models.Models;
+using Tazeez.Models.QuestionTypes;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 
@@ -16,21 +21,18 @@ namespace Tazeez.Core.Managers.Common
         private readonly IMapper _mapper;
         private readonly IConfigurationSettings _configurationSettings;
 
-        public CommonManager(TazeezContext context,
-                           IMapper mapper,
-                           IConfigurationSettings configurationSettings)
+        public CommonManager(TazeezContext context, IMapper mapper, IConfigurationSettings configurationSettings)
         {
             _context = context;
             _mapper = mapper;
             _configurationSettings = configurationSettings;
         }
 
-        public void ContactWithUS(ContactRequestModel contactRequestModel)
+        public void AddContactWithUS(ContactRequestModel contactRequestModel)
         {
-            _context.ContactRequests.Add(new ContactRequest 
+            _context.ContactRequest.Add(new ContactRequest 
             {
-                FirstName = contactRequestModel.FirstName,
-                LastName = contactRequestModel.LastName,
+                UserName = contactRequestModel.UserName,
                 Message = contactRequestModel.Message,
                 Email = contactRequestModel.Email,
                 PhoneNumber = contactRequestModel.PhoneNumber
@@ -41,8 +43,10 @@ namespace Tazeez.Core.Managers.Common
 
         public UserModel GetUserRole(UserModel currentUser)
         {
-            var user = _context.Users.FirstOrDefault(a => a.Id == currentUser.Id);
-            
+            var user = _context.User
+                               .Include(a => a.Doctor)
+                               .FirstOrDefault(a => a.Id == currentUser.Id);
+
             return _mapper.Map<UserModel>(user);
         }
 
@@ -53,7 +57,7 @@ namespace Tazeez.Core.Managers.Common
                 throw new Exception("You don't have permission to see this resource");
             }
 
-            var data = _context.ContactRequests.OrderBy(a => a.CreatedDate).ToList();
+            var data = _context.ContactRequest.OrderBy(a => a.CreatedDate).ToList();
 
             return _mapper.Map<List<ContactRequestModel>>(data);
         }

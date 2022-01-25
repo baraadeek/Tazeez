@@ -6,7 +6,7 @@ namespace Tazeez.Core.Managers.Common
 {
     public interface ICommonManager : IManager
     {
-        void ContactWithUS(ContactRequestModel contactRequestModel);
+        void AddContactWithUS(ContactRequestModel contactRequestModel);
 
         List<ContactRequestModel> GetContactWithUS(UserModel currentUser);
         

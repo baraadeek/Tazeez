@@ -26,10 +26,10 @@ namespace Tazeez.Controllers
         [MapToApiVersion("1")]
         public IActionResult ContactWithUS(ContactRequestModel contactRequestModel)
         {
-            _commonManager.ContactWithUS(contactRequestModel);
+            _commonManager.AddContactWithUS(contactRequestModel);
             return Ok();
         }
-        
+
         [Route("api/v{version:apiVersion}/common")]
         [HttpGet]
         [MapToApiVersion("1")]

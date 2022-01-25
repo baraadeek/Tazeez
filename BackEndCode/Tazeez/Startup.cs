@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using JustProtect.Extensions;
 using JustProtectPublicApi.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -12,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
+using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
 using System.Collections.Generic;
@@ -37,6 +40,12 @@ namespace Tazeez
 
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
+            Log.Logger = new LoggerConfiguration()
+                          .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+                          .Enrich.FromLogContext()
+                          .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+                          .CreateLogger();
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -181,12 +190,23 @@ namespace Tazeez
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            if (env.IsDevelopment() || env.IsEnvironment("Local"))
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Tazeez v1"));
             }
+
+            Log.Logger = new LoggerConfiguration()
+                      .MinimumLevel.Override("Microsoft.EntityFrameworkCore.Database.Command", LogEventLevel.Warning)
+                      .ReadFrom.Configuration(Configuration.GetSection("Serilog"))
+                      .WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day)
+                      .CreateLogger();
+
+            app.ConfigureExceptionHandler(Log.Logger, env);
+
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
 
             app.UseCors("TazeezPolicy");
 
