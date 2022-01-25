@@ -1,11 +1,11 @@
 export const COLUMNS = [
-  "Name",
-  "Email",
-  "phone Number",
+  "name",
+  "email",
+  "phoneNumber",
   "City",
-  "Specialist",
-  "Created",
-  "Due Date",
+  "specialist",
+  "created",
+  "lastUpdated",
   "",
 ];
 

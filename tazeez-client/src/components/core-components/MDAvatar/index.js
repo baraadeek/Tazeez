@@ -29,6 +29,7 @@ MDAvatar.propTypes = {
     "error",
     "light",
     "dark",
+    "greyLight",
   ]),
   size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl", "xxl"]),
   shadow: PropTypes.oneOf([

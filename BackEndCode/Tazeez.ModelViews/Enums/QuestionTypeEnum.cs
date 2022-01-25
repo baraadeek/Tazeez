@@ -18,7 +18,7 @@ namespace Tazeez.Enums
         DateTimeAnswer = 6
     }
 
-    public enum AssessmentQuestionStatusEnum
+    public enum QuestionStatusEnum
     {
         [Description("Open")]
         Open = 0,

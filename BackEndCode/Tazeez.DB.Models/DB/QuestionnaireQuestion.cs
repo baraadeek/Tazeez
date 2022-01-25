@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tazeez.DataAccess.Models;
 
 namespace Tazeez.DB.Models.DB
 {
@@ -9,6 +10,7 @@ namespace Tazeez.DB.Models.DB
         {
             QuestionnaireAnswerText = new List<QuestionnaireAnswerText>();
             QuestionnaireAnswerChoice = new List<QuestionnaireAnswerChoice>();
+            QuestionAttachment = new List<QuestionAttachment>();
         }
 
         public int Id { get; set; }
@@ -25,6 +27,8 @@ namespace Tazeez.DB.Models.DB
 
         public bool Archived { get; set; }
 
+        public bool IsDraft { get; set; }
+
         public virtual QuestionnaireTemplateQuestion QuestionnaireTemplateQuesion { get; set; }
         
         public virtual Questionnaire Questionnaire { get; set; }
@@ -32,5 +36,7 @@ namespace Tazeez.DB.Models.DB
         public List<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
 
         public List<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
+
+        public List<QuestionAttachment> QuestionAttachment { get; set; }
     }
 }

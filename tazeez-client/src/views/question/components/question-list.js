@@ -25,6 +25,9 @@ import CardIcon from "components/core-components/card/CardIcon";
 import CardBody from "components/core-components/card/CardBody";
 import CardComponent from "components/core-components/card/CardComponent";
 import AddTemplateQuestion from "./add-temp-question";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "i18n/locales/translationKeys";
 
 const useStyle = makeStyles(questionListViewStyle);
 
@@ -36,9 +39,9 @@ function QuestionList() {
   //#endregion
 
   const questionList = useSelector(questionSelectors);
+  const { t } = useTranslation(namespaces.question);
 
   //#region Life Cycle
-
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
   useEffect(
@@ -112,7 +115,9 @@ function QuestionList() {
 
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
-        {item.isOptional === false ? "No" : "Yes"}
+        {item.isOptional === false
+          ? t(translationKeys.question.no)
+          : t(translationKeys.question.yes)}
       </TableCell>
     );
     row.push(rowColumn);
@@ -128,7 +133,7 @@ function QuestionList() {
               <GroupIcon />
             </CardIcon>
             <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
-              Questions
+              {t(translationKeys.question.questions)}
             </h4>
           </CardHeader>
           <CardBody>
@@ -136,9 +141,9 @@ function QuestionList() {
             {!false ? (
               <Table
                 renderDataTable={renderDataTable}
-                tableHead={COLUMNS}
+                tableHead={COLUMNS.map((q) => t(translationKeys.question[q]))}
                 tableData={questionList}
-                emptyTable={"No Questions available!"}
+                emptyTable={t(translationKeys.question.available)}
                 customCellClasses={[
                   classes.center,
                   classes.right,

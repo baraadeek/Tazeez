@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using Tazeez.DataAccess.Models;
 using Tazeez.DB.Models.DB;
 using Tazeez.Infrastructure;
 
@@ -22,6 +23,10 @@ namespace Tazeez.Models.Models
         {
             _configuration = configuration;
         }
+
+        public virtual DbSet<Attachment> Attachment { get; set; }
+
+        public virtual DbSet<QuestionAttachment> QuestionAttachment { get; set; }
 
         public virtual DbSet<Doctor> Doctor { get; set; }
 
@@ -59,6 +64,79 @@ namespace Tazeez.Models.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Attachment>(entity =>
+            {
+                entity.HasIndex(e => e.Id)
+                      .HasDatabaseName("Id_UNIQUE")
+                      .IsUnique();
+
+                entity.HasIndex(e => e.QuestionnaireId)
+                    .HasDatabaseName("AttachmentId_QuestionnaireId_idx");
+
+                entity.Property(e => e.Id).HasColumnType("int(11)");
+
+                entity.Property(e => e.Archived)
+                    .HasColumnType("tinyint(3)")
+                    .HasDefaultValueSql("'0'");
+
+                entity.Property(e => e.QuestionnaireId).HasColumnType("int(11)");
+
+                entity.Property(e => e.CreatedUTC)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.DisplayName)
+                    .HasColumnType("varchar(500)")
+                    .HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.FileName)
+                    .HasColumnType("varchar(500)")
+                    .HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.LastUpdatedUTC)
+                    .HasColumnType("timestamp")
+                    .HasDefaultValueSql("CURRENT_TIMESTAMP")
+                    .ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.FileKey)
+                    .HasColumnType("varchar(500)")
+                    .HasCharSet("latin1")
+                    .UseCollation("latin1_swedish_ci");
+
+                entity.Property(e => e.UploadType).HasColumnType("int(11)");
+
+                entity.Property(e => e.Source).HasColumnType("int(11)");
+
+                entity.Property(e => e.UserId).HasColumnType("int(11)");
+
+                entity.Property(e => e.IsDraft).HasColumnType("tinyint(3)");
+
+                entity.HasOne(d => d.Questionnaire)
+                    .WithMany(p => p.Attachments)
+                    .HasForeignKey(d => d.QuestionnaireId)
+                    .HasConstraintName("AttachmentId_QuestionnaireId");
+            });
+
+            modelBuilder.Entity<Attachment>()
+                        .HasDiscriminator<int>("Source")
+                        .HasValue<Attachment>(0)
+                        .HasValue<QuestionAttachment>(1);
+
+            modelBuilder.Entity<QuestionAttachment>(entity =>
+            {
+                entity.Property(e => e.QuestionId).HasColumnName("SourceId");
+
+                entity.HasOne(d => d.Question)
+                .WithMany(p => p.QuestionAttachment)
+                .HasForeignKey(d => d.QuestionId);
+
+                entity.HasOne(d => d.User)
+                .WithMany(p => p.QuestionAttachments)
+                .HasForeignKey(d => d.UserId);
+            });
+
             modelBuilder.Entity<Doctor>(entity => {
 
                 entity.HasIndex(e => e.Id)
@@ -492,6 +570,7 @@ namespace Tazeez.Models.Models
             modelBuilder.Entity<QuestionnaireAnswerText>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireAnswerChoice>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<Doctor>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<Attachment>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }

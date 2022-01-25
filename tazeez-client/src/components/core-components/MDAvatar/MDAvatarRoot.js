@@ -24,13 +24,12 @@ export default styled(Avatar)(({ theme, ownerState }) => {
   const { gradients, transparent, white } = palette;
   const { pxToRem, linearGradient } = functions;
   const { size: fontSize, fontWeightRegular } = typography;
-  console.log("🚀 ~ file: MDAvatarRoot.js ~ line 27 ~ styled ~ size", size);
 
   // backgroundImage value
   const backgroundValue =
     bgColor === "transparent"
       ? transparent.main
-      : linearGradient(gradients[bgColor].main, gradients[bgColor].state);
+      : linearGradient(gradients[bgColor]?.main, gradients[bgColor]?.state);
 
   // size value
   let sizeValue;
