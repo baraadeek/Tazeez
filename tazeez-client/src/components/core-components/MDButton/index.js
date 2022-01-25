@@ -51,6 +51,7 @@ MDButton.defaultProps = {
   color: "white",
   circular: false,
   iconOnly: false,
+  type: "submit",
 };
 
 // Typechecking props for the MDButton
