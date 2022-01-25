@@ -1,7 +1,7 @@
 import "./App.css";
 import { Route, Redirect, Switch } from "react-router-dom";
 // import routes from "./routes/routes";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "./store/reducers/rootReducer";
 import { normalRoutes, authRoutes } from "routes/routes";
@@ -31,11 +31,11 @@ function App() {
     const routs = authRoutes.map((rout) => (
       <Route key={rout.id} path={rout.path} exact component={rout.component} />
     ));
-
+    const mainRoute = authRoutes.filter((r) => r.isMain)[0];
     return (
       <AdminLayout routes={authRoutes}>
         {routs}
-        <Redirect to={ROUTES_PATH_ENUM.QuestionsTemplatesList} />
+        <Redirect to={mainRoute!.path} />
       </AdminLayout>
     );
   } else {

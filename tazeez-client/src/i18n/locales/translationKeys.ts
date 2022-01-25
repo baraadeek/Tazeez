@@ -1,5 +1,8 @@
 const translationKeys = {
   pages: {
+    createQuestionnaire: {
+      questionnaireTitle: "questionnaireTitle",
+    },
     login: {
       login: "login",
       createAccount: "createAccount",
@@ -30,6 +33,8 @@ const translationKeys = {
     questionsTemplate: "questionsTemplate",
     doctors: "doctors",
     profile: "profile",
+    createQuestionnaire: "createQuestionnaire",
+  },
   template: {
     add: "add",
     save: "save",
@@ -88,7 +93,7 @@ const translationKeys = {
     deleteDoctor: "deleteDoctor",
     addDoctor: "addDoctor",
     editDoctor: "editDoctor",
-  }
+  },
 };
 
 export default translationKeys;

@@ -38,7 +38,10 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   );
   const [rtlCache, setRtlCache] = React.useState<EmotionCache>();
   const isRtl = useIsRtl();
-  const {t} = useTranslation(namespaces.routes.authRoutes);
+  const { t } = useTranslation(namespaces.routes.authRoutes);
+  const isAdminUser = useSelector<IRootReducer, boolean>(
+    (state) => !!state.auth.user?.isAdmin
+  );
 
   // Cache for the rtl
   React.useMemo(() => {
@@ -52,10 +55,10 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
   }, []);
 
   const Parent = isRtl ? CacheProvider : React.Fragment;
-
+  const parentProps = isRtl ? { value: rtlCache } : {};
   return (
     //@ts-ignore
-    <Parent value={rtlCache}>
+    <Parent {...parentProps}>
       <ThemeProvider theme={isRtl ? themeRTL : theme}>
         <CssBaseline />
         <DashboardLayout>
@@ -65,10 +68,19 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
           <Sidenav
             color={sidenavColor}
             routes={routes
-              .filter((x) => !x.isHidden)
+              .filter(
+                (x) =>
+                  (!x.isHidden && !x.requireAdmin) ||
+                  (x.requireAdmin && isAdminUser)
+              )
               .map((r) => ({
                 type: "collapse",
-                name: t(getKeyValue(translationKeys.authRoutes, r.translationKey as any)),
+                name: t(
+                  getKeyValue(
+                    translationKeys.authRoutes,
+                    r.translationKey as any
+                  )
+                ),
                 key: r.path.replace("/", "").toLowerCase(),
                 icon: null,
                 route: r.path,
@@ -81,5 +93,3 @@ const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {
 };
 
 export default AdminLayout;
-
-

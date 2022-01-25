@@ -1,6 +1,6 @@
 import { HttpMethods } from "common/constants/httpMethods";
 
-export const END_POINTS= {
+export const END_POINTS = {
   login: {
     url: "api/v1/user/login",
     method: HttpMethods.POST,
@@ -29,6 +29,10 @@ export const END_POINTS= {
     url: "api/v1/questionnairetemplate/{id}",
     method: HttpMethods.GET,
   },
+  addQuestionnaire: {
+    url: "/api/v1/questionnaire",
+    method: HttpMethods.PUT,
+  },
   getProfile: {
     url: "api/v1/user/{id}",
     method: HttpMethods.GET,
@@ -53,8 +57,8 @@ export const END_POINTS= {
     url: "api/v1/doctor/{id}",
     method: HttpMethods.DELETE,
   },
-    getUsers: {
+  getUsers: {
     url: "api/v1/users?page=1&pageSize=50",
     method: HttpMethods.GET,
-  }
+  },
 };

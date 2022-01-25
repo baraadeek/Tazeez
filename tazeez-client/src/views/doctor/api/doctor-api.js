@@ -1,5 +1,5 @@
 import { formatParameterizedURL } from "views/examples/profile/api/user-api";
-import { axiosAPI } from "../../../axios";
+import { axiosAPI } from "../../../axiosAPI";
 import { END_POINTS } from "../../../endpoint";
 
 export const addDoctorAPI = async (data) => {

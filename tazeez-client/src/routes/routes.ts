@@ -4,6 +4,7 @@ import ProfileDoctor from "views/examples/home/doctor/components/Profile-doctor"
 import Auth from "views/layouts/Auth";
 import Overview from "views/profile";
 import QuestionList from "views/question/components/question-list";
+import CreateQuestionnairePage from "views/questionnaire/CreateQuestionnairePage/CreateQuestionnairePage";
 import Templates from "views/template";
 import { ROUTES_NAME_ENUM } from "../common/constants/routesNameEnum";
 import { ROUTES_PATH_ENUM } from "../common/constants/routesPathEnum";
@@ -21,7 +22,10 @@ export type IRoute = {
   requireAdmin?: boolean;
 };
 
-export type IAuthRoutes = IRoute & { translationKey: string };
+export type IAuthRoutes = IRoute & {
+  translationKey: string;
+  requireAdmin?: boolean;
+};
 
 export const normalRoutes: IRoute[] = [
   {
@@ -55,7 +59,6 @@ export const authRoutes: IAuthRoutes[] = [
     name: ROUTES_NAME_ENUM.QuestionsTemplatesList,
     path: ROUTES_PATH_ENUM.QuestionsTemplatesList,
     component: Templates,
-    isMain: true,
     isHidden: false,
     translationKey: translationKeys.authRoutes.questionsTemplatesList,
   },
@@ -78,5 +81,13 @@ export const authRoutes: IAuthRoutes[] = [
     component: Overview,
     translationKey: translationKeys.authRoutes.profile,
     isHidden: true,
+  },
+  {
+    name: ROUTES_NAME_ENUM.CreateQuestionnaire,
+    path: ROUTES_PATH_ENUM.CreateQuestionnaire,
+    component: CreateQuestionnairePage,
+    requireAdmin: true,
+    isMain: true,
+    translationKey: translationKeys.authRoutes.createQuestionnaire,
   },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));

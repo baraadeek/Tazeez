@@ -99,6 +99,10 @@ const englishTranslation = {
     [translationKeys.authRoutes.profile]:"Profile",
     [translationKeys.authRoutes.questionsTemplate]:"Questions Template",
     [translationKeys.authRoutes.questionsTemplatesList]:"Questions Templates List",
+    [translationKeys.authRoutes.createQuestionnaire]:"Create Questionnaire",
+  },
+  [namespaces.pages.createQuestionnaire]:{
+    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:"Questionnaire Title"
   }
 };
 

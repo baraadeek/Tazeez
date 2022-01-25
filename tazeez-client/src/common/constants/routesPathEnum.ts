@@ -6,6 +6,7 @@ export enum ROUTES_PATH_ENUM {
   QuestionsTemplate = `/questions_templates_list/:id`,
   Questions = "/questions/:id",
   Doctors = "/doctors",
-    Doctor = "/doctor/:id",
-Profile='/profile'
+  Doctor = "/doctor/:id",
+  Profile = "/profile",
+  CreateQuestionnaire = "/create_questionnaire"
 }

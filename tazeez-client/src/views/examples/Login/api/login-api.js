@@ -1,4 +1,4 @@
-import { axiosAPI } from "../../../../axios";
+import { axiosAPI } from "../../../../axiosAPI";
 import { END_POINTS } from "../../../../endpoint";
 
 export const loginAPI = async (data) => {
