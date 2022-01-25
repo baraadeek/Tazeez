@@ -264,7 +264,7 @@ namespace Tazeez.Models.QuestionTypes
                 }
             }
 
-            isDraft = ComputeIsDraft(existingQuestion, _context, isDraft);
+            isDraft = ComputeIsDraft(existingQuestion, isDraft);
 
             if (isDraft)
             {
@@ -276,7 +276,7 @@ namespace Tazeez.Models.QuestionTypes
             }
         }
 
-        private bool ComputeIsDraft(QuestionnaireQuestion existingQuestion, TazeezContext _context, bool isDraft)
+        private bool ComputeIsDraft(QuestionnaireQuestion existingQuestion, bool isDraft)
         {
             if (!isDraft)
             {
@@ -334,9 +334,9 @@ namespace Tazeez.Models.QuestionTypes
 
             foreach (var answer in assessmentQuestionAttachmentAnswer.QuestionAttachment)
             {
-                var S3FileKey = $"Questionnaire/{QuestionnaireId}/{QuestionId}/{answer.FileName}";
+                var fileName = $"Questionnaire/{QuestionnaireId}/{QuestionId}/{answer.FileName}";
 
-                if (!existingQuestion.QuestionAttachment.Any(a => a.FileKey.Equals(S3FileKey)))
+                if (!existingQuestion.QuestionAttachment.Any(a => a.FileKey.Equals(fileName)))
                 {
                     var questionAttachment = _mapper.Map<QuestionAttachment>(new QuestionAttachmentRequestModel
                     {
@@ -344,7 +344,7 @@ namespace Tazeez.Models.QuestionTypes
                         AssessmentId = QuestionnaireId,
                         DisplayName = answer.DisplayName,
                         FileName = answer.FileName,
-                        S3fileKey = S3FileKey,
+                        FileKey = fileName,
                         UploadType = answer.UploadType,
                         QuestionId = QuestionId
                     });
@@ -360,10 +360,10 @@ namespace Tazeez.Models.QuestionTypes
             else
             {
                 isDraft =  (existingQuestion.QuestionnaireAnswerText.Count < 2 
-                     || string.IsNullOrWhiteSpace(existingQuestion.QuestionnaireAnswerText.ToList()[1].Text));
+                             || string.IsNullOrWhiteSpace(existingQuestion.QuestionnaireAnswerText.ToList()[1].Text));
             }
 
-            isDraft = ComputeIsDraft(existingQuestion, _context, isDraft);
+            isDraft = ComputeIsDraft(existingQuestion, isDraft);
 
             if (!isDraft)
             {

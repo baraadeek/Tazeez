@@ -27,4 +27,14 @@ namespace Tazeez.Enums
         [Description("Released")]
         Released = 2,
     }
+
+    public enum AnswerTypeEnum
+    {
+        [Description("AnswerQuestion")]
+        AnswerQuestion = 1,
+        [Description("AnswerQuestionAdditionalInfo")]
+        AnswerQuestionAdditionalInfo = 2,
+        [Description("AddQuestionAttachment")]
+        AddQuestionAttachment = 3
+    }
 }
