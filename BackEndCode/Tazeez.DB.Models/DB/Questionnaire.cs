@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Tazeez.DataAccess.Models;
 
 namespace Tazeez.DB.Models.DB
 {
@@ -8,6 +9,7 @@ namespace Tazeez.DB.Models.DB
         public Questionnaire()
         {
             QuestionnaireQuestions = new HashSet<QuestionnaireQuestion>();
+            Attachments = new HashSet<Attachment>();
         }
 
         public int Id { get; set; }
@@ -37,5 +39,7 @@ namespace Tazeez.DB.Models.DB
         public virtual User User { get; set; }
 
         public virtual ICollection<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
+
+        public virtual ICollection<Attachment> Attachments { get; set; }
     }
 }

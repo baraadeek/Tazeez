@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tazeez.Common.Extensions;
+using Tazeez.Models.Requests;
+using Tazeez.Models.Responses;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
@@ -16,6 +18,12 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                                     string sortColumn = "",
                                                                     string sortDirection = "");
 
+        QuestionnaireQuestionsResponseV1 GetQuestionnaireQuestions(UserModel currentUser,
+                                                                int questionnaireId,
+                                                                int page,
+                                                                int pageSize,
+                                                                int questionId = 0,
+                                                                SearchTextRequest searchText = null);
         void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire);
 
         QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);
