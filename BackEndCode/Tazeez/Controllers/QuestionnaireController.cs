@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using Tazeez.Common.Extensions;
 using Tazeez.Core.Managers.Questionnaires;
+using Tazeez.Enums;
 using Tazeez.Infrastructure;
 using Tazeez.Models.Requests;
 using Tazeez.ModelViews.ModelViews;
@@ -95,10 +98,56 @@ namespace Tazeez.Controllers
         [HttpGet]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult QetQuestionnaireTemplate()
+        public IActionResult QetQuestionnaireTemplate(string name = "")
         {
-            var result = _questionnaireManager.GetQuestionniareTemplate(LoggedInUser);
+            var result = _questionnaireManager.GetQuestionniareTemplate(LoggedInUser, name);
             return Ok(result);
         }
+
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/question/{questionId}/multiChoice")]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> AnswerQuestionChoiceAsync(int id, int questionId, QuestionnaireQuestionAnswerChoiceRequest assessmentQuestionAnswerChoice)
+        {
+            var res = await _questionnaireManager.AnswerQuestionAsyncV1(LoggedInUser, id, questionId, assessmentQuestionAnswerChoice, AnswerTypeEnum.AnswerQuestion).AnyContext();
+            return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/question/{questionId}/textAnswer")]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> AnswerQuestionTextAsync(int id, int questionId, QuestionnaireQuestionAnswerTextRequest assessmetnQuestionAnswerText)
+        {
+            var res = await _questionnaireManager.AnswerQuestionAsyncV1(LoggedInUser, id, questionId, assessmetnQuestionAnswerText, AnswerTypeEnum.AnswerQuestion).AnyContext();
+            return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/question/{questionId}/additionalText")]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> AnswerQuestionAdditionalInfoAsync(int id, int questionId, QuestionnaireQuestionAnswerTextRequest assessmetnQuestionAnswerText)
+        {
+            var res = await _questionnaireManager.AnswerQuestionAsyncV1(LoggedInUser, id, questionId, assessmetnQuestionAnswerText, AnswerTypeEnum.AnswerQuestionAdditionalInfo).AnyContext();
+            return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/question/{questionId}/attachment")]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> AnswerQuestionAttachmentAsync(int id, int questionId, QuestionAttachmentAnswer assessmentQuestionAttachmentAnswer)
+        {
+            var res = await _questionnaireManager.AnswerQuestionAsyncV1(LoggedInUser, id, questionId, assessmentQuestionAttachmentAnswer, AnswerTypeEnum.AddQuestionAttachment).AnyContext();
+            return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/questionnaire/{id}/status/{status}")]
+        [HttpPut]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult UpdateAssessmentStatus(int id, int status)
+        {
+            _questionnaireManager.UpdateAssessmentStatus(LoggedInUser, id, status);
+            return Ok();
+        }
+
     }
 }

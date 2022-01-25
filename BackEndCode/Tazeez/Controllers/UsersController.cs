@@ -65,7 +65,6 @@ namespace Tazeez.Controllers
         [Route("api/v{version:apiVersion}/doctor/{id}")]
         [HttpGet]
         [MapToApiVersion("1")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetDoctor(int id)
         {
             var result = _userManager.GetDoctor(LoggedInUser, id);

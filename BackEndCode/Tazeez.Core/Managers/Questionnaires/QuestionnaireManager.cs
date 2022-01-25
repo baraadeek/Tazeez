@@ -4,6 +4,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Tazeez.Common.Extensions;
 using Tazeez.Core.Managers.Helper;
 using Tazeez.DB.Models.DB;
@@ -349,7 +350,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(res);
         }
 
-        public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser)
+        public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name = "")
         {
             if (!currentUser.IsAdmin)
             {
@@ -357,6 +358,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             var res = _context.QuestionnaireTemplate
+                              .Where(a => string.IsNullOrWhiteSpace(name) || a.Name.Contains(name))
                               .Select(a => new QuestionnaireTemplateResponseModel
                               { 
                                  Id = a.Id, 
@@ -365,9 +367,140 @@ namespace Tazeez.Core.Managers.Questionnaires
                                  CreatedDate = a.CreatedUTC
                               })
                               .ToList();
+
             return res;
         }
 
+        public void UpdateAssessmentStatus(UserModel currentUser, int assessmentId, int status)
+        {
+            Log.Information($"Inside UpdateAssessmentStatusAsync assessmentId => {assessmentId}, status => {status}");
+
+            if (assessmentId == 0 || status == 0)
+            {
+                throw new ServiceValidationException("Invalid data received");
+            }
+
+            var existingAssessment = _context.Questionnaire
+                                          .Include("QuestionnaireTemplate")
+                                          .FirstOrDefault(a => a.Id == assessmentId
+                                                                   && (a.UserId == currentUser.Id || currentUser.IsAdmin));
+
+            ValidateAssessmentStatus(existingAssessment, status);
+
+            if (existingAssessment.Status == status)
+            {
+                return;
+            }
+
+            existingAssessment.Status = status;
+            _context.SaveChanges();
+        }
+
+        public async Task<AnsweredQuestionResponseV1> AnswerQuestionAsyncV1(UserModel currentUser,
+                                                                            int questionnaireId,
+                                                                            int questionId,
+                                                                            IQuestionAnswerRequest questionAnswerRequest,
+                                                                            AnswerTypeEnum answerType = AnswerTypeEnum.AnswerQuestion)
+        {
+            Log.Information($"Inside AnswerQuestionAsyncV1 => questionnaireId => {questionnaireId}, questionId => {questionId}");
+
+            var existingQuestion = _context.QuestionnaireQuestion
+                                           .Include("Questionnaire")
+                                           .Include("QuestionnaireTemplateQuestion")
+                                           .FirstOrDefault(a => a.Id == questionId
+                                                                && a.Questionnaire.Id == questionnaireId
+                                                                && (a.Questionnaire.UserId == currentUser.Id || currentUser.IsAdmin));
+
+            if (existingQuestion == null)
+            {
+                throw new ServiceValidationException("You don't have access to answer question");
+            }
+
+            if (existingQuestion.Questionnaire == null
+                || existingQuestion.Questionnaire.Status == (int)AssessmentStatusEnum.Cancelled
+                || existingQuestion.Questionnaire.Status == (int)AssessmentStatusEnum.Completed)
+            {
+                throw new ServiceValidationException("Can't answer question during assessment status is one of these statuses (Completed, Cancelled)");
+            }
+            else if (existingQuestion.Questionnaire != null && existingQuestion.Questionnaire.Status == (int)AssessmentStatusEnum.Open)
+            {
+                UpdateAssessmentStatus(currentUser, questionnaireId, (int)AssessmentStatusEnum.InProgress);
+            }
+
+            var response = new AnsweredQuestionResponseV1();
+
+            var LoadedAssessmentQuestion = LoadAssessmentQuestion(currentUser, existingQuestion.Questionnaire, false, new List<int> { questionId }).FirstOrDefault();
+
+            switch (answerType)
+            {
+                case AnswerTypeEnum.AnswerQuestion:
+                    LoadedAssessmentQuestion.AnswerQuestion(currentUser, questionAnswerRequest, existingQuestion, _context, _mapper, questionId);
+                    break;
+                case AnswerTypeEnum.AnswerQuestionAdditionalInfo:
+                    LoadedAssessmentQuestion.UpdateAdditionalInfo(currentUser, questionAnswerRequest, existingQuestion, _context);
+                    break;
+                case AnswerTypeEnum.AddQuestionAttachment:
+                    LoadedAssessmentQuestion.AddQuestionAttachment(currentUser, questionAnswerRequest, existingQuestion, _context, _mapper);
+                    QuestionAttachmentAnswer assessmentQuestionAttachmentAnswer = (QuestionAttachmentAnswer)questionAnswerRequest;
+                    response = new AddedAttachmentResponse()
+                    {
+                        AttachmentIds = existingQuestion.QuestionAttachment
+                                                        .Select(a => a.Id)
+                                                        .TakeLast(assessmentQuestionAttachmentAnswer.QuestionAttachment.Count)
+                                                        .ToList(),
+                    };
+                    break;
+            }
+
+            _context.SaveChanges();
+
+            if (existingQuestion.Status == (int)QuestionStatusEnum.Open && existingQuestion.Questionnaire.Status == (int)AssessmentStatusEnum.InReview)
+            {
+                UpdateAssessmentStatus(currentUser, questionnaireId, (int)AssessmentStatusEnum.InProgress);
+            }
+            else if ((int)AssessmentStatusEnum.InReview != existingQuestion.Questionnaire.Status && IsAllAssessmentQuestionsAnswered(questionnaireId))
+            {
+                UpdateAssessmentStatus(currentUser, questionnaireId, (int)AssessmentStatusEnum.InReview);
+            }
+
+            response.QuestionStatus = (QuestionStatusEnum)existingQuestion.Status;
+            Log.Information($"Finish AnswerQuestionAsyncV1 => questionnaireId => {questionnaireId}, questionId => {questionId}");
+            return response;
+        }
+
+
+        private void ValidateAssessmentStatus(Questionnaire existingAssessment, int status)
+        {
+            if (existingAssessment == null)
+            {
+                throw new ServiceValidationException("Assessment not found");
+            }
+
+            if (existingAssessment.Status == (int)AssessmentStatusEnum.Cancelled || existingAssessment.Status == (int)AssessmentStatusEnum.Completed)
+            {
+                throw new ServiceValidationException("Can't update assessment when its status is completed or cancelled");
+            }
+            else if (existingAssessment.Status == (int)AssessmentStatusEnum.InProgress && status == (int)AssessmentStatusEnum.Open)
+            {
+                throw new ServiceValidationException(600, "Can't update assessment status cause already in progress status");
+            }
+            else if (existingAssessment.Status == (int)AssessmentStatusEnum.InProgress && (status == (int)AssessmentStatusEnum.Completed))
+            {
+                throw new ServiceValidationException("Can't update assessment status when in progress status to be completed");
+            }
+            else if (existingAssessment.Status == (int)AssessmentStatusEnum.Open && status == (int)AssessmentStatusEnum.Completed)
+            {
+                throw new ServiceValidationException("Can't update assessment status when in pending/open status to be completed");
+            }
+        }
+
+        private bool IsAllAssessmentQuestionsAnswered(int assessmentId)
+        {
+            return _context.QuestionnaireQuestion.Where(q => q.QuestionnaireId == assessmentId
+                                                          && !q.QuestionnaireTemplateQuesion.IsOptional)
+                                              .All(a => a.Status == (int)QuestionStatusEnum.Answered
+                                                         || a.Status == (int)QuestionStatusEnum.Released);
+        }
 
         private List<BaseQuestionType> LoadAssessmentQuestion(UserModel currentUser,
                                                               Questionnaire assessment,
