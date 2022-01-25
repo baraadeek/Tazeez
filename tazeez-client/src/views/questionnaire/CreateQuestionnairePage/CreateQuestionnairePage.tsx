@@ -65,8 +65,8 @@ const columns: GridColDef[] = [
     width: 110,
     renderCell: (params) => {
       return (
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg">
-          {params.row.fullName}
+        <Avatar alt="Remy Sharp" src={params.value}>
+          {params.row.firstName[0] + params.row.lastName[0]}
         </Avatar>
       );
     },
@@ -168,6 +168,7 @@ export default function CreateQuestionnairePage(
         <Grid item md={6} sm={12} lg={6}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
+            minDate={new Date()}
               label="Due Date"
               inputFormat="MM/dd/yyyy"
               value={dueDate}
@@ -206,6 +207,8 @@ export default function CreateQuestionnairePage(
                 usersList?.data.map((u) => ({
                   id: u.id,
                   fullName: u.fullName,
+                  firstName: u.firstName,
+                  lastName: u.lastName,
                   email: u.email,
                   image: u.image,
                 })) || []
@@ -223,7 +226,7 @@ export default function CreateQuestionnairePage(
             />
           </div>
         </Grid>
-        <Grid item md={12} xs={12}>
+        <Grid item md={12} xs={12} marginTop={16}>
           <MDButton
             onClick={onMakeQuestionnaire}
             startIcon={
