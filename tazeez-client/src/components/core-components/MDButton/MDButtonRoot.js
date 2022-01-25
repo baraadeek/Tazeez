@@ -17,6 +17,7 @@ Coded by www.creative-tim.com
 // @mui material components
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
+import { mainPrimaryColor } from "assets/theme/base/colors";
 
 export default styled(Button)(({ theme, ownerState }) => {
   const { palette, functions, borders, boxShadows } = theme;
@@ -90,9 +91,14 @@ export default styled(Button)(({ theme, ownerState }) => {
       background: backgroundValue,
       color: colorValue,
       boxShadow: boxShadowValue,
+      border: `1px solid ${backgroundValue}`,
 
       "&:hover": {
-        backgroundColor: backgroundValue,
+        backgroundColor: "white",
+        borderColor: palette[color].main,
+        color: palette[color].main,
+        border: `1px solid ${palette[color].main}`,
+        opacity: 1,
         boxShadow: hoveredBoxShadowValue,
       },
 
@@ -125,12 +131,10 @@ export default styled(Button)(({ theme, ownerState }) => {
       : boxShadow([0, 0], [0, 3.2], white.main, 0.5);
 
     // border color value
-    let borderColorValue = palette[color]
-      ? palette[color].main
-      : rgba(white.main, 0.75);
+    let borderColorValue = palette[color] ? palette[color].main : white.main;
 
     if (color === "white") {
-      borderColorValue = rgba(white.main, 0.75);
+      borderColorValue = white.main;
     }
 
     return {
@@ -139,8 +143,10 @@ export default styled(Button)(({ theme, ownerState }) => {
       borderColor: borderColorValue,
 
       "&:hover": {
-        background: transparent.main,
+        background: mainPrimaryColor,
         borderColor: colorValue,
+        color: "white",
+        opacity: 1,
       },
 
       "&:focus:not(:hover)": {

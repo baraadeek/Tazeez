@@ -32,6 +32,7 @@ function ComplexStatisticsCard({
   percentage,
   icon,
   mr,
+  ml,
   isCenter,
   ...rest
 }) {

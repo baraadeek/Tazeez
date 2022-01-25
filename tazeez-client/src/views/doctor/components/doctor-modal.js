@@ -27,12 +27,17 @@ import { addDoctorThunk, getUsersThunk } from "../api/doctor-thunk-api";
 import { useSelector } from "react-redux";
 import { htmlToDraftJs } from "components/core-components/TextEditor/utils";
 
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+
 const useStyle = makeStyles(AddTempQuestionStyle);
 
 export default function DoctorModal(props) {
   const { setShow, id } = props;
 
   const doctor = useSelector((state) => state.doctor.doctorList.entities)[id];
+  const { t } = useTranslation(namespaces.doctor);
 
   useEffect(() => {
     if (doctor?.description) {
@@ -83,14 +88,14 @@ export default function DoctorModal(props) {
   };
   const dialogActions = [
     {
-      name: "Close",
+      name: t(translationKeys.doctor.close),
       onClick: () => {
         setShow(false);
         reset();
       },
     },
     {
-      name: "Save",
+      name: t(translationKeys.doctor.save),
       variant: "contained",
       color: "info",
       type: "submit",
@@ -107,7 +112,7 @@ export default function DoctorModal(props) {
               fontSize={16}
               className={classes.marginBottom}
             >
-              Specialist:
+              {t(translationKeys.doctor.specialist)}
             </MDTypography>
             <Controller
               name="specialist"
@@ -139,7 +144,7 @@ export default function DoctorModal(props) {
                 classes.marginBottom
               )}
             >
-              Users:
+              {t(translationKeys.doctor.users)}
             </MDTypography>
             {doctor ? (
               <Controller
@@ -197,7 +202,7 @@ export default function DoctorModal(props) {
               fontSize={16}
               className={classes.marginBottom}
             >
-              Description:
+              {t(translationKeys.doctor.description)}
             </MDTypography>
             <Controller
               name="description"
