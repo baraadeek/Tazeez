@@ -61,6 +61,7 @@ export const authRoutes: IAuthRoutes[] = [
     component: Templates,
     isHidden: false,
     translationKey: translationKeys.authRoutes.questionsTemplatesList,
+    isMain: true,
   },
   {
     name: ROUTES_NAME_ENUM.QuestionsTemplate,
@@ -87,7 +88,6 @@ export const authRoutes: IAuthRoutes[] = [
     path: ROUTES_PATH_ENUM.CreateQuestionnaire,
     component: CreateQuestionnairePage,
     requireAdmin: true,
-    isMain: true,
     translationKey: translationKeys.authRoutes.createQuestionnaire,
   },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
