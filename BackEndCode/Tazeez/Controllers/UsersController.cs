@@ -65,7 +65,6 @@ namespace Tazeez.Controllers
         [Route("api/v{version:apiVersion}/doctor/{id}")]
         [HttpGet]
         [MapToApiVersion("1")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetDoctor(int id)
         {
             var result = _userManager.GetDoctor(LoggedInUser, id);
@@ -75,6 +74,7 @@ namespace Tazeez.Controllers
         [Route("api/v{version:apiVersion}/doctor/{id}")]
         [HttpDelete]
         [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult ArchivedDoctor(int id)
         {
             _userManager.ArchivedDoctor(LoggedInUser, id);
