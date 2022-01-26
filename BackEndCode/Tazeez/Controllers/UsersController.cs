@@ -17,7 +17,7 @@ namespace Tazeez.Controllers
         private IUserManager _userManager { get; set; }
         #endregion private variable
 
-        public UsersController(IUserManager userManager, IConfigurationSettings configuration)
+        public UsersController(IUserManager userManager, IConfigurationSettings configuration) 
             : base(configuration)
         {
             _userManager = userManager;
@@ -70,7 +70,7 @@ namespace Tazeez.Controllers
             var result = _userManager.GetDoctor(LoggedInUser, id);
             return Ok(result);
         }
-
+        
         [Route("api/v{version:apiVersion}/doctor/{id}")]
         [HttpDelete]
         [MapToApiVersion("1")]
@@ -80,7 +80,7 @@ namespace Tazeez.Controllers
             _userManager.ArchivedDoctor(LoggedInUser, id);
             return Ok();
         }
-
+        
         [Route("api/v{version:apiVersion}/user/signup")]
         [HttpPost]
         [MapToApiVersion("1")]
@@ -89,7 +89,7 @@ namespace Tazeez.Controllers
             var result = _userManager.SignUp(signUpRequest);
             return Ok(result);
         }
-
+        
         [Route("api/v{version:apiVersion}/user/login")]
         [HttpPost]
         [MapToApiVersion("1")]
@@ -98,7 +98,7 @@ namespace Tazeez.Controllers
             var result = _userManager.Login(loginRequest);
             return Ok(result);
         }
-
+        
         [Route("api/v{version:apiVersion}/user/profile/me")]
         [HttpPut]
         [MapToApiVersion("1")]
@@ -129,7 +129,7 @@ namespace Tazeez.Controllers
             var result = _userManager.GetUser(id);
             return Ok(result);
         }
-
+        
         [Route("api/v{version:apiVersion}/user/test")]
         [HttpGet]
         [MapToApiVersion("1")]

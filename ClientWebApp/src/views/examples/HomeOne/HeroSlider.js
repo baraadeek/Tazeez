@@ -4,6 +4,8 @@ import Link from "next/link";
 import Slider1 from "../images/home-one/home-slider1.png";
 import Slider2 from "../images/home-one/home-slider2.png";
 import Slider3 from "../images/home-one/home-slider3.png";
+import { useHistory } from "react-router-dom";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 const options = {
   items: 1,
@@ -23,7 +25,7 @@ const options = {
 
 const HeroSlider = () => {
   const [display, setDisplay] = React.useState(false);
-
+  const history = useHistory();
   React.useEffect(() => {
     setDisplay(true);
   }, []);
@@ -45,9 +47,10 @@ const HeroSlider = () => {
                 </p>
 
                 <div className="common-btn">
-                  <Link href="/appointment">
-                    <a>Get Appointment</a>
-                  </Link>
+                  <a onClick={(e) => {
+                    history.push(ROUTES_PATH_ENUM.Login)
+                  }}>Get Appointment</a>
+
                   <Link href="/about">
                     <a className="cmn-btn-right">Learn More</a>
                   </Link>

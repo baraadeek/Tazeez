@@ -39,9 +39,9 @@ const OurDoctors = () => {
         </div>
 
         <div className="row justify-content-center">
-          {doctorList?.map((doctor) => {
+          {doctorList?.map((doctor, index) => {
             return (
-              <div className="col-sm-6 col-lg-4">
+              <div className="col-sm-6 col-lg-4" key={index}>
                 <div className="doctor-item">
                   <div className="doctor-top">
                     <img
