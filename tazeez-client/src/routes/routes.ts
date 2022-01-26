@@ -1,8 +1,10 @@
+import translationKeys from "i18n/locales/translationKeys";
 import Doctors from "views/doctor";
 import ProfileDoctor from "views/examples/home/doctor/components/Profile-doctor";
 import Auth from "views/layouts/Auth";
 import Overview from "views/profile";
 import QuestionList from "views/question/components/question-list";
+import CreateQuestionnairePage from "views/questionnaire/CreateQuestionnairePage/CreateQuestionnairePage";
 import Templates from "views/template";
 import { ROUTES_NAME_ENUM } from "../common/constants/routesNameEnum";
 import { ROUTES_PATH_ENUM } from "../common/constants/routesPathEnum";
@@ -17,6 +19,11 @@ export type IRoute = {
   isMain?: boolean;
   icon?: any;
   isHidden?: boolean;
+  requireAdmin?: boolean;
+};
+
+export type IAuthRoutes = IRoute & {
+  translationKey: string;
   requireAdmin?: boolean;
 };
 
@@ -47,29 +54,40 @@ export const normalRoutes: IRoute[] = [
   },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));
 
-export const authRoutes: IRoute[] = [
+export const authRoutes: IAuthRoutes[] = [
   {
     name: ROUTES_NAME_ENUM.QuestionsTemplatesList,
     path: ROUTES_PATH_ENUM.QuestionsTemplatesList,
     component: Templates,
-    isMain: true,
     isHidden: false,
+    translationKey: translationKeys.authRoutes.questionsTemplatesList,
+    isMain: true,
   },
   {
     name: ROUTES_NAME_ENUM.QuestionsTemplate,
     path: ROUTES_PATH_ENUM.QuestionsTemplate,
     component: QuestionList,
     isHidden: true,
+    translationKey: translationKeys.authRoutes.questionsTemplate,
   },
   {
     name: ROUTES_NAME_ENUM.Doctors,
     path: ROUTES_PATH_ENUM.Doctors,
     component: Doctors,
+    translationKey: translationKeys.authRoutes.doctors,
   },
   {
     name: ROUTES_NAME_ENUM.Profile,
     path: ROUTES_PATH_ENUM.Profile,
     component: Overview,
+    translationKey: translationKeys.authRoutes.profile,
     isHidden: true,
+  },
+  {
+    name: ROUTES_NAME_ENUM.CreateQuestionnaire,
+    path: ROUTES_PATH_ENUM.CreateQuestionnaire,
+    component: CreateQuestionnairePage,
+    requireAdmin: true,
+    translationKey: translationKeys.authRoutes.createQuestionnaire,
   },
 ].map((rout, index) => Object.assign(rout, { id: index + 1 }));

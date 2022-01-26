@@ -1,5 +1,8 @@
 const translationKeys = {
   pages: {
+    createQuestionnaire: {
+      questionnaireTitle: "questionnaireTitle",
+    },
     login: {
       login: "login",
       createAccount: "createAccount",
@@ -24,6 +27,13 @@ const translationKeys = {
   common: {
     homePage: "homePage",
     about: "about",
+  },
+  authRoutes: {
+    questionsTemplatesList: "questionsTemplatesList",
+    questionsTemplate: "questionsTemplate",
+    doctors: "doctors",
+    profile: "profile",
+    createQuestionnaire: "createQuestionnaire",
   },
   template: {
     add: "add",

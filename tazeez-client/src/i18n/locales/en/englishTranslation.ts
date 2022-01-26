@@ -32,6 +32,7 @@ const englishTranslation = {
     [translationKeys.pages.authNavbar.contact]: "Contact",
     [translationKeys.pages.authNavbar.doctors]: "Doctors",
     [translationKeys.pages.authNavbar.services]: "Services",
+    [translationKeys.pages.authNavbar.login]: "Login",
   },
   [namespaces.template]: {
     [translationKeys.template.add]: "Add New Template",
@@ -93,6 +94,16 @@ const englishTranslation = {
     [translationKeys.doctor.addDoctor]: "Add New Doctor",
     [translationKeys.doctor.editDoctor]: "Edit Doctor",
   },
+  [namespaces.routes.authRoutes]:{
+    [translationKeys.authRoutes.doctors]:"Doctors",
+    [translationKeys.authRoutes.profile]:"Profile",
+    [translationKeys.authRoutes.questionsTemplate]:"Questions Template",
+    [translationKeys.authRoutes.questionsTemplatesList]:"Questions Templates List",
+    [translationKeys.authRoutes.createQuestionnaire]:"Create Questionnaire",
+  },
+  [namespaces.pages.createQuestionnaire]:{
+    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:"Questionnaire Title"
+  }
 };
 
 export default englishTranslation;

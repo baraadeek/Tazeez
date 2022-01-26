@@ -13,6 +13,7 @@ const arabicTranslation = {
   [namespaces.pages.home]: {
     welcome: "مرحبا",
   },
+  
   [namespaces.pages.login]: {
     [translationKeys.pages.login.login]: "تسجيل دخول",
     [translationKeys.pages.login.createAccount]: "ألم تقم بحسابك بعد؟",
@@ -30,8 +31,15 @@ const arabicTranslation = {
     [translationKeys.pages.authNavbar.about]: "حول",
     [translationKeys.pages.authNavbar.blog]: "مدونة",
     [translationKeys.pages.authNavbar.contact]: "تواصل",
-    [translationKeys.pages.authNavbar.doctors]: "الدكاترة",
+    [translationKeys.pages.authNavbar.doctors]: "الأطباء",
     [translationKeys.pages.authNavbar.services]: "الخدمات",
+  },
+  [namespaces.routes.authRoutes]:{
+    [translationKeys.authRoutes.doctors]:"الأطباء",
+    [translationKeys.authRoutes.profile]:"الملف الشخصي",
+    [translationKeys.authRoutes.questionsTemplate]:"نموذج الاسئلة",
+    [translationKeys.authRoutes.questionsTemplatesList]:"قائمة نماذج الأسئلة",
+    [translationKeys.authRoutes.createQuestionnaire]:"إنشاء إستبيان",
   },
   [namespaces.template]: {
     [translationKeys.template.add]: "أضف قالب جديد",
@@ -40,7 +48,6 @@ const arabicTranslation = {
     [translationKeys.template.title]: "العنوان",
     [translationKeys.template.q]: "س",
   },
-
   [namespaces.question]: {
     [translationKeys.question.add]: "أضف قالب جديد",
     [translationKeys.question.save]: "حفظ",
@@ -86,13 +93,16 @@ const arabicTranslation = {
     [translationKeys.doctor.phoneNumber]: "رقم الهاتف",
     [translationKeys.doctor.city]: "المدينة",
     [translationKeys.doctor.available]: "لا توجد اطباء متاحة!",
-    [translationKeys.doctor.doctors]: "الدكاترة",
+    [translationKeys.doctor.doctors]: "الأطباء",
     [translationKeys.doctor.delete]: "حذف",
     [translationKeys.doctor.deleteMassage]: "هل تريد حذف هذا الطبيب؟",
     [translationKeys.doctor.deleteDoctor]: "حذف الطبيب",
     [translationKeys.doctor.addDoctor]: "إضافة طبيب",
     [translationKeys.doctor.editDoctor]: "تعديل طبيب",
   },
+  [namespaces.pages.createQuestionnaire]:{
+    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:"عنوان الإستبيان"
+  }
 };
 
 export default arabicTranslation;

@@ -3,6 +3,10 @@ export const namespaces = {
     home: "pages.home",
     login: "pages.login",
     authNavbar: "pages.authNavbar",
+    createQuestionnaire: "pages.createQuestionnaire",
+  },
+  routes: {
+    authRoutes: "routes.authRoutes",
   },
   template: "template",
   question: "question",

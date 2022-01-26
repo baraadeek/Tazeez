@@ -7,6 +7,7 @@
     "npm": ">=6"
   },
   "dependencies": {
+    "@date-io/date-fns": "1.x",
     "@emotion/cache": "11.4.0",
     "@emotion/react": "11.4.1",
     "@emotion/styled": "11.3.0",
@@ -16,8 +17,10 @@
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@material-ui/utils": "^4.11.2",
     "@mui/icons-material": "5.2.0",
+    "@mui/lab": "^5.0.0-alpha.66",
     "@mui/material": "5.2.0",
     "@mui/styled-engine": "5.2.0",
+    "@mui/x-data-grid": "^5.3.0",
     "@reduxjs/toolkit": "^1.7.1",
     "@types/react": "^17.0.20",
     "@types/react-dom": "^17.0.9",
@@ -26,6 +29,7 @@
     "chart.js": "3.4.1",
     "chroma-js": "2.1.2",
     "classnames": "2.3.1",
+    "date-fns": "^2.28.0",
     "draft-js": "^0.11.7",
     "draftjs-to-html": "^0.9.1",
     "i18next": "^21.6.5",
