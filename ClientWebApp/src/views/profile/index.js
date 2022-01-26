@@ -51,8 +51,6 @@ function Overview() {
   const { handleSubmit, control } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data);
-
     ThunkDispatch(
       updateUserThunk({ ...data, image: image.length ? image : user.image })
     )

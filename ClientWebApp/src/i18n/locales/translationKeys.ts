@@ -2,6 +2,16 @@ const translationKeys = {
   pages: {
     createQuestionnaire: {
       questionnaireTitle: "questionnaireTitle",
+      add: "add",
+      tempList: "tempList",
+      dueDate: "dueDate",
+      name: "name",
+      date: "date",
+      numberOfQuestions: "numberOfQuestions",
+      fullName: "fullName",
+      email: "email",
+      image: "image",
+      users: "users",
     },
     login: {
       login: "login",
@@ -39,6 +49,7 @@ const translationKeys = {
     add: "add",
     save: "save",
     close: "close",
+    list: "list",
     title: "title",
     q: "q",
   },
@@ -93,6 +104,10 @@ const translationKeys = {
     deleteDoctor: "deleteDoctor",
     addDoctor: "addDoctor",
     editDoctor: "editDoctor",
+    info: "info",
+    message: "message",
+    submit: "submit",
+    feedback: "feedback",
   },
 };
 

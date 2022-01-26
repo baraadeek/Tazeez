@@ -5,19 +5,16 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { contactAPI } from "./api/contact-api";
 
+import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+
 export default function Contact() {
   const { handleSubmit, control, formState, reset } = useForm();
   const dispatch = useDispatch();
-
-  // const pageDirection = useSelector(
-  //   (state) => state.pageDirection.pageDirection
-  // );
-
-  // let isAR = pageDirection === PAGE_DIRECTION.ar.key;
-  let isAR = false;
+  const { t } = useTranslation(namespaces.doctor);
 
   const onSubmit = (data) => {
-    console.log(data);
     reset({ userName: "", phoneNumber: "", email: "", message: "" });
 
     dispatch(contactAPI(data));
@@ -27,7 +24,7 @@ export default function Contact() {
     <div className="col-sm-6 col-lg-3">
       <div className="footer-item">
         <div className="footer-feedback">
-          <h3>{isAR ? "تواصل" : "Feedback"}</h3>
+          <h3>{t(translationKeys.doctor.feedback)}</h3>
           <Form onSubmit={handleSubmit(onSubmit)}>
             <div className="form-group">
               <Controller
@@ -39,7 +36,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder={isAR ? "اسم المستخدم" : "User Name"}
+                    placeholder={t(translationKeys.doctor.name)}
                   />
                 )}
               />
@@ -54,7 +51,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder={isAR ? "رقم الهاتف" : "Phone Number"}
+                    placeholder={t(translationKeys.doctor.phoneNumber)}
                   />
                 )}
               />
@@ -69,7 +66,7 @@ export default function Contact() {
                     {...field}
                     required
                     autoComplete="off"
-                    placeholder={isAR ? "البريد الالكتروني" : "email"}
+                    placeholder={t(translationKeys.doctor.email)}
                   />
                 )}
               />
@@ -86,7 +83,7 @@ export default function Contact() {
                     className="form-control"
                     id="your_message"
                     rows={3}
-                    placeholder={isAR ? "الرسالة" : "Message"}
+                    placeholder={t(translationKeys.doctor.message)}
                   ></textarea>
                 )}
               />
@@ -95,10 +92,8 @@ export default function Contact() {
               <button type="submit" className="btn feedback-btn">
                 {formState.isSubmitting ? (
                   <Spinner animation="border" variant="light" />
-                ) : isAR ? (
-                  "إرسال"
                 ) : (
-                  "SUBMIT"
+                  t(translationKeys.doctor.submit)
                 )}
               </button>
             </div>

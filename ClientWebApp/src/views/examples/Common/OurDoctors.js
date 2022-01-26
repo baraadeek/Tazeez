@@ -37,9 +37,9 @@ const OurDoctors = () => {
         </div>
 
         <div className="row justify-content-center">
-          {doctorList.map((doctor) => {
+          {doctorList.map((doctor, index) => {
             return (
-              <div className="col-sm-6 col-lg-4">
+              <div className="col-sm-6 col-lg-4" key={index}>
                 <div className="doctor-item">
                   <div className="doctor-top">
                     <img
@@ -52,7 +52,10 @@ const OurDoctors = () => {
                   <div className="doctor-bottom">
                     <h3>
                       <Link
-                        to={ROUTES_PATH_ENUM.Doctor.replace(":id", doctor?.id)}
+                        to={ROUTES_PATH_ENUM.Doctor.replace(
+                          ":id",
+                          doctor?.id
+                        )}
                       >
                         {`Dr. ${doctor?.user?.fullName}`}
                       </Link>

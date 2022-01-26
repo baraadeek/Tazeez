@@ -13,7 +13,7 @@ const arabicTranslation = {
   [namespaces.pages.home]: {
     welcome: "مرحبا",
   },
-  
+
   [namespaces.pages.login]: {
     [translationKeys.pages.login.login]: "تسجيل دخول",
     [translationKeys.pages.login.createAccount]: "ألم تقم بحسابك بعد؟",
@@ -34,12 +34,12 @@ const arabicTranslation = {
     [translationKeys.pages.authNavbar.doctors]: "الأطباء",
     [translationKeys.pages.authNavbar.services]: "الخدمات",
   },
-  [namespaces.routes.authRoutes]:{
-    [translationKeys.authRoutes.doctors]:"الأطباء",
-    [translationKeys.authRoutes.profile]:"الملف الشخصي",
-    [translationKeys.authRoutes.questionsTemplate]:"نموذج الاسئلة",
-    [translationKeys.authRoutes.questionsTemplatesList]:"قائمة نماذج الأسئلة",
-    [translationKeys.authRoutes.createQuestionnaire]:"إنشاء إستبيان",
+  [namespaces.routes.authRoutes]: {
+    [translationKeys.authRoutes.doctors]: "الأطباء",
+    [translationKeys.authRoutes.profile]: "الملف الشخصي",
+    [translationKeys.authRoutes.questionsTemplate]: "نموذج الاسئلة",
+    [translationKeys.authRoutes.questionsTemplatesList]: "قائمة نماذج الأسئلة",
+    [translationKeys.authRoutes.createQuestionnaire]: "إنشاء إستبيان",
   },
   [namespaces.template]: {
     [translationKeys.template.add]: "أضف قالب جديد",
@@ -99,10 +99,26 @@ const arabicTranslation = {
     [translationKeys.doctor.deleteDoctor]: "حذف الطبيب",
     [translationKeys.doctor.addDoctor]: "إضافة طبيب",
     [translationKeys.doctor.editDoctor]: "تعديل طبيب",
+    [translationKeys.doctor.info]: "معلومات الاتصال ",
+    [translationKeys.doctor.message]: "الرسالة",
+    [translationKeys.doctor.submit]: "إرسال",
+    [translationKeys.doctor.feedback]: "تواصل",
   },
-  [namespaces.pages.createQuestionnaire]:{
-    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:"عنوان الإستبيان"
-  }
+  [namespaces.pages.createQuestionnaire]: {
+    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:
+      "عنوان الإستبيان",
+    [translationKeys.pages.createQuestionnaire.add]: "إضافة الاإستبيان",
+    [translationKeys.pages.createQuestionnaire.tempList]: "قائمة القوالب",
+    [translationKeys.pages.createQuestionnaire.dueDate]: "تاريخ الانتهاء",
+    [translationKeys.pages.createQuestionnaire.name]: "الأسم",
+    [translationKeys.pages.createQuestionnaire.date]: "تاريخ الأنشاء",
+    [translationKeys.pages.createQuestionnaire.numberOfQuestions]:
+      "عدد الاسئلة",
+    [translationKeys.pages.createQuestionnaire.fullName]: "الأسم",
+    [translationKeys.pages.createQuestionnaire.email]: "البريد الإلكتروني",
+    [translationKeys.pages.createQuestionnaire.image]: "الصورة",
+    [translationKeys.pages.createQuestionnaire.users]: "المستخدمين",
+  },
 };
 
 export default arabicTranslation;

@@ -93,17 +93,35 @@ const englishTranslation = {
     [translationKeys.doctor.deleteDoctor]: "Delete Doctor",
     [translationKeys.doctor.addDoctor]: "Add New Doctor",
     [translationKeys.doctor.editDoctor]: "Edit Doctor",
+    [translationKeys.doctor.info]: "Contact info",
+    [translationKeys.doctor.message]: "Message",
+    [translationKeys.doctor.submit]: "Submit",
+    [translationKeys.doctor.feedback]: "Feedback",
   },
-  [namespaces.routes.authRoutes]:{
-    [translationKeys.authRoutes.doctors]:"Doctors",
-    [translationKeys.authRoutes.profile]:"Profile",
-    [translationKeys.authRoutes.questionsTemplate]:"Questions Template",
-    [translationKeys.authRoutes.questionsTemplatesList]:"Questions Templates List",
-    [translationKeys.authRoutes.createQuestionnaire]:"Create Questionnaire",
+  [namespaces.routes.authRoutes]: {
+    [translationKeys.authRoutes.doctors]: "Doctors",
+    [translationKeys.authRoutes.profile]: "Profile",
+    [translationKeys.authRoutes.questionsTemplate]: "Questions Template",
+    [translationKeys.authRoutes.questionsTemplatesList]:
+      "Questions Templates List",
+    [translationKeys.authRoutes.createQuestionnaire]: "Create Questionnaire",
   },
-  [namespaces.pages.createQuestionnaire]:{
-    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:"Questionnaire Title"
-  }
+  [namespaces.pages.createQuestionnaire]: {
+    [translationKeys.pages.createQuestionnaire.questionnaireTitle]:
+      "Questionnaire Title",
+    [translationKeys.pages.createQuestionnaire.add]: "Add Questionnaire",
+    [translationKeys.pages.createQuestionnaire.tempList]: "Template List",
+    [translationKeys.pages.createQuestionnaire.dueDate]: "Due Date",
+    [translationKeys.pages.createQuestionnaire.name]: "Name",
+    [translationKeys.pages.createQuestionnaire.date]: "Create Date",
+    [translationKeys.pages.createQuestionnaire.numberOfQuestions]:
+      "Number of Questions",
+
+    [translationKeys.pages.createQuestionnaire.fullName]: "Full Name",
+    [translationKeys.pages.createQuestionnaire.email]: "Email",
+    [translationKeys.pages.createQuestionnaire.image]: "Image",
+    [translationKeys.pages.createQuestionnaire.users]: "Users",
+  },
 };
 
 export default englishTranslation;

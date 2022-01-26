@@ -34,3 +34,15 @@ export const getUserAPI = async (data) => {
 
   return response;
 };
+
+export const getDoctorAPI = async (data) => {
+  console.log(data);
+
+  const endpoint = { ...END_POINTS.getDoctor };
+
+  endpoint.url = formatParameterizedURL(endpoint.url, { id: data });
+
+  const response = await axiosAPI(endpoint);
+
+  return response;
+};
