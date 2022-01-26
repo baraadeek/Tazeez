@@ -50,6 +50,7 @@ const OurDoctors = () => {
                       width="350px"
                       height="350px"
                     />
+                    <Link to="/appointment">Get Appointment</Link>
                   </div>
                   <div className="doctor-bottom">
                     <h3>
