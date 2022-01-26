@@ -57,12 +57,15 @@ const OurDoctors = () => {
                   <div className="doctor-bottom">
                     <h3>
                       <Link
-                        to={ROUTES_PATH_ENUM.Doctor.replace(":id", doctor.id)}
+                        to={ROUTES_PATH_ENUM.Doctor.replace(
+                          ":id",
+                          doctor?.user?.id
+                        )}
                       >
-                        {`Dr. ${doctor.user.fullName}`}
+                        {`Dr. ${doctor?.user?.fullName}`}
                       </Link>
                     </h3>
-                    <span>{doctor.specialist}</span>
+                    <span>{doctor?.specialist}</span>
                   </div>
                 </div>
               </div>
