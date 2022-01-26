@@ -10,10 +10,11 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import ICTable from "components/core-components/ICTalbe/ICTable";
 import { axiosAPI } from "axiosAPI";
 import { END_POINTS } from "endpoint";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { GridColDef } from "@mui/x-data-grid";
 import "./style.css";
 import { createStyles, Divider, makeStyles, Theme } from "@material-ui/core";
 import MDButton from "components/core-components/MDButton";
+import DataGridTable from "components/core-components/DataGridTable/DataGridTable";
 
 const useICTableStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -90,7 +91,8 @@ export default function CreateQuestionnairePage(
   const [usersList, setUsersList] = React.useState<IGetUsersListRes | null>(
     null
   );
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
+  const [isLoadingUsers, setIsLoadingUsers] = React.useState(false);
   const [isAddingQuestionnaire, setIsAddingQuestionnaire] =
     React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<number[]>([]);
@@ -116,8 +118,9 @@ export default function CreateQuestionnairePage(
     },
   }));
 
-  const getTemplateList = async () => {
-    setIsLoading(true);
+  const getTemplatesAndUsers = async () => {
+    setIsLoadingTemplates(true);
+    setIsLoadingUsers(true);
     try {
       const { data: tempList } = await axiosAPI.get<IGetTemplateListRes>(
         END_POINTS.getTemplateList.url
@@ -128,11 +131,35 @@ export default function CreateQuestionnairePage(
       setUsersList(usersList);
     } catch (error) {}
 
-    setIsLoading(false);
+    setIsLoadingTemplates(false);
+    setIsLoadingUsers(false);
   };
 
+  async function onSearchTemplate(searchText: string) {
+    setIsLoadingTemplates(true);
+    try {
+      const { data: tempList } = await axiosAPI.get<IGetTemplateListRes>(
+        END_POINTS.getTemplateList.url + `?name=${searchText}`
+      );
+
+      setTemplateList(tempList);
+    } catch (error) {}
+
+    setIsLoadingTemplates(false);
+  }
+
+  async function onSearchUser(searchText: string) {
+    setIsLoadingUsers(true);
+    try {
+      const { data: usersList } = await axiosAPI.get(END_POINTS.getUsers.url + `&searchText=${searchText}`);
+      setUsersList(usersList);
+    } catch (error) {}
+
+    setIsLoadingUsers(false);
+  }
+
   React.useEffect(() => {
-    getTemplateList();
+    getTemplatesAndUsers();
   }, []);
 
   const onMakeQuestionnaire = async () => {
@@ -168,7 +195,7 @@ export default function CreateQuestionnairePage(
         <Grid item md={6} sm={12} lg={6}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
-            minDate={new Date()}
+              minDate={new Date()}
               label="Due Date"
               inputFormat="MM/dd/yyyy"
               value={dueDate}
@@ -187,9 +214,16 @@ export default function CreateQuestionnairePage(
           <Divider />
           <p>Template List</p>
           <ICTable
-            isLoading={isLoading}
+            search
+            isLoading={isLoadingTemplates}
             select
             hover
+            searchInputProps={{
+              onSearchClick: onSearchTemplate,
+              clearSearch: onSearchTemplate,
+              controlled: false,
+              label:"Search ..."
+            }}
             paperProps={{
               variant: "outlined",
             }}
@@ -198,11 +232,17 @@ export default function CreateQuestionnairePage(
           />
         </Grid>
         <Grid item md={12} xs={12}>
+          <Divider />
+          <p>Users</p>
           <div style={{ height: 400, width: "100%" }}>
-            <Divider />
-            <p>Users</p>
-            <DataGrid
-              loading={isLoading}
+            <DataGridTable
+              search
+              loading={isLoadingUsers}
+              searchProps={{
+                onSearchClick: onSearchUser,
+                clearSearch: onSearchUser,
+                label:"Search ..."
+              }}
               rows={
                 usersList?.data.map((u) => ({
                   id: u.id,
@@ -226,7 +266,7 @@ export default function CreateQuestionnairePage(
             />
           </div>
         </Grid>
-        <Grid item md={12} xs={12} marginTop={16}>
+        <Grid item md={12} xs={12}>
           <MDButton
             onClick={onMakeQuestionnaire}
             startIcon={
