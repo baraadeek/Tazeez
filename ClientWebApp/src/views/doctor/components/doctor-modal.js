@@ -45,7 +45,7 @@ export default function DoctorModal(props) {
     }
   }, []);
 
-  const { control, errors, reset, handleSubmit } = useForm();
+  const { control, errors, reset, handleSubmit, watch } = useForm();
   const usersList = useSelector((state) => state.doctor.users);
 
   const classes = useStyle();
@@ -99,6 +99,7 @@ export default function DoctorModal(props) {
       variant: "contained",
       color: "info",
       type: "submit",
+      id: 1,
     },
   ];
 
@@ -151,11 +152,9 @@ export default function DoctorModal(props) {
                 name="fullName"
                 control={control}
                 defaultValue={doctor?.user.fullName || ""}
-                error={!!errors?.fullName}
                 render={({ field }) => (
                   <Form.Control
                     {...field}
-                    required
                     disabled
                     autoFocus
                     minLength={2}
@@ -208,10 +207,6 @@ export default function DoctorModal(props) {
               name="description"
               control={control}
               defaultValue=""
-              error={!!errors?.question}
-              rules={{
-                validate: (val) => val?.trim().length >= 2,
-              }}
               render={({ field: { value, onChange } }) => (
                 <Slate
                   forwardRef={(ref) => {
@@ -247,6 +242,15 @@ export default function DoctorModal(props) {
                 onClick={button?.onClick}
                 variant={button.variant || "outlined"}
                 type={button.type}
+                disabled={
+                  button.id === 1
+                    ? !(
+                        watch &&
+                        watch("specialist")?.length &&
+                        (!id ? watch("userId")?.id : true)
+                      )
+                    : false
+                }
               >
                 {button.name}
               </MDButton>

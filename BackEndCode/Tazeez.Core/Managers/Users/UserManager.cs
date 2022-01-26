@@ -206,33 +206,40 @@ namespace Tazeez.Core.Managers.Users
 
         public UserModel UpdateProfile(UserModel currentUser, UpdateProfileRequestModel request)
         {
-            var url = "";
+            var user = _context.User
+                   .FirstOrDefault(a => a.Id == currentUser.Id)
+                   ?? throw new ServiceValidationException("User not found");
 
+            var url = "";
             if (!string.IsNullOrWhiteSpace(request.Image))
             {
-                url = SaveImage(request.Image);
+                url = SaveImage(request.Image, "profileimages");
             }
-
-            var user = _context.User
-                               .FirstOrDefault(a => a.Id == currentUser.Id)
-                               ?? throw new ServiceValidationException("User not found");
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.City = request.City;
             user.PhoneNumber = request.PhoneNumber;
-            user.Image = @$"{_configurationSettings.Domain}/api/v1/user/fileretrive/profilepic?filename={url}";
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                user.Image = @$"{_configurationSettings.Domain}/api/v1/user/fileretrive/profilepic?filename={url}";
+            }
+
             _context.SaveChanges();
             return _mapper.Map<UserModel>(user);
         }
 
         #region private Method
 
-        private string SaveImage(string base64img)
+        private string SaveImage(string base64img, string baseFolder)
         {
             try
             {
-                var baseFolder = "profileimages";
+                if (string.IsNullOrWhiteSpace(baseFolder))
+                {
+                    throw new ServiceValidationException("Invalid folder name for upload images");
+                }
+
                 var folderPath = Path.Combine(Directory.GetCurrentDirectory(), baseFolder);
                 
                 if (!Directory.Exists(folderPath))
