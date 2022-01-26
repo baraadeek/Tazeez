@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  CircularProgress,
-  Grid,
-  Collapse,
-  Typography,
-} from "@material-ui/core";
+import { CircularProgress, Collapse, Typography } from "@material-ui/core";
+import { Grid, IconButton, TextField } from "@mui/material";
 
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,8 +12,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import TablePagination from "@material-ui/core/TablePagination";
 import useICTableStyle from "./icTableStyle";
-
-
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 export default function ICTable(props) {
   const classes = useICTableStyle(props);
   const {
@@ -38,12 +34,16 @@ export default function ICTable(props) {
     addPagination,
     totalItems,
     paperEffect,
+    searchInputProps,
     select,
+    search,
   } = props;
 
   const [collapseRow, setCollapseRow] = useState(null);
   const [selectedRowIndex, setSelectedRowIndex] = useState(null);
-
+  const [searchTextValue, setSearchTextValue] = useState(
+    searchInputProps.defaultValue
+  );
   function selectedRowClassName(index) {
     let className = "";
 
@@ -139,6 +139,63 @@ export default function ICTable(props) {
       [];
   }
 
+
+  function renderSearchBar() {
+    if (!search) return null;
+
+    const { onSearchClick, value, onChange, clearSearch, controlled, ...rest } =
+      searchInputProps;
+
+    const searchText = controlled ? value : searchTextValue;
+    return (
+      <Grid container item padding={1} justifyContent={"flex-start"}>
+        <TextField
+          variant="standard"
+          {...rest}
+          value={searchText}
+          onChange={
+            controlled
+              ? onChange
+              : function (event) {
+                  setSearchTextValue(event.target.value);
+                }
+          }
+          InputProps={{
+            startAdornment: (
+              <IconButton
+                title="Clear"
+                aria-label="Clear"
+                size="small"
+                onClick={function () {
+                  onSearchClick?.(searchText);
+                }}
+              >
+                <SearchIcon fontSize="small" />
+              </IconButton>
+            ),
+            endAdornment: (
+              <IconButton
+                title="Clear"
+                aria-label="Clear"
+                size="small"
+                style={{ visibility: searchText ? "visible" : "hidden" }}
+                onClick={function () {
+                  if (!controlled) {
+                    setSearchTextValue("");
+                  }
+                  clearSearch?.("");
+                }}
+              >
+                <ClearIcon fontSize="small" />
+              </IconButton>
+            ),
+          }}
+        />
+      </Grid>
+    );
+  }
+
+
   if (isLoading || (tableRows && !tableRows.length) || !tableRows) {
     return (
       <Paper
@@ -147,6 +204,7 @@ export default function ICTable(props) {
         } ${classes.loader}`}
         {...paperProps}
       >
+        {renderSearchBar()}
         <Grid
           container
           direction="row"
@@ -169,6 +227,7 @@ export default function ICTable(props) {
     );
   }
 
+
   const classNames = `${disabled ? classes.disabled : ""} ${
     (!paperEffect && classes.removePaperEffect) || ""
   }`;
@@ -181,6 +240,7 @@ export default function ICTable(props) {
         }`}
         {...paperProps}
       >
+        {renderSearchBar()}
         <TableContainer
           {...tableContainerProps}
           component={"div"}
@@ -221,7 +281,9 @@ ICTable.propTypes = {
   addPagination: PropTypes.bool,
   select: PropTypes.bool,
   paperEffect: PropTypes.bool,
+  search: PropTypes.bool,
   rowsPerPageOptions: PropTypes.array,
+  searchInputProps:PropTypes.object,
   rowsPerPage: PropTypes.number,
   page: PropTypes.number,
   totalItems: PropTypes.number,
