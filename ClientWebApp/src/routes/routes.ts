@@ -1,5 +1,6 @@
 import translationKeys from "i18n/locales/translationKeys";
 import Doctors from "views/doctor";
+import DoctorsList from "views/examples/home/doctor/components/list-doctor";
 import ProfileDoctor from "views/examples/home/doctor/components/Profile-doctor";
 import Auth from "views/layouts/Auth";
 import Overview from "views/profile";
@@ -44,6 +45,12 @@ export const normalRoutes: IRoute[] = [
     name: ROUTES_NAME_ENUM.SignUp,
     path: ROUTES_PATH_ENUM.SignUp,
     component: SignUp,
+    isHidden: false,
+  },
+  {
+    name: ROUTES_NAME_ENUM.DoctorList,
+    path: ROUTES_PATH_ENUM.DoctorList,
+    component: DoctorsList,
     isHidden: false,
   },
   {

@@ -168,8 +168,8 @@ export default function CreateQuestionnairePage(
         <Grid item md={6} sm={12} lg={6}>
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DesktopDatePicker
-            minDate={new Date()}
-              label="Due Date"
+              minDate={new Date()}
+              label={t(translationKeys.pages.createQuestionnaire.dueDate)}
               inputFormat="MM/dd/yyyy"
               value={dueDate}
               onChange={(date: Date | null) => {
@@ -185,7 +185,7 @@ export default function CreateQuestionnairePage(
       <Grid container item md={12} xs={12} lg={12} spacing={1}>
         <Grid item md={12} lg={12} xs={12}>
           <Divider />
-          <p>Template List</p>
+          <p>{t(translationKeys.pages.createQuestionnaire.tempList)}</p>
           <ICTable
             isLoading={isLoading}
             select
@@ -193,14 +193,16 @@ export default function CreateQuestionnairePage(
             paperProps={{
               variant: "outlined",
             }}
-            headers={["template name", "added date", "number of questions"]}
+            headers={["name", "date", "numberOfQuestions"].map((q) =>
+              t(translationKeys.pages.createQuestionnaire[q])
+            )}
             rows={templateListRows}
           />
         </Grid>
         <Grid item md={12} xs={12}>
           <div style={{ height: 400, width: "100%" }}>
             <Divider />
-            <p>Users</p>
+            <p>{t(translationKeys.pages.createQuestionnaire.users)}</p>
             <DataGrid
               loading={isLoading}
               rows={
@@ -213,7 +215,36 @@ export default function CreateQuestionnairePage(
                   image: u.image,
                 })) || []
               }
-              columns={columns}
+              columns={[
+                {
+                  field: "fullName",
+                  headerName: t(
+                    translationKeys.pages.createQuestionnaire.fullName
+                  ),
+                  width: 150,
+                },
+                {
+                  field: "email",
+                  headerName: t(
+                    translationKeys.pages.createQuestionnaire.email
+                  ),
+                  width: 150,
+                },
+                {
+                  field: "image",
+                  headerName: t(
+                    translationKeys.pages.createQuestionnaire.image
+                  ),
+                  width: 110,
+                  renderCell: (params) => {
+                    return (
+                      <Avatar alt="Remy Sharp" src={params.value}>
+                        {params.row.firstName[0] + params.row.lastName[0]}
+                      </Avatar>
+                    );
+                  },
+                },
+              ]}
               pageSize={usersList?.data.length || 0}
               classes={{
                 root: classes.paper,
@@ -245,7 +276,7 @@ export default function CreateQuestionnairePage(
             variant="contained"
             color="info"
           >
-            Add Questionnaire
+            {t(translationKeys.pages.createQuestionnaire.add)}
           </MDButton>
         </Grid>
       </Grid>
