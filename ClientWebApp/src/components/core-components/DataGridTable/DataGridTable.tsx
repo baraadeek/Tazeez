@@ -10,7 +10,7 @@ import SearchIcon from "@mui/icons-material/Search";
 type IOnChangeEvent = React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
 
 function QuickSearchToolbar(props: any) {
-  const { value, onChange, clearSearch, onSearchClick, ...rest } = props;
+  const { value, onChange, clearSearch, onSearch, ...rest } = props;
   return (
     <Box
       sx={{
@@ -28,7 +28,7 @@ function QuickSearchToolbar(props: any) {
               title="Clear"
               aria-label="Clear"
               size="small"
-              onClick={onSearchClick}
+              onClick={onSearch}
             >
               <SearchIcon fontSize="small" />
             </IconButton>
@@ -86,6 +86,7 @@ export default function DataGridTable(props: IDataGridTableProps) {
   let { search, searchProps, ...rest } = props;
   searchProps = searchProps || {};
   const [searchText, setSearchText] = React.useState("");
+  console.log('🚀 ~ file: DataGridTable.tsx ~ line 89 ~ DataGridTable ~ searchText', searchText)
 
   const requestSearch = (searchValue: string) => {
     setSearchText(searchValue);
@@ -98,7 +99,8 @@ export default function DataGridTable(props: IDataGridTableProps) {
       componentsProps: {
         toolbar: {
           value: searchProps?.controlled ? searchProps?.value : searchText,
-          onSearchClick: function () {
+          onSearch: function () {
+            console.log('🚀 ~ file: DataGridTable.tsx ~ line 105 ~ makeSearch ~ searchText', searchText)
             searchProps?.onSearchClick?.(searchText);
           },
           onChange: searchProps?.controlled
