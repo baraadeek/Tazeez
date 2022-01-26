@@ -123,7 +123,6 @@ namespace Tazeez.Controllers
         [Route("api/v{version:apiVersion}/user/{id}")]
         [HttpGet]
         [MapToApiVersion("1")]
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetUser(int id)
         {
             var result = _userManager.GetUser(id);
