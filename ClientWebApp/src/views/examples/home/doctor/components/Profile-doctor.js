@@ -1,15 +1,27 @@
 import React, { useCallback, useEffect } from "react";
-import { getUserThunk } from "views/doctor/api/doctor-thunk-api";
+import {
+  getDoctorThunk,
+  getUserThunk,
+} from "views/doctor/api/doctor-thunk-api";
 import { ThunkDispatch } from "thunk-dispatch";
 import PageBanner from "views/examples/Common/PageBanner";
 import { useParams } from "react-router-dom";
 import Profile from "./profile.png";
 
+import { namespaces } from "i18n/i18n.constants";
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+
 export default function ProfileDoctor() {
   const [data, setData] = React.useState({});
+  console.log(
+    "🚀 ~ file: Profile-doctor.js ~ line 17 ~ ProfileDoctor ~ data",
+    data
+  );
   let { id } = useParams();
 
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
+  const { t } = useTranslation(namespaces.doctor);
 
   useEffect(
     (_) => {
@@ -19,14 +31,14 @@ export default function ProfileDoctor() {
   );
 
   async function dispatchGetQuestionListFunc() {
-    ThunkDispatch(getUserThunk(id))
+    ThunkDispatch(getDoctorThunk(id))
       .then((result) => {
         setData(result.data);
       })
       .catch((error) => console.error("getUserThunk", error))
       .finally(() => {});
   }
-  const name = `Dr. ${data.user?.firstName} ${data?.lastName}`;
+  const name = `Dr. ${data.user?.fullName}`;
 
   return (
     <>
@@ -54,19 +66,21 @@ export default function ProfileDoctor() {
                   className="doctor-details-contact"
                   style={{ paddingBottom: 16 }}
                 >
-                  <h3>Contact info</h3>
+                  <h3>{t(translationKeys.doctor.info)}</h3>
                   <ul>
                     <li>
                       <i className="icofont-ui-call"></i>
-                      Call: +07 554 332 322
+                      {t(translationKeys.doctor.phoneNumber)} {"  "}
+                      {data.user?.phoneNumber}
                     </li>
                     <li>
                       <i className="icofont-ui-message"></i>
-                      Email: hello@disin.com
+                      {t(translationKeys.doctor.email)} {"  "}{" "}
+                      {data.user?.email}
                     </li>
                     <li>
                       <i className="icofont-location-pin"></i>
-                      City: 4th Floor, 408 No Chamber
+                      {t(translationKeys.doctor.city)} {"  "} {data.user?.city}
                     </li>
                   </ul>
                 </div>
@@ -78,15 +92,17 @@ export default function ProfileDoctor() {
                 <div className="doctor-details-right">
                   <div className="doctor-details-biography">
                     <h3>{name}</h3>
-                    <p>specialist</p>
+                    <p>{data?.specialist}</p>
                   </div>
 
                   <div className="doctor-details-biography">
-                    <h3>Description</h3>
+                    <h3>{t(translationKeys.doctor.description)}</h3>
 
                     <p>
                       <div
-                        dangerouslySetInnerHTML={{ __html: data?.description }}
+                        dangerouslySetInnerHTML={{
+                          __html: data?.description,
+                        }}
                       />
                     </p>
                   </div>

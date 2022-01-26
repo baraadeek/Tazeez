@@ -102,7 +102,6 @@ const AuthNavbar = () => {
                           onClick={(e) => {
                             i18n.changeLanguage(languages.en);
                             setDirection(dispatch, "ltr");
-
                           }}
                         >
                           EN
@@ -151,7 +150,7 @@ const AuthNavbar = () => {
               <NavItem>
                 <NavLink
                   className="nav-link-icon"
-                  to="/admin/user-profile"
+                  to={ROUTES_PATH_ENUM.DoctorList}
                   tag={Link}
                   {...navLinkProps}
                 >
