@@ -18,6 +18,10 @@ export default function DoctorsList() {
   const { t } = useTranslation(namespaces.pages.login);
 
   const doctorList = useSelector(doctorSelectors);
+  console.log(
+    "🚀 ~ file: OurDoctors.js ~ line 13 ~ OurDoctors ~ doctorList",
+    doctorList
+  );
 
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
@@ -68,7 +72,7 @@ export default function DoctorsList() {
                         <Link
                           to={ROUTES_PATH_ENUM.Doctor.replace(
                             ":id",
-                            doctor?.user?.id
+                            doctor?.id
                           )}
                         >
                           {`Dr. ${doctor?.user?.fullName}`}

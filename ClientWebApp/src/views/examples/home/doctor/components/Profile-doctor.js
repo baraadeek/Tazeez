@@ -14,6 +14,10 @@ import { useTranslation } from "react-i18next";
 
 export default function ProfileDoctor() {
   const [data, setData] = React.useState({});
+  console.log(
+    "🚀 ~ file: Profile-doctor.js ~ line 17 ~ ProfileDoctor ~ data",
+    data
+  );
   let { id } = useParams();
 
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
@@ -34,7 +38,7 @@ export default function ProfileDoctor() {
       .catch((error) => console.error("getUserThunk", error))
       .finally(() => {});
   }
-  const name = `Dr. ${data?.fullName}`;
+  const name = `Dr. ${data.user?.fullName}`;
 
   return (
     <>
@@ -52,7 +56,7 @@ export default function ProfileDoctor() {
             <div className="col-lg-5">
               <div className="doctor-details-item doctor-details-left">
                 <img
-                  src={data?.image || Profile}
+                  src={data.user?.image || Profile}
                   alt="Doctor"
                   width="350px"
                   height="350px"
@@ -67,15 +71,16 @@ export default function ProfileDoctor() {
                     <li>
                       <i className="icofont-ui-call"></i>
                       {t(translationKeys.doctor.phoneNumber)} {"  "}
-                      {data?.phoneNumber}
+                      {data.user?.phoneNumber}
                     </li>
                     <li>
                       <i className="icofont-ui-message"></i>
-                      {t(translationKeys.doctor.email)} {"  "} {data?.email}
+                      {t(translationKeys.doctor.email)} {"  "}{" "}
+                      {data.user?.email}
                     </li>
                     <li>
                       <i className="icofont-location-pin"></i>
-                      {t(translationKeys.doctor.city)} {"  "} {data?.city}
+                      {t(translationKeys.doctor.city)} {"  "} {data.user?.city}
                     </li>
                   </ul>
                 </div>
@@ -87,7 +92,7 @@ export default function ProfileDoctor() {
                 <div className="doctor-details-right">
                   <div className="doctor-details-biography">
                     <h3>{name}</h3>
-                    <p>{data?.doctor?.specialist}</p>
+                    <p>{data?.specialist}</p>
                   </div>
 
                   <div className="doctor-details-biography">
@@ -96,7 +101,7 @@ export default function ProfileDoctor() {
                     <p>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: data?.doctor?.description,
+                          __html: data?.description,
                         }}
                       />
                     </p>

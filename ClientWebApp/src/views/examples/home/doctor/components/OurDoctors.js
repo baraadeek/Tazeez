@@ -10,6 +10,10 @@ import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 const OurDoctors = () => {
   const doctorList = useSelector(doctorSelectors);
+  console.log(
+    "🚀 ~ file: OurDoctors.js ~ line 13 ~ OurDoctors ~ doctorList",
+    doctorList
+  );
 
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
@@ -50,10 +54,7 @@ const OurDoctors = () => {
                   <div className="doctor-bottom">
                     <h3>
                       <Link
-                        to={ROUTES_PATH_ENUM.Doctor.replace(
-                          ":id",
-                          doctor?.user?.id
-                        )}
+                        to={ROUTES_PATH_ENUM.Doctor.replace(":id", doctor?.id)}
                       >
                         {`Dr. ${doctor?.user?.fullName}`}
                       </Link>
@@ -67,7 +68,7 @@ const OurDoctors = () => {
         </div>
 
         <div className="doctor-btn">
-          <Link href="/doctors-details">See All</Link>
+          <Link to="/doctors-details">See All</Link>
         </div>
       </div>
     </div>
