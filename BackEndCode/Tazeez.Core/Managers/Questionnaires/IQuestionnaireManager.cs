@@ -45,5 +45,7 @@ namespace Tazeez.Core.Managers.Questionnaires
         List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
 
         List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name);
+
+        QuestionnaireGroupTemplateQuestionResponse PutQuestionnaireGroupTemplateQuestion(UserModel currentUser, QuestionnaireGroupTemplateQuestionRequest request);
     }
 }

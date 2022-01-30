@@ -94,6 +94,16 @@ namespace Tazeez.Controllers
             return Ok(result);
         }
         
+        [Route("api/v{version:apiVersion}/questionnairegroup")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult PutQuestionnaireGroupTemplateQuestion(QuestionnaireGroupTemplateQuestionRequest request)
+        {
+            var result = _questionnaireManager.PutQuestionnaireGroupTemplateQuestion(LoggedInUser, request);
+            return Ok(result);
+        }
+        
         [Route("api/v{version:apiVersion}/questionnairetemplate")]
         [HttpGet]
         [MapToApiVersion("1")]

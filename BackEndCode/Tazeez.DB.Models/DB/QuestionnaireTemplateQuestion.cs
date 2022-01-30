@@ -19,6 +19,8 @@ namespace Tazeez.DB.Models.DB
 
         public int QuestionnaireQuestionTypeId { get; set; }
 
+        public int QuestionnaireGroupTemplateQuestionId { get; set; }
+
         public int DisplayOrder { get; set; }
 
         public int Score { get; set; }
@@ -32,6 +34,8 @@ namespace Tazeez.DB.Models.DB
         public bool Archived { get; set; }
         
         public virtual QuestionnaireTemplate QuestionnaireTemplate { get; set; }
+
+        public virtual QuestionnaireGroupTemplateQuestion QuestionnaireGroupTemplateQuestion { get; set; }
 
         public virtual ICollection<QuestionnaireQuestion> QuestionnaireQuestions { get; set; }
 
