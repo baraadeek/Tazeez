@@ -35,12 +35,18 @@ const englishTranslation = {
     [translationKeys.pages.authNavbar.login]: "Login",
   },
   [namespaces.template]: {
+    [translationKeys.template.editTemplate]: "Edit Template",
     [translationKeys.template.add]: "Add New Template",
     [translationKeys.template.save]: "Save",
     [translationKeys.template.close]: "Close",
     [translationKeys.template.title]: "Title",
     [translationKeys.template.q]: "Q",
+    [translationKeys.template.delete]: "Delete",
+    [translationKeys.template.deleteTemplate]: "Delete Template",
+    [translationKeys.template.deleteMassage]:
+      "Do you want to delete this Template?",
   },
+
   [namespaces.question]: {
     [translationKeys.question.add]: "Add New Question",
     [translationKeys.question.save]: "Save",

@@ -9,6 +9,14 @@ export const templateExtraReducers = (builder) => {
     templateAdapter.addMany(state.templateList, payload.data);
   });
   builder.addCase(addTemplateThunk.fulfilled, (state, { payload }) => {
-    templateAdapter.addOne(state.templateList, payload.data);
+    console.log(
+      "🚀 ~ file: template-extra-reducers.js ~ line 15 ~ builder.addCase ~ payload",
+      payload.data.isEdit
+    );
+    if (payload.isEdit) {
+      templateAdapter.upsertOne(state.templateList, payload.data);
+    } else {
+      templateAdapter.addOne(state.templateList, payload.data);
+    }
   });
 };

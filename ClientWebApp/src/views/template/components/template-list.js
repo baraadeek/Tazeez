@@ -52,6 +52,8 @@ export default function TemplateList() {
   const dispatch = useDispatch();
 
   const [show, setShow] = React.useState(false);
+  const [selectedItem, setSelectedItem] = React.useState(null);
+  const [openDeleteModal, setOpenDeleteModal] = React.useState(false);
 
   const getTemplateList = useCallback(dispatchGetTemplateListFunc, []);
 
@@ -73,8 +75,15 @@ export default function TemplateList() {
 
   function onAddNewTemplate(params) {
     if (watch("title"))
-      ThunkDispatch(addTemplateThunk({ name: watch("title") }))
+      ThunkDispatch(
+        addTemplateThunk({
+          name: watch("title"),
+          id: selectedItem?.id || 0,
+          isEdit: Boolean(selectedItem?.id),
+        })
+      )
         .then((result) => {
+          setSelectedItem(null);
           setShow(false);
           reset();
         })
@@ -84,6 +93,29 @@ export default function TemplateList() {
 
   return (
     <>
+      {openDeleteModal ? (
+        <Modal
+          open={openDeleteModal}
+          fullWidth
+          showHeader={true}
+          maxWidth={"sm"}
+          description={t(translationKeys.template.deleteMassage)}
+          title={t(translationKeys.template.deleteTemplate)}
+          variant={"delete"}
+          dialogActions={[
+            {
+              name: t(translationKeys.template.close),
+              onClick: () => setOpenDeleteModal(false),
+            },
+            {
+              name: t(translationKeys.template.delete),
+              variant: "contained",
+              color: "primary",
+              onClick: () => {},
+            },
+          ]}
+        ></Modal>
+      ) : null}
       {show ? (
         <Modal
           open={show}
@@ -94,7 +126,7 @@ export default function TemplateList() {
             <Controller
               name="title"
               control={control}
-              defaultValue=""
+              defaultValue={selectedItem?.name || ""}
               error={!!errors?.title}
               rules={{
                 validate: (val) => val?.trim().length >= 2,
@@ -111,13 +143,21 @@ export default function TemplateList() {
               )}
             />
           }
-          title={t(translationKeys.template.add)}
+          title={
+            selectedItem?.name
+              ? t(translationKeys.template.editTemplate)
+              : t(translationKeys.template.add)
+          }
           variant={"delete"}
           dialogActions={[
             {
               color: "info",
               name: t(translationKeys.template.close),
-              onClick: () => setShow(false),
+              onClick: () => {
+                setShow(false);
+                reset();
+                setSelectedItem(null);
+              },
             },
             {
               name: t(translationKeys.template.save),
@@ -171,6 +211,14 @@ export default function TemplateList() {
                 <Grid item xl={3} md={4} sm={6} xs={12} key={item.id}>
                   <ComplexStatisticsCard
                     mr={2}
+                    onClickEdit={() => {
+                      setShow(true);
+                      setSelectedItem(item);
+                    }}
+                    onClickDelete={() => {
+                      setOpenDeleteModal(true);
+                      setSelectedItem(item);
+                    }}
                     onClick={() => {
                       history.push(
                         ROUTES_PATH_ENUM.QuestionsTemplate.replace(

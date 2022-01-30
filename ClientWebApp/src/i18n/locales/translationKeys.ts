@@ -52,6 +52,10 @@ const translationKeys = {
     list: "list",
     title: "title",
     q: "q",
+    delete: "delete",
+    deleteTemplate: "deleteTemplate",
+    deleteMassage: "deleteMassage",
+    editTemplate: "editTemplate",
   },
   question: {
     add: "add",

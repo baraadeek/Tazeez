@@ -47,6 +47,10 @@ const arabicTranslation = {
     [translationKeys.template.close]: "أغلق",
     [translationKeys.template.title]: "العنوان",
     [translationKeys.template.q]: "س",
+    [translationKeys.template.delete]: "حذف",
+    [translationKeys.template.deleteMassage]: "هل تريد حذف هذا القالب؟",
+    [translationKeys.template.deleteTemplate]: "حذف القالب",
+    [translationKeys.template.editTemplate]: "تعديل القالب",
   },
   [namespaces.question]: {
     [translationKeys.question.add]: "أضف قالب جديد",

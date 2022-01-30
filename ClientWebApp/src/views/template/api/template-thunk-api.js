@@ -15,6 +15,6 @@ export const addTemplateThunk = createAsyncThunk(
   async (data, { dispatch }) => {
     const response = await addTemplateAPI(data);
 
-    return response;
+    return { ...response, isEdit: data.isEdit };
   }
 );
