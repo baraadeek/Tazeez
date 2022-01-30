@@ -314,7 +314,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             QuestionnaireTemplate questionnaireTemplate = null;
-            
+
             if (questionnaireTemplateModel.Id > 0)
             {
                 questionnaireTemplate = _context.QuestionnaireTemplate
@@ -333,6 +333,40 @@ namespace Tazeez.Core.Managers.Questionnaires
             _context.SaveChanges();
             Log.Information("Finish PutQuestionnaireTemplate");
             return _mapper.Map<QuestionnaireTemplateModel>(questionnaireTemplate);
+        }
+        
+        public QuestionnaireGroupTemplateQuestionResponse PutQuestionnaireGroupTemplateQuestion(UserModel currentUser, QuestionnaireGroupTemplateQuestionRequest request)
+        {
+            Log.Information("Inside PutQuestionnaireTemplate");
+
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
+            QuestionnaireGroupTemplateQuestion response = null;
+
+            if (request.Id > 0)
+            {
+                response = _context.QuestionnaireGroupTemplateQuestion
+                                   .FirstOrDefault(a => a.Id == request.Id 
+                                                        && a.QuestionnaireTemplateId == request.QuestionnaireTemplateId)
+                                   ?? throw new ServiceValidationException("Invalid questionnaire template id");
+
+                response.Name = request.Name;
+            }
+            else
+            {
+                response = _context.QuestionnaireGroupTemplateQuestion.Add(new QuestionnaireGroupTemplateQuestion
+                { 
+                    Name = request.Name,
+                    QuestionnaireTemplateId = request.QuestionnaireTemplateId
+                }).Entity;
+            }
+
+            _context.SaveChanges();
+            Log.Information("Finish PutQuestionnaireTemplate");
+            return _mapper.Map<QuestionnaireGroupTemplateQuestionResponse>(response);
         }
 
         public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)

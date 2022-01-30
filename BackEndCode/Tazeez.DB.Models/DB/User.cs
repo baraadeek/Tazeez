@@ -15,6 +15,8 @@ namespace Tazeez.DB.Models.DB
         }
 
         public int Id { get; set; }
+
+        public int? ParentId { get; set; }
         
         public string FirstName { get; set; }
         
@@ -32,15 +34,21 @@ namespace Tazeez.DB.Models.DB
         
         public bool IsAdmin { get; set; }
         
-        public DateTime CreatedDate { get; set; }
+        public DateTime? BirthDay { get; set; }
+
+        public DateTime CreatedDateUTC { get; set; }
         
-        public DateTime UpdateDate { get; set; }
+        public DateTime LastUpdatedUTC { get; set; }
         
         public bool Archived { get; set; }
 
         public virtual Doctor Doctor { get; set; }
 
         public virtual ICollection<QuestionnaireAnswerText> QuestionnaireAnswerText { get; set; }
+
+        public virtual ICollection<User> Children { get; set; }
+
+        public virtual User Parent { get; set; }
 
         public virtual ICollection<QuestionnaireAnswerChoice> QuestionnaireAnswerChoice { get; set; }
 

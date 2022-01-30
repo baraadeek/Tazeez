@@ -27,8 +27,10 @@ namespace Tazeez.ModelViews
 
         public DoctorModel Doctor { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDateUTC { get; set; }
  
-        public DateTime UpdateDate { get; set; }
+        public DateTime LastUpdatedUTC { get; set; }
+
+        public DateTime BirthDay { get; set; }
     }
 }
