@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getUserAPI } from "views/examples/profile/api/user-api";
+import { getDoctorAPI, getUserAPI } from "views/examples/profile/api/user-api";
 
 import {
   addDoctorAPI,
@@ -48,6 +48,15 @@ export const getUserThunk = createAsyncThunk(
   "doctor/getUser",
   async (data, { dispatch }) => {
     const response = await getUserAPI(data);
+
+    return response;
+  }
+);
+
+export const getDoctorThunk = createAsyncThunk(
+  "doctor/getDoctor",
+  async (data, { dispatch }) => {
+    const response = await getDoctorAPI(data);
 
     return response;
   }

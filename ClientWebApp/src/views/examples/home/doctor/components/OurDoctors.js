@@ -10,6 +10,10 @@ import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 const OurDoctors = () => {
   const doctorList = useSelector(doctorSelectors);
+  console.log(
+    "🚀 ~ file: OurDoctors.js ~ line 13 ~ OurDoctors ~ doctorList",
+    doctorList
+  );
 
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
@@ -35,27 +39,28 @@ const OurDoctors = () => {
         </div>
 
         <div className="row justify-content-center">
-          {doctorList.map((doctor) => {
+          {doctorList?.map((doctor, index) => {
             return (
-              <div className="col-sm-6 col-lg-4">
+              <div className="col-sm-6 col-lg-4" key={index}>
                 <div className="doctor-item">
                   <div className="doctor-top">
                     <img
-                      src={doctor.user.image || Profile}
+                      src={doctor?.user?.image || Profile}
                       alt="Doctor"
                       width="350px"
                       height="350px"
                     />
+                    <Link to="/appointment">Get Appointment</Link>
                   </div>
                   <div className="doctor-bottom">
                     <h3>
                       <Link
-                        to={ROUTES_PATH_ENUM.Doctor.replace(":id", doctor.id)}
+                        to={ROUTES_PATH_ENUM.Doctor.replace(":id", doctor?.id)}
                       >
-                        {`Dr. ${doctor.user.fullName}`}
+                        {`Dr. ${doctor?.user?.fullName}`}
                       </Link>
                     </h3>
-                    <span>{doctor.specialist}</span>
+                    <span>{doctor?.specialist}</span>
                   </div>
                 </div>
               </div>
@@ -64,7 +69,7 @@ const OurDoctors = () => {
         </div>
 
         <div className="doctor-btn">
-          <Link href="/doctors-details">See All</Link>
+          <Link to="/doctors-details">See All</Link>
         </div>
       </div>
     </div>

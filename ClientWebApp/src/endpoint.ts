@@ -57,6 +57,10 @@ export const END_POINTS = {
     url: "api/v1/doctor/{id}",
     method: HttpMethods.DELETE,
   },
+  getDoctor: {
+    url: "api/v1/doctor/{id}",
+    method: HttpMethods.GET,
+  },
   getUsers: {
     url: "api/v1/users?page=1&pageSize=50",
     method: HttpMethods.GET,
