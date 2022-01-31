@@ -38,11 +38,13 @@ namespace Tazeez.Core.Managers.Questionnaires
 
         QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);
 
+        void ArchiveQuestionnaireTemplate(UserModel currentUser, int id);
+
         QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser,
                                                                             int questionnaireTemplateId,
                                                                             QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);
 
-        List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
+        Dictionary<string, List<QuestionnaireTemplateQuestionModel>> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
 
         List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name);
 

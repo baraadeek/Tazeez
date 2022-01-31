@@ -75,6 +75,16 @@ namespace Tazeez.Controllers
         }
         
         [Route("api/v{version:apiVersion}/questionnairetemplate/{id}")]
+        [HttpDelete]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult ArchiveQuestionnaireTemplate(int id)
+        {
+            _questionnaireManager.ArchiveQuestionnaireTemplate(LoggedInUser, id);
+            return Ok();
+        }
+        
+        [Route("api/v{version:apiVersion}/questionnairetemplate/{id}")]
         [HttpPut]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]

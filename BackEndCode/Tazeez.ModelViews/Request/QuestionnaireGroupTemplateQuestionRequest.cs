@@ -10,6 +10,6 @@ namespace Tazeez.ModelViews.Request
         public int QuestionnaireTemplateId { get; set; }
 
         [Required(ErrorMessage = "Name is required")]
-        public int Name { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -73,6 +73,9 @@ namespace Tazeez.Core.Managers.Helper
                 baseQuestionType.DisplayOrder = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].DisplayOrder;
                 baseQuestionType.TargetScore = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].Score;
 
+                baseQuestionType.QuestionnaireGroupTemplateQuestionName = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Name;
+                baseQuestionType.QuestionnaireGroupTemplateQuestionId = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Id;
+
                 if (assessmentQuestion.QuestionnaireTemplateQuesion == null || assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId == 0)
                 {
                     throw new ServiceValidationException($"Invalid Question type for question id => {assessmentQuestion.Id}");
