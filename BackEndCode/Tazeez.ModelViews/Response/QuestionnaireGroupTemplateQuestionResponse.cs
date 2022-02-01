@@ -8,7 +8,7 @@ namespace Tazeez.ModelViews.Response
 
         public int QuestionnaireTemplateId { get; set; }
 
-        public int Name { get; set; }
+        public string Name { get; set; }
 
         public DateTime CreatedDateUTC { get; set; }
 

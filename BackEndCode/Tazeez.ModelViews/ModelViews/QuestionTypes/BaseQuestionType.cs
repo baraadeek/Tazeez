@@ -40,6 +40,10 @@ namespace Tazeez.Models.QuestionTypes
 
         public bool IsReadOnly { get; set; }
 
+        public string QuestionnaireGroupTemplateQuestionName { get; set; }
+
+        public int? QuestionnaireGroupTemplateQuestionId { get; set; }
+         
         public List<QuestionChoiceResponse> AnswerChoices { get; set; }
 
         public QuestionStatusEnum Status;

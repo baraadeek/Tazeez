@@ -35,6 +35,21 @@ namespace Tazeez.Core.Managers.Questionnaires
             _helperManager = helperManager;
         }
 
+        public void ArchiveQuestionnaireTemplate(UserModel currentUser, int id)
+        {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to archive questionnaire template");
+            }
+
+            var template = _context.QuestionnaireTemplate
+                                   .FirstOrDefault(a => a.Id == id)
+                                   ?? throw new ServiceValidationException("Invalid questionnaire template id received");
+
+            template.Archived = true;
+            _context.SaveChanges();
+        }
+
         public void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire)
         {
 
@@ -45,12 +60,8 @@ namespace Tazeez.Core.Managers.Questionnaires
 
             var template = _context.QuestionnaireTemplate
                                    .Include("QuestionnaireTemplateQuesions")
-                                   .FirstOrDefault(a => a.Id == createQuestionnaire.QuestionnaireTemplateId);
-
-            if (template == null)
-            {
-                throw new ServiceValidationException("Invalid questionnaire template id received");
-            }
+                                   .FirstOrDefault(a => a.Id == createQuestionnaire.QuestionnaireTemplateId)
+                                   ?? throw new ServiceValidationException("Invalid questionnaire template id received");
 
             var questionnaireGroup = _context.QuestionnaireGroup.Add(new QuestionnaireGroup 
             { 
@@ -369,7 +380,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireGroupTemplateQuestionResponse>(response);
         }
 
-        public List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
+        public Dictionary<string, List<QuestionnaireTemplateQuestionModel>> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
         {
             if (!currentUser.IsAdmin)
             {
@@ -377,11 +388,14 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             var res = _context.QuestionnaireTemplateQuestion
+                              .Include(a => a.QuestionnaireGroupTemplateQuestion)
                               .Include(a => a.QuestionChoices)
                               .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
-                              .ToList();
+                              .AsEnumerable()
+                              .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
+                              .ToDictionary(a => a.FirstOrDefault()?.QuestionnaireGroupTemplateQuestion?.Name, x => x.ToList());
 
-            return _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(res);
+            return _mapper.Map<Dictionary<string,List<QuestionnaireTemplateQuestionModel>>>(res);
         }
 
         public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name = "")
@@ -559,6 +573,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             var assessmentTemplateQuestion = _context.QuestionnaireTemplateQuestion
                                                      .Include("QuestionChoices")
                                                      .Include("QuestionnaireTemplate")
+                                                     .Include("QuestionnaireGroupTemplateQuestion")
                                                      .Where(a => assessmentTemplateQuestionsIds.Contains(a.Id))
                                                      .ToList()
                                                      .ToDictionary(x => x.Id, v => v);
