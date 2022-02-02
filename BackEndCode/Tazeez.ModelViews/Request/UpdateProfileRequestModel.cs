@@ -15,5 +15,7 @@ namespace Tazeez.ModelViews.Request
         public string PhoneNumber { get; set; }
 
         public DateTime BirthDay { get; set; }
+
+        public bool Gender { get; set; }
     }
 }
