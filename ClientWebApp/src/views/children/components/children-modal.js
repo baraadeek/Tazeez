@@ -46,7 +46,7 @@ export default function ChildrenModal(props) {
   const uploadInputRef = React.useRef(null);
 
   const handleOnSubmit = (data) => {
-    ThunkDispatch(addChildrenThunk({ ...data, id: 0 || children?.id }))
+    ThunkDispatch(addChildrenThunk({ ...data, image, id: 0 || children?.id }))
       .then((result) => {
         setShow(false);
         reset();
@@ -182,12 +182,11 @@ export default function ChildrenModal(props) {
                 control={control}
                 defaultValue={children?.birthDay || new Date()}
                 error={!!errors?.birthDay}
-                render={({ field, onChange }) => (
+                render={({ field }) => (
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DesktopDatePicker
                       {...field}
-                      value={new Date()}
-                      minDate={new Date()}
+                      maxDate={new Date()}
                       label={t(translationKeys.children.birthDay)}
                       inputFormat="MM/dd/yyyy"
                       renderInput={(params) => (
