@@ -39,7 +39,7 @@ export default function ChildrenModal(props) {
   const { t } = useTranslation(namespaces.children);
 
   const { control, errors, reset, handleSubmit, watch } = useForm();
-  const [image, setImage] = React.useState("");
+  const [image, setImage] = React.useState(children?.image || "");
   const [gender, setGender] = React.useState(children?.gender);
 
   const classes = useStyle();
@@ -250,12 +250,14 @@ export default function ChildrenModal(props) {
                 type={button.type}
                 disabled={
                   button.id === 1
-                    ? !(
-                        watch &&
-                        watch("firstName")?.length &&
-                        watch("lastName")?.length &&
-                        image?.length
-                      )
+                    ? children
+                      ? false
+                      : !(
+                          watch &&
+                          watch("firstName")?.length &&
+                          watch("lastName")?.length &&
+                          image?.length
+                        )
                     : false
                 }
               >
