@@ -129,6 +129,8 @@ const englishTranslation = {
   },
   [namespaces.children]: {
     [translationKeys.children.name]: "Name",
+    [translationKeys.children.firstName]: "First Name",
+    [translationKeys.children.lastName]: "Last Name",
     [translationKeys.children.birthDay]: "Birth Day",
     [translationKeys.children.image]: "Image",
     [translationKeys.children.gender]: "Gender",
@@ -139,7 +141,7 @@ const englishTranslation = {
       "Do you want to delete this child?",
     [translationKeys.children.deleteChildren]: "Delete Child",
     [translationKeys.children.addChildren]: "Add New Child",
-    [translationKeys.children.editChildren]: "Edit Child",
+    [translationKeys.children.editChildren]: "Edit child",
     [translationKeys.children.save]: "Save",
     [translationKeys.children.close]: "Close",
     [translationKeys.children.male]: "Male",

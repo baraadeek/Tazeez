@@ -115,6 +115,8 @@ const translationKeys = {
   },
   children: {
     name: "name",
+    firstName: "firstName",
+    lastName: "lastName",
     birthDay: "birthDay",
     image: "image",
     gender: "gender",

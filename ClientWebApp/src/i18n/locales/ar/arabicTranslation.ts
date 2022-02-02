@@ -125,6 +125,8 @@ const arabicTranslation = {
   },
   [namespaces.children]: {
     [translationKeys.children.name]: "الأسم",
+    [translationKeys.children.firstName]: "الأسم الأول",
+    [translationKeys.children.lastName]: "الأسم الأخير",
     [translationKeys.children.birthDay]: "تاريخ الميلاد",
     [translationKeys.children.image]: "الصورة",
     [translationKeys.children.gender]: "النوع",
