@@ -15,5 +15,7 @@ namespace Tazeez.ModelViews.Request
         public DateTime BirthDay { get; set; }
 
         public string Image { get; set; }
+        
+        public bool Gender { get; set; }
     }
 }

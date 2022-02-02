@@ -237,6 +237,8 @@ namespace Tazeez.Models.Models
 
                 entity.Property(e => e.IsAdmin).HasColumnType("tinyint(3)");
 
+                entity.Property(e => e.Gender).HasColumnType("tinyint(3)");
+
                 entity.Property(e => e.CreatedDateUTC)
                     .HasColumnType("timestamp")
                     .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -509,7 +511,7 @@ namespace Tazeez.Models.Models
             
             modelBuilder.Entity<QuestionnaireTemplateQuestion>(entity =>
             {
-                entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId_idx");
+                entity.HasIndex(e => e.QuestionnaireTemplateId).HasDatabaseName("GroupTemplateQuestion_TemplateQuestionId_idx");
                 
                 entity.HasIndex(e => e.QuestionnaireGroupTemplateQuestionId)
                       .HasDatabaseName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId_idx");
@@ -546,7 +548,7 @@ namespace Tazeez.Models.Models
                 entity.HasOne(d => d.QuestionnaireTemplate)
                       .WithMany(p => p.QuestionnaireTemplateQuesions)
                       .HasForeignKey(d => d.QuestionnaireTemplateId)
-                      .HasConstraintName("QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId");
+                      .HasConstraintName("GroupTemplateQuestion_TemplateQuestionId");
 
                 entity.HasOne(d => d.QuestionnaireGroupTemplateQuestion)
                       .WithMany(p => p.QuestionnaireTemplateQuestion)

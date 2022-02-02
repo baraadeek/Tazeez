@@ -23,6 +23,8 @@ namespace Tazeez.ModelViews
         
         public bool IsAdmin { get; set; }
 
+        public bool? Gender { get; set; }
+
         public bool IsDoctor => Doctor != null;
 
         public DoctorModel Doctor { get; set; }

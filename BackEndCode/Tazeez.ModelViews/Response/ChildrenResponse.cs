@@ -12,6 +12,8 @@ namespace Tazeez.ModelViews.Response
 
         public DateTime BirthDay { get; set; }
 
+        public bool? Gender { get; set; }
+
         public string FullName => $"{FirstName} {LastName}";
     }
 }

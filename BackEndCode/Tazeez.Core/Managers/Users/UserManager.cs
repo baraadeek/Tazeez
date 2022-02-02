@@ -63,6 +63,11 @@ namespace Tazeez.Core.Managers.Users
                                 .FirstOrDefault(a => a.Id == request.Id
                                                      && a.ParentId == currentUser.Id)
                                 ?? throw new ServiceValidationException("Child not found");
+
+                child.FirstName = request.FirstName;
+                child.LastName = request.LastName;
+                child.BirthDay = request.BirthDay;
+                child.Gender = request.Gender;
             }
             else
             {
@@ -71,7 +76,8 @@ namespace Tazeez.Core.Managers.Users
                     ParentId = currentUser.Id,
                     FirstName = request.FirstName,
                     LastName = request.LastName,
-                    BirthDay = request.BirthDay
+                    BirthDay = request.BirthDay,
+                    Gender = request.Gender
                 }).Entity;
 
                 if (!string.IsNullOrWhiteSpace(url))
@@ -266,6 +272,7 @@ namespace Tazeez.Core.Managers.Users
             user.City = request.City;
             user.PhoneNumber = request.PhoneNumber;
             user.BirthDay = request.BirthDay;
+            user.Gender = request.Gender;
 
             if (!string.IsNullOrWhiteSpace(url))
             {

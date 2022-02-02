@@ -41,3 +41,8 @@ CREATE TABLE `tazeez`.`questionnairegrouptemplatequestion` (
     REFERENCES `tazeez`.`questionnairetemplate` (`Id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+
+--------------------------------
+ALTER TABLE `tazeez`.`user` 
+ADD COLUMN `Gender` TINYINT(3) NULL AFTER `BirthDay`;

@@ -33,7 +33,9 @@ namespace Tazeez.DB.Models.DB
         public string Image { get; set; }
         
         public bool IsAdmin { get; set; }
-        
+
+        public bool? Gender { get; set; }
+
         public DateTime? BirthDay { get; set; }
 
         public DateTime CreatedDateUTC { get; set; }
