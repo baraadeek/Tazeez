@@ -113,6 +113,23 @@ const translationKeys = {
     submit: "submit",
     feedback: "feedback",
   },
+  children: {
+    name: "name",
+    birthDay: "birthDay",
+    image: "image",
+    gender: "gender",
+    save: "save",
+    close: "close",
+    children: "children",
+    delete: "delete",
+    deleteMassage: "deleteMassage",
+    deleteChildren: "deleteChildren",
+    addChildren: "addChildren",
+    editChildren: "editChildren",
+    available: "available",
+    female: "female",
+    male: "male ",
+  },
 };
 
 export default translationKeys;

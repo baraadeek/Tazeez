@@ -122,11 +122,28 @@ const englishTranslation = {
     [translationKeys.pages.createQuestionnaire.date]: "Create Date",
     [translationKeys.pages.createQuestionnaire.numberOfQuestions]:
       "Number of Questions",
-
     [translationKeys.pages.createQuestionnaire.fullName]: "Full Name",
     [translationKeys.pages.createQuestionnaire.email]: "Email",
     [translationKeys.pages.createQuestionnaire.image]: "Image",
     [translationKeys.pages.createQuestionnaire.users]: "Users",
+  },
+  [namespaces.children]: {
+    [translationKeys.children.name]: "Name",
+    [translationKeys.children.birthDay]: "Birth Day",
+    [translationKeys.children.image]: "Image",
+    [translationKeys.children.gender]: "Gender",
+    [translationKeys.children.available]: "No Children available!",
+    [translationKeys.children.children]: "Children",
+    [translationKeys.children.delete]: "Delete",
+    [translationKeys.children.deleteMassage]:
+      "Do you want to delete this child?",
+    [translationKeys.children.deleteChildren]: "Delete Child",
+    [translationKeys.children.addChildren]: "Add New Child",
+    [translationKeys.children.editChildren]: "Edit Child",
+    [translationKeys.children.save]: "Save",
+    [translationKeys.children.close]: "Close",
+    [translationKeys.children.male]: "Male",
+    [translationKeys.children.female]: "Female",
   },
 };
 

@@ -123,6 +123,23 @@ const arabicTranslation = {
     [translationKeys.pages.createQuestionnaire.image]: "الصورة",
     [translationKeys.pages.createQuestionnaire.users]: "المستخدمين",
   },
+  [namespaces.children]: {
+    [translationKeys.children.name]: "الأسم",
+    [translationKeys.children.birthDay]: "تاريخ الميلاد",
+    [translationKeys.children.image]: "الصورة",
+    [translationKeys.children.gender]: "النوع",
+    [translationKeys.children.available]: "لا توجد اطفال متاحين!",
+    [translationKeys.children.children]: "الاطفال",
+    [translationKeys.children.delete]: "حذف",
+    [translationKeys.children.deleteMassage]: "هل تريد حذف هذاطفل؟",
+    [translationKeys.children.deleteChildren]: "حذف الطفل",
+    [translationKeys.children.addChildren]: "إضافة طفل جديد",
+    [translationKeys.children.editChildren]: "تعديل معلومات الطفل",
+    [translationKeys.children.save]: "حفظ",
+    [translationKeys.children.close]: "أغلق",
+    [translationKeys.children.male]: "ذكر",
+    [translationKeys.children.female]: "أنثى",
+  },
 };
 
 export default arabicTranslation;

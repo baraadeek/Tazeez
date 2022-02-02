@@ -28,6 +28,7 @@ import TemplateListStyle from "./template-list-style";
 // API
 import {
   addTemplateThunk,
+  deleteTemplateThunk,
   getTemplateListThunk,
 } from "../api/template-thunk-api";
 import Modal from "components/core-components/Modal/modal";
@@ -90,6 +91,13 @@ export default function TemplateList() {
         .catch((error) => console.error("addTemplateThunk", error))
         .finally(() => {});
   }
+  async function dispatchDeleteTemplateFunc() {
+    ThunkDispatch(deleteTemplateThunk({ id: selectedItem?.id }))
+      .then(() => {
+        setOpenDeleteModal(false);
+      })
+      .finally(() => {});
+  }
 
   return (
     <>
@@ -111,7 +119,7 @@ export default function TemplateList() {
               name: t(translationKeys.template.delete),
               variant: "contained",
               color: "primary",
-              onClick: () => {},
+              onClick: () => dispatchDeleteTemplateFunc(),
             },
           ]}
         ></Modal>
