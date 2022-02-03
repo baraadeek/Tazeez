@@ -52,6 +52,8 @@ namespace Tazeez.Models.Models
 
         public virtual DbSet<QuestionChoice> QuestionChoice { get; set; }
 
+        public virtual DbSet<TemplateGroupScore> TemplateGroupScore { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -586,6 +588,34 @@ namespace Tazeez.Models.Models
                       .HasForeignKey(d => d.QuestionnaireTemplateId)
                       .HasConstraintName("GroupTemplateQuestion_TemplateQuestionId");
             });
+
+            modelBuilder.Entity<TemplateGroupScore>(entity =>
+            {
+                entity.HasIndex(e => e.Id, "Id_UNIQUE")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.GroupTemplateId)
+                      .HasDatabaseName("TemplateGroupId_TemplateGroupScore_idx");
+
+
+                entity.Property(e => e.CreatedDateUTC)
+                      .HasColumnType("timestamp")
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.Property(e => e.Score).HasColumnType("int(11)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.LastUpdatedUTC)
+                      .HasColumnType("datetime")
+                      .ValueGeneratedOnAddOrUpdate()
+                      .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                entity.HasOne(d => d.QuestionnaireGroupTemplateQuestion)
+                      .WithMany(p => p.TemplateGroupScore)
+                      .HasForeignKey(d => d.GroupTemplateId)
+                      .HasConstraintName("TemplateGroupId_TemplateGroupScore");
+            });
             
             modelBuilder.Entity<QuestionChoice>(entity =>
             {
@@ -634,6 +664,7 @@ namespace Tazeez.Models.Models
             modelBuilder.Entity<Doctor>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<Attachment>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
             modelBuilder.Entity<QuestionnaireGroupTemplateQuestion>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
+            modelBuilder.Entity<TemplateGroupScore>().HasQueryFilter(u => !u.Archived || IgnoreFilterOnEntity);
 
             OnModelCreatingPartial(modelBuilder);
         }

@@ -11,7 +11,6 @@ ADD CONSTRAINT `UserId_ParentId`
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
 
-
 -----------------------------------
 
 ALTER TABLE `tazeez`.`contactrequest` 
@@ -42,7 +41,32 @@ CREATE TABLE `tazeez`.`questionnairegrouptemplatequestion` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
-
 --------------------------------
 ALTER TABLE `tazeez`.`user` 
 ADD COLUMN `Gender` TINYINT(3) NULL AFTER `BirthDay`;
+
+---------------------------------------------------------
+
+ALTER TABLE `tazeez`.`user` 
+DROP INDEX `Email_UNIQUE` ;
+;
+
+-------------------------------
+
+CREATE TABLE `tazeez`.`templategroupscore` (
+  `Id` INT(11) NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(255) NOT NULL DEFAULT '',
+  `ScoreDecription` TEXT NOT NULL,
+  `GroupTemplateId` INT(11) NOT NULL,
+  `Score` INT(11) NOT NULL DEFAULT 0,
+  `CreatedDateUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `LastUpdatedUTC` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `Archived` TINYINT(3) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  UNIQUE INDEX `Id_UNIQUE` (`Id` ASC),
+  INDEX `TemplateGroupId_TemplateGroupScore_idx` (`GroupTemplateId` ASC),
+  CONSTRAINT `TemplateGroupId_TemplateGroupScore`
+    FOREIGN KEY (`GroupTemplateId`)
+    REFERENCES `tazeez`.`questionnairegrouptemplatequestion` (`Id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);

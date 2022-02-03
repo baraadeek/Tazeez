@@ -8,6 +8,7 @@ namespace Tazeez.DB.Models.DB
         public QuestionnaireGroupTemplateQuestion()
         {
             QuestionnaireTemplateQuestion = new HashSet<QuestionnaireTemplateQuestion>();
+            TemplateGroupScore = new HashSet<TemplateGroupScore>();
         }
 
         public int Id { get; set; }
@@ -23,6 +24,8 @@ namespace Tazeez.DB.Models.DB
         public bool Archived { get; set; }
 
         public ICollection<QuestionnaireTemplateQuestion> QuestionnaireTemplateQuestion { get; set; }
+        
+        public ICollection<TemplateGroupScore> TemplateGroupScore { get; set; }
         
         public QuestionnaireTemplate QuestionnaireTemplate { get; set; }
     }

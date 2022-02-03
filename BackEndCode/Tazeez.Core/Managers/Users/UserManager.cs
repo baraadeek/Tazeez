@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -97,7 +96,7 @@ namespace Tazeez.Core.Managers.Users
 
             return $"{user.FirstName} {user.LastName}";
         }
-        
+
         public UserModel GetUser(int id)
         {
             var user = _context.User
@@ -193,7 +192,7 @@ namespace Tazeez.Core.Managers.Users
             Log.Information($"Finish PutDoctor for userId => {addDoctorRequest.UserId}");
             return _mapper.Map<DoctorModel>(doctor);
         }
-        
+
         public void ArchivedDoctor(UserModel currentUser, int doctorId)
         {
             Log.Information($"Inside ArchivedDoctor for doctorId => {doctorId}");
