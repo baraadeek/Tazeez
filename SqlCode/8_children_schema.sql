@@ -46,3 +46,10 @@ CREATE TABLE `tazeez`.`questionnairegrouptemplatequestion` (
 --------------------------------
 ALTER TABLE `tazeez`.`user` 
 ADD COLUMN `Gender` TINYINT(3) NULL AFTER `BirthDay`;
+
+---------------------------------------------------------
+
+
+ALTER TABLE `tazeez`.`user` 
+DROP INDEX `Email_UNIQUE` ;
+;

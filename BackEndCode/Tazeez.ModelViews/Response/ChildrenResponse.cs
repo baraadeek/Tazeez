@@ -10,10 +10,12 @@ namespace Tazeez.ModelViews.Response
 
         public string LastName { get; set; }
 
+        public string FullName => $"{FirstName} {LastName}";
+
         public DateTime BirthDay { get; set; }
 
         public bool? Gender { get; set; }
 
-        public string FullName => $"{FirstName} {LastName}";
+        public string Image { get; set; }
     }
 }
