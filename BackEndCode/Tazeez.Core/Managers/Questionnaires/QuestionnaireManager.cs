@@ -315,7 +315,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuesion);
         }
 
-        public QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel)
+        public QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateRequest request)
         {
             Log.Information("Inside PutQuestionnaireTemplate");
 
@@ -326,18 +326,18 @@ namespace Tazeez.Core.Managers.Questionnaires
 
             QuestionnaireTemplate questionnaireTemplate = null;
 
-            if (questionnaireTemplateModel.Id > 0)
+            if (request.Id > 0)
             {
                 questionnaireTemplate = _context.QuestionnaireTemplate
-                                                .FirstOrDefault(a => a.Id == questionnaireTemplateModel.Id)
+                                                .FirstOrDefault(a => a.Id == request.Id)
                                                 ?? throw new ServiceValidationException("Invalid questionnaire template id");
 
-                questionnaireTemplate.Name = questionnaireTemplateModel.Name;
+                questionnaireTemplate.Name = request.Name;
             }
             else
             {
                 questionnaireTemplate = _context.QuestionnaireTemplate.Add(new QuestionnaireTemplate { 
-                    Name = questionnaireTemplateModel.Name
+                    Name = request.Name
                 }).Entity;
             }
 
@@ -388,8 +388,8 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             var res = _context.QuestionnaireTemplateQuestion
-                              .Include(a => a.QuestionnaireGroupTemplateQuestion)
-                              .Include(a => a.QuestionChoices)
+                              .Include(a => "QuestionnaireGroupTemplateQuestion.TemplateGroupScore")
+                              .Include(a => "QuestionChoices")
                               .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
                               .AsEnumerable()
                               .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
@@ -517,6 +517,51 @@ namespace Tazeez.Core.Managers.Questionnaires
         }
 
 
+        public TemplateGroupScoreModel PutTemplateGroupScore(UserModel currentUser, TemplateGroupScoreModel request)
+        {
+            if (!currentUser.IsAdmin)
+            {
+                throw new ServiceValidationException("You don't have permission to add questionnaire template");
+            }
+
+            TemplateGroupScore templateGroupScore = null;
+
+            if (request.Id > 0)
+            {
+                templateGroupScore = _context.TemplateGroupScore
+                                             .FirstOrDefault(a => a.Id == request.Id && a.GroupTemplateId == request.GroupTemplateId)
+                                             ?? throw new ServiceValidationException("Invalid group score id received");
+
+                templateGroupScore.Score = request.Score;
+                templateGroupScore.ScoreDecription = request.ScoreDecription;
+                templateGroupScore.Name = request.Name;
+            }
+            else
+            {
+                templateGroupScore = _context.TemplateGroupScore.Add(new TemplateGroupScore
+                {
+                    GroupTemplateId = request.GroupTemplateId,
+                    Score = request.Score,
+                    Name = request.Name,
+                    ScoreDecription = request.ScoreDecription
+                }).Entity;
+            }
+
+            _context.SaveChanges();
+
+            return _mapper.Map<TemplateGroupScoreModel>(templateGroupScore);
+        }
+
+        public List<TemplateGroupScoreModel> GetTemplateGroupScore(UserModel currentUser, int id)
+        {
+            var res = _context.TemplateGroupScore
+                              .Where(a => a.GroupTemplateId == id)
+                              .ToList();
+
+            return _mapper.Map<List<TemplateGroupScoreModel>>(res);
+        }
+
+        #region private
         private void ValidateAssessmentStatus(Questionnaire existingAssessment, int status)
         {
             if (existingAssessment == null)
@@ -582,9 +627,10 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                              assessmentQuestions,
                                                              assessmentTemplateQuestion,
                                                              assessmentQuestionsIds,
-                                                             assessmentTemplateQuestionsIds, 
+                                                             assessmentTemplateQuestionsIds,
                                                              isReadOnly);
         }
 
+        #endregion private
     }
 }
