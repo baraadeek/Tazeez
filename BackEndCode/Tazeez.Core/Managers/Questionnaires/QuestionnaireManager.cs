@@ -407,8 +407,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                                     .ToDictionary(a => a.First().QuestionnaireGroupTemplateQuestionId, x => _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(x.ToList())),
                 QuestionsGroup = _context.QuestionnaireGroupTemplateQuestion
                                       .Include(a => a.TemplateGroupScore)
-                                      .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId
-                                                  && !a.QuestionnaireTemplateQuestion.Any())
+                                      .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
                                       .ToDictionary(a => a.Id, x => _mapper.Map<QuestionnaireGroupTemplateQuestionResponse>(x))
             };
 
