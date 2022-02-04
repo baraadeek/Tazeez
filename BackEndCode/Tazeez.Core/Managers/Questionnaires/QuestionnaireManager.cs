@@ -357,6 +357,13 @@ namespace Tazeez.Core.Managers.Questionnaires
                 throw new ServiceValidationException("You don't have permission to add questionnaire template");
             }
 
+            if (_context.QuestionnaireGroupTemplateQuestion
+                        .Count(a => a.QuestionnaireTemplateId == request.QuestionnaireTemplateId
+                                    && a.Name.Equals(request.Name, StringComparison.InvariantCultureIgnoreCase)) > 1)
+            {
+                throw new ServiceValidationException($"Group => {request.Name} already exist");
+            }
+
             QuestionnaireGroupTemplateQuestion response = null;
 
             if (request.Id > 0)
@@ -397,7 +404,21 @@ namespace Tazeez.Core.Managers.Questionnaires
                               .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
                               .ToDictionary(a => a.FirstOrDefault()?.QuestionnaireGroupTemplateQuestion?.Name, x => x.ToList());
 
-            return _mapper.Map<Dictionary<string,List<QuestionnaireTemplateQuestionModel>>>(res);
+            var data = _mapper.Map<Dictionary<string,List<QuestionnaireTemplateQuestionModel>>>(res);
+
+            var emptyGroups = _context.QuestionnaireGroupTemplateQuestion
+                                      .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId
+                                                  && !a.QuestionnaireTemplateQuestion.Any())
+                                      .Select(a => a.Name)
+                                      .ToList();
+
+
+            emptyGroups.ForEach(a =>
+            {
+                data.Add(a, new List<QuestionnaireTemplateQuestionModel>());
+            });
+
+            return data;
         }
 
         public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name = "")
