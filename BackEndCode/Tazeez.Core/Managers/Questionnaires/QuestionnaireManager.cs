@@ -389,36 +389,30 @@ namespace Tazeez.Core.Managers.Questionnaires
             return _mapper.Map<QuestionnaireGroupTemplateQuestionResponse>(response);
         }
 
-        public Dictionary<string, List<QuestionnaireTemplateQuestionModel>> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
+        public TemplateQuestionResponse GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId)
         {
             if (!currentUser.IsAdmin)
             {
                 throw new ServiceValidationException("You don't have permission to add questionnaire template");
             }
 
-            var res = _context.QuestionnaireTemplateQuestion
-                              .Include("QuestionnaireGroupTemplateQuestion.TemplateGroupScore")
-                              .Include("QuestionChoices")
-                              .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
-                              .AsEnumerable()
-                              .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
-                              .ToDictionary(a => a.FirstOrDefault()?.QuestionnaireGroupTemplateQuestion?.Name, x => x.ToList());
-
-            var data = _mapper.Map<Dictionary<string,List<QuestionnaireTemplateQuestionModel>>>(res);
-
-            var emptyGroups = _context.QuestionnaireGroupTemplateQuestion
+            var res = new TemplateQuestionResponse
+            {
+                Questions = _context.QuestionnaireTemplateQuestion
+                                    .Include("QuestionnaireGroupTemplateQuestion.TemplateGroupScore")
+                                    .Include("QuestionChoices")
+                                    .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
+                                    .AsEnumerable()
+                                    .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
+                                    .ToDictionary(a => a.First().QuestionnaireGroupTemplateQuestionId, x => _mapper.Map<List<QuestionnaireTemplateQuestionModel>>(x.ToList())),
+                QuestionsGroup = _context.QuestionnaireGroupTemplateQuestion
+                                      .Include(a => a.TemplateGroupScore)
                                       .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId
                                                   && !a.QuestionnaireTemplateQuestion.Any())
-                                      .Select(a => a.Name)
-                                      .ToList();
+                                      .ToDictionary(a => a.Id, x => _mapper.Map<QuestionnaireGroupTemplateQuestionResponse>(x))
+            };
 
-
-            emptyGroups.ForEach(a =>
-            {
-                data.Add(a, new List<QuestionnaireTemplateQuestionModel>());
-            });
-
-            return data;
+            return res;
         }
 
         public List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name = "")

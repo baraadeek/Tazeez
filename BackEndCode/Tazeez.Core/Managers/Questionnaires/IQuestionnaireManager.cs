@@ -44,7 +44,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                                             int questionnaireTemplateId,
                                                                             QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);
 
-        Dictionary<string, List<QuestionnaireTemplateQuestionModel>> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
+        TemplateQuestionResponse GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
 
         List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name);
 
