@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tazeez.Common.Extensions;
 using Tazeez.DB.Models.DB;
 using Tazeez.Enums;
 using Tazeez.Infrastructure;
@@ -12,6 +13,7 @@ using Tazeez.Models.Models;
 using Tazeez.Models.QuestionTypes;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
+using Tazeez.ModelViews.Response;
 
 namespace Tazeez.Core.Managers.Common
 {
@@ -28,7 +30,7 @@ namespace Tazeez.Core.Managers.Common
             _configurationSettings = configurationSettings;
         }
 
-        public void AddContactWithUS(ContactRequestModel contactRequestModel)
+        public void AddContactWithUS(ContactUsRequestModel contactRequestModel)
         {
             _context.ContactRequest.Add(new ContactRequest 
             {
@@ -50,16 +52,33 @@ namespace Tazeez.Core.Managers.Common
             return _mapper.Map<UserModel>(user);
         }
 
-        public List<ContactRequestModel> GetContactWithUS(UserModel currentUser)
+        public PagedResult<ContactResponseModel> GetContactWithUS(UserModel currentUser, int page, int PageSize)
         {
-            if (!currentUser.IsAdmin)
+            if (!currentUser.IsAdmin || !currentUser.IsDoctor)
             {
                 throw new Exception("You don't have permission to see this resource");
             }
 
-            var data = _context.ContactRequest.OrderBy(a => a.CreatedDate).ToList();
+            var data = _context.ContactRequest
+                               .OrderBy(a => a.CreatedDateUTC)
+                               .GetPaged(page, PageSize);
 
-            return _mapper.Map<List<ContactRequestModel>>(data);
+            return _mapper.Map<PagedResult<ContactResponseModel>>(data);
+        }
+
+        public void ArchiveContactWithUS(UserModel currentUser, int id)
+        {
+            if (!currentUser.IsAdmin || !currentUser.IsDoctor)
+            {
+                throw new Exception("You don't have permission to see this resource");
+            }
+
+            var data = _context.ContactRequest
+                               .FirstOrDefault(a => a.Id == id)
+                               ?? throw new ServiceValidationException("Id not found");
+
+            data.Archived = true;
+            _context.SaveChanges();
         }
     }
 }

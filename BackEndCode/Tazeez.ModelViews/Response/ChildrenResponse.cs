@@ -1,6 +1,8 @@
-﻿namespace Tazeez.ModelViews.Response
+﻿using System;
+
+namespace Tazeez.ModelViews.Response
 {
-    public class SearchUserModel
+    public class ChildrenResponse
     {
         public int Id { get; set; }
 
@@ -10,10 +12,10 @@
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public string Email { get; set; }
-
-        public string Image { get; set; }
+        public DateTime BirthDay { get; set; }
 
         public bool? Gender { get; set; }
+
+        public string Image { get; set; }
     }
 }

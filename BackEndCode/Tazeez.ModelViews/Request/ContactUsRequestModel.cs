@@ -1,9 +1,8 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Tazeez.ModelViews.ModelViews
 {
-    public class ContactRequestModel
+    public class ContactUsRequestModel
     {
         public int Id { get; set; }
         
@@ -15,11 +14,5 @@ namespace Tazeez.ModelViews.ModelViews
         public string PhoneNumber { get; set; }
         
         public string Message { get; set; }
-        
-        public DateTime CreatedDate { get; set; }
-        
-        public DateTime UpdateDate { get; set; }
-        
-        public bool Archived { get; set; }
     }
 }

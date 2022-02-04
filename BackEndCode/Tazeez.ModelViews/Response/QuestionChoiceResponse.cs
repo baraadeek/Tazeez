@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tazeez.Models.Responses
+﻿namespace Tazeez.Models.Responses
 {
     public class QuestionChoiceResponse
     {

@@ -1,4 +1,5 @@
-﻿using Tazeez.Common.Extensions;
+﻿using System.Collections.Generic;
+using Tazeez.Common.Extensions;
 using Tazeez.ModelViews;
 using Tazeez.ModelViews.ModelViews;
 using Tazeez.ModelViews.Request;
@@ -8,6 +9,21 @@ namespace Tazeez.Core.Managers.Users
 {
     public interface IUserManager : IManager
     {
+        /// <summary>
+        /// Get children
+        /// </summary>
+        /// <param name="currentUser">Logged in user</param>
+        /// <returns></returns>
+        PagedResult<ChildrenResponse> GetChildren(UserModel currentUser, int page = 1, int pageSize = 10, string searchText = "");
+
+        /// <summary>
+        /// Add children
+        /// </summary>
+        /// <param name="currentUser">Logged in user</param>
+        /// <param name="addChildrenRequest">Add request request</param>
+        /// <returns></returns>
+        int AddChildren(UserModel currentUser, AddChildrenRequest addChildrenRequest);
+
         /// <summary>
         /// Get Name
         /// </summary>
@@ -38,6 +54,14 @@ namespace Tazeez.Core.Managers.Users
         /// <returns></returns>
         PagedResult<DoctorModel> GetDoctors(int page = 1, int pageSize = 10);
 
+        /// <summary>
+        /// Search users
+        /// </summary>
+        /// <param name="currentUser">Logged in user</param>
+        /// <param name="page">Page number</param>
+        /// <param name="pageSize">Page size</param>
+        /// <param name="searchText">Search text</param>
+        /// <returns></returns>
         PagedResult<SearchUserModel> SearchUsers(UserModel currentUser, int page = 1, int pageSize = 10, string searchText = "");
 
         /// <summary>
@@ -70,8 +94,6 @@ namespace Tazeez.Core.Managers.Users
         /// <returns></returns>
         UserModel GetUser(int id);
         
-        UserModel Test();
-
         /// <summary>
         /// Update my profile
         /// </summary>
