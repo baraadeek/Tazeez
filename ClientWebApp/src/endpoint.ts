@@ -81,4 +81,16 @@ export const END_POINTS = {
     url: "/api/v1/questionnairetemplate/{id}",
     method: HttpMethods.DELETE,
   },
+  addQuestionnaireGroup: {
+    url: "/api/v1/questionnairegrouptemplatequestion",
+    method: HttpMethods.PUT,
+  },
+  addGroupScore: {
+    url: "api/v1/questionnairetemplategroup/groupscore",
+    method: HttpMethods.PUT,
+  },
+  getGroupScore: {
+    url: "/api/v1/questionnairetemplategroup/{id}/groupscore",
+    method: HttpMethods.GET,
+  },
 };

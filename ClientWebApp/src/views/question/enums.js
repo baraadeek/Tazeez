@@ -1,8 +1,9 @@
-export const COLUMNS = [
+export const COLUMNS = ["name"];
+
+export const COLUMNS_ITEM = [
   "order",
   "questionName",
   "questionType",
-  "created",
   "lastUpdated",
   "score",
   "choice",
@@ -17,6 +18,7 @@ export const QUESTION_TYPE_ID = {
   5: "Number Answer",
   6: "Date Time Answer",
 };
+export const COLUMNS_GROUP_SCORE = ["name", "score", "description", ""];
 
 export const QUESTION_TYPE = [
   { title: "Multiple Choice Question Single Answer", type: 1 },

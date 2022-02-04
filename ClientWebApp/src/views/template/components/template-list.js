@@ -37,6 +37,8 @@ import MDButton from "components/core-components/MDButton";
 import { useTranslation } from "react-i18next";
 import { namespaces } from "i18n/i18n.constants";
 import translationKeys from "i18n/locales/translationKeys";
+import { Card } from "@mui/material";
+import MDTypography from "components/core-components/MDTypography";
 
 const useStyle = makeStyles(TemplateListStyle);
 
@@ -95,6 +97,9 @@ export default function TemplateList() {
     ThunkDispatch(deleteTemplateThunk({ id: selectedItem?.id }))
       .then(() => {
         setOpenDeleteModal(false);
+        setSelectedItem(null);
+        setShow(false);
+        reset();
       })
       .finally(() => {});
   }
@@ -252,15 +257,21 @@ export default function TemplateList() {
           </>
         ) : (
           <Grid item xl={3} md={4} sm={6} xs={12}>
-            {
-              <ComplexStatisticsCard
-                mr={0}
-                style={{ textAlign: "center" }}
-                isCenter={true}
-                count={t(translationKeys.template.add)}
-                onClick={() => setShow(true)}
-              />
-            }
+            <Card
+              onClick={() => setShow(true)}
+              style={{ height: 100, justifyContent: "center" }}
+            >
+              <MDTypography variant="h4" textAlign={"center"}>
+                <Grid
+                  container
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  {t(translationKeys.template.add)}
+                </Grid>
+              </MDTypography>
+            </Card>
           </Grid>
         )}
       </Grid>

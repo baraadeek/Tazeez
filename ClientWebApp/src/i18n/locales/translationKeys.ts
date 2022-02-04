@@ -44,6 +44,7 @@ const translationKeys = {
     doctors: "doctors",
     profile: "profile",
     createQuestionnaire: "createQuestionnaire",
+    questionnaireGroup: "questionnaireGroup",
   },
   template: {
     add: "add",
@@ -76,6 +77,14 @@ const translationKeys = {
     lastUpdated: "lastUpdated",
     created: "created",
     questionType: "questionType",
+    name: "name",
+    groupScore: "groupScore",
+    addGroup: "addGroup",
+    editGroup: "editGroup",
+    groupScoreList: "groupScoreList",
+    availableGroupScore: "availableGroupScore",
+    description: "description",
+    editGroupScore: "editGroupScore",
   },
   profile: {
     firstName: "firstName",

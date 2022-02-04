@@ -44,7 +44,14 @@ const AddTempQuestionStyle = (theme) => ({
     fontWeight: 500,
     padding: "8px 24px",
     marginBottom: 16,
-    marginTop: 16,
+    margin: "0px 8px",
+    borderRadius: "4px",
+  },
+  addItem: {
+    textTransform: "capitalize",
+    display: "inline-block",
+    fontSize: "15px",
+    fontWeight: 500,
     borderRadius: "4px",
   },
 });

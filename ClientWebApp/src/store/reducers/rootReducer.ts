@@ -6,6 +6,7 @@ import templateSlice from "views/template/slice/template-slice";
 import authReducer from "./authReducer";
 import appReducer from "./appReducer";
 import childrenSlice from "views/children/slice/children-slice";
+import groupScoreSlice from "views/question/slice/group-score-slice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   user: userSlice,
   app: appReducer,
   children: childrenSlice,
+  groupScore: groupScoreSlice,
 });
 
 export type IRootReducer = ReturnType<typeof rootReducer>;

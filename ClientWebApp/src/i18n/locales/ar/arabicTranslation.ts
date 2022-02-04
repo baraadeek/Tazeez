@@ -71,6 +71,15 @@ const arabicTranslation = {
     [translationKeys.question.lastUpdated]: "التحديث الاخير ",
     [translationKeys.question.created]: "الأنشاء",
     [translationKeys.question.questionType]: "نوع السؤال",
+    [translationKeys.question.name]: "الأسم",
+    [translationKeys.question.groupScore]: "إضافة مجموعة نقاط",
+    [translationKeys.question.addGroup]: "إضافة مجموعة",
+    [translationKeys.question.editGroup]: "تعديل اسم المجموعة",
+    [translationKeys.question.groupScoreList]: "عرض مجموع النقاط",
+    [translationKeys.question.availableGroupScore]:
+      "لا توجد مجموع النقاط متاحين!",
+    [translationKeys.question.description]: "وصف",
+    [translationKeys.question.editGroupScore]: "تعديل المعلومات",
   },
   [namespaces.profile]: {
     [translationKeys.profile.firstName]: "الأسم الأول",
