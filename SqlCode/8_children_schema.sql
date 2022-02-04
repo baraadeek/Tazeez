@@ -70,3 +70,15 @@ CREATE TABLE `tazeez`.`templategroupscore` (
     REFERENCES `tazeez`.`questionnairegrouptemplatequestion` (`Id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+-------------------
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+ADD COLUMN `QuestionnaireGroupTemplateQuestionId` INT(11) NULL AFTER `QuestionnaireQuestionTypeId`,
+ADD INDEX `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId_idx1` (`QuestionnaireGroupTemplateQuestionId` ASC);
+;
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+ADD CONSTRAINT `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId`
+  FOREIGN KEY (`QuestionnaireGroupTemplateQuestionId`)
+  REFERENCES `tazeez`.`questionnairegrouptemplatequestion` (`Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;

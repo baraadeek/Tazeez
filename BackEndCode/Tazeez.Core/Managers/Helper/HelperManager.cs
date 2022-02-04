@@ -74,7 +74,6 @@ namespace Tazeez.Core.Managers.Helper
                 baseQuestionType.TargetScore = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].Score;
 
                 baseQuestionType.QuestionnaireGroupTemplateQuestionName = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Name;
-                baseQuestionType.QuestionnaireGroupTemplateQuestionId = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Id;
 
                 if (assessmentQuestion.QuestionnaireTemplateQuesion == null || assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId == 0)
                 {
@@ -106,6 +105,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceMultipleAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -126,6 +126,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceSingleAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -146,6 +147,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new OpenEndedAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -166,6 +168,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new NumberAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -187,6 +190,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new DateTimeAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -207,6 +211,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new AttachmentOnlyAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,

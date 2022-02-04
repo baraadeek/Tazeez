@@ -273,6 +273,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                 questionnaireTemplateQuesion.DisplayOrder = questionnaireTemplateQuesionModel.DisplayOrder;
                 questionnaireTemplateQuesion.Score = questionnaireTemplateQuesionModel.Score;
                 questionnaireTemplateQuesion.IsOptional = questionnaireTemplateQuesionModel.IsOptional;
+                questionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuesionModel.QuestionnaireGroupTemplateQuestionId;
             }
             else
             {
@@ -283,7 +284,8 @@ namespace Tazeez.Core.Managers.Questionnaires
                     DisplayOrder = questionnaireTemplateQuesionModel.DisplayOrder,
                     QuestionnaireQuestionTypeId = (int)questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId,
                     Score = questionnaireTemplateQuesionModel.Score,
-                    QuestionnaireTemplateId = questionnaireTemplateId
+                    QuestionnaireTemplateId = questionnaireTemplateId,
+                    QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuesionModel.QuestionnaireGroupTemplateQuestionId
                 }).Entity;
             }
 
@@ -388,8 +390,8 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             var res = _context.QuestionnaireTemplateQuestion
-                              .Include(a => "QuestionnaireGroupTemplateQuestion.TemplateGroupScore")
-                              .Include(a => "QuestionChoices")
+                              .Include("QuestionnaireGroupTemplateQuestion.TemplateGroupScore")
+                              .Include("QuestionChoices")
                               .Where(a => a.QuestionnaireTemplateId == questionnaireTemplateId)
                               .AsEnumerable()
                               .GroupBy(a => a.QuestionnaireGroupTemplateQuestion.Id)
