@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "thunk-dispatch";
 import { useHistory, useParams } from "react-router-dom";
 import moment from "moment";
+import PageBanner from "views/examples/Common/PageBanner";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+
 
 // Material UI
 import { Grid, CircularProgress, makeStyles } from "@material-ui/core";
@@ -125,56 +128,65 @@ function QuestionList() {
   }
 
   return (
-    <Grid container style={{ padding: 16 }}>
-      <Grid item xs={12}>
-        <CardComponent>
-          <CardHeader color="primary" icon>
-            <CardIcon color="primary">
-              <GroupIcon />
-            </CardIcon>
-            <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
-              {t(translationKeys.question.questions)}
-            </h4>
-          </CardHeader>
-          <CardBody>
-            <AddTemplateQuestion />
-            {!false ? (
-              <Table
-                renderDataTable={renderDataTable}
-                tableHead={COLUMNS.map((q) => t(translationKeys.question[q]))}
-                tableData={questionList}
-                emptyTable={t(translationKeys.question.available)}
-                customCellClasses={[
-                  classes.center,
-                  classes.right,
-                  classes.right,
-                ]}
-                customClassesForCells={[0, 4, 5]}
-                customHeadCellClasses={[
-                  classes.center,
-                  classes.right,
-                  classes.right,
-                ]}
-                customHeadClassesForCells={[0, 4, 5]}
-              />
-            ) : (
-              <Grid
-                container
-                alignContent="center"
-                justifyContent="center"
-                alignItems="center"
-                className={classes.minHeight}
-              >
-                <CircularProgress
-                  size={26}
-                  className={classes.colorCircularProgress}
+    <>
+      <PageBanner
+        pageTitle={t(translationKeys.question.questions)}
+        homePageUrl={ROUTES_PATH_ENUM.Home}
+        homePageText={t(translationKeys.common.homePage)}
+        activePageText={t(translationKeys.question.questions)}
+        bgImage="page-title-one"
+      />
+      <Grid container style={{ padding: 16 }}>
+        <Grid item xs={12}>
+          <CardComponent>
+            <CardHeader color="primary" icon>
+              <CardIcon color="primary">
+                <GroupIcon />
+              </CardIcon>
+              <h4 className={classes.cardIconTitle} style={{ fontSize: 22 }}>
+                {t(translationKeys.question.questions)}
+              </h4>
+            </CardHeader>
+            <CardBody>
+              <AddTemplateQuestion />
+              {!false ? (
+                <Table
+                  renderDataTable={renderDataTable}
+                  tableHead={COLUMNS.map((q) => t(translationKeys.question[q]))}
+                  tableData={questionList}
+                  emptyTable={t(translationKeys.question.available)}
+                  customCellClasses={[
+                    classes.center,
+                    classes.right,
+                    classes.right,
+                  ]}
+                  customClassesForCells={[0, 4, 5]}
+                  customHeadCellClasses={[
+                    classes.center,
+                    classes.right,
+                    classes.right,
+                  ]}
+                  customHeadClassesForCells={[0, 4, 5]}
                 />
-              </Grid>
-            )}
-          </CardBody>
-        </CardComponent>
+              ) : (
+                <Grid
+                  container
+                  alignContent="center"
+                  justifyContent="center"
+                  alignItems="center"
+                  className={classes.minHeight}
+                >
+                  <CircularProgress
+                    size={26}
+                    className={classes.colorCircularProgress}
+                  />
+                </Grid>
+              )}
+            </CardBody>
+          </CardComponent>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
 
