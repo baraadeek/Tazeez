@@ -16,26 +16,26 @@ import AvatarWithText from "views/examples/avatar/Avatar";
 import Logo from "views/examples/images/logo.png";
 import Reorder from "@material-ui/icons/Reorder";
 // import { setPageDirection } from "core-components/page-direction/slice/page-direction";
-import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import { languages, namespaces } from "i18n/i18n.constants";
 import { useTranslation } from "react-i18next";
-import translationKeys from "i18n/locales/translationKeys";
 import i18n from "i18n/i18n";
 import { setDirection } from "context";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 // import {
 //   PAGE_DIRECTION,
 //   disabledOnly,
 // } fromp "core-components/page-direction/enum/enum";
 
-const AuthNavbar = () => {
+const AuthNavbar = (props) => {
+  const { routes } = props;
   const dispatch = useDispatch();
-  const { t } = useTranslation(namespaces.pages.authNavbar);
-
-  const data =
-    localStorage.getItem("login") &&
-    JSON.parse(localStorage.getItem("login"))?.response;
+  const { t } = useTranslation([
+    namespaces.pages.login,
+    namespaces.pages.authNavbar,
+  ]);
+  const user = useSelector((state) => state.auth.user);
 
   let isAR = false;
 
@@ -47,11 +47,47 @@ const AuthNavbar = () => {
   const containerPropsIsEN = {};
   const navLinkProps = isAR ? { style: { textAlign: "right" } } : {};
 
+  function renderRoutes() {
+    return (
+      <>
+        <div style={{ overflow:'visible', display:"contents"}}>
+          {routes.map((route) => (
+            <NavItem key={route.id}>
+              <NavLink
+                className="nav-link-icon"
+                to={route.path}
+                tag={Link}
+                {...navLinkProps}
+              >
+                <span className="nav-link-inner--text">
+                  {t(route.translationKey, { ns: route.ns })}
+                </span>
+              </NavLink>
+            </NavItem>
+          ))}
+        </div>
+        <NavItem>
+          {user && (
+            <AvatarWithText
+              user={{
+                name: `${user?.firstName} ${user?.lastName}`,
+              }}
+              onClick={() => {
+                history.push(ROUTES_PATH_ENUM.Profile);
+                window.location.reload();
+              }}
+            />
+          )}
+        </NavItem>
+      </>
+    );
+  }
+
   return (
     <>
       <Navbar className="navbar-top navbar-horizontal navbar-dark" expand="md">
         <Container className="px-4">
-          <NavbarBrand to="/" tag={Link}>
+          <NavbarBrand to={ROUTES_PATH_ENUM.Home} tag={Link}>
             <img src={Logo} alt="logo" />
           </NavbarBrand>
           <button
@@ -66,7 +102,7 @@ const AuthNavbar = () => {
             <div className="navbar-collapse-header d-md-none">
               <Row>
                 <Col className="collapse-brand" xs="6">
-                  <Link to="/" className="navbar-brand">
+                  <Link to={ROUTES_PATH_ENUM.Home} className="navbar-brand">
                     <img src={Logo} alt="logo" />
                   </Link>
                 </Col>
@@ -111,102 +147,7 @@ const AuthNavbar = () => {
                   </div>
                 </div>
               </Col>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/"
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.homePage)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/register"
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.about)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to={ROUTES_PATH_ENUM.Login}
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.services)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to={ROUTES_PATH_ENUM.DoctorList}
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.doctors)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/admin/user-profile"
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.blog)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className="nav-link-icon"
-                  to="/admin/user-profile"
-                  tag={Link}
-                  {...navLinkProps}
-                >
-                  <span className="nav-link-inner--text">
-                    {t(translationKeys.pages.authNavbar.contact)}
-                  </span>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                {data?.firstName ? (
-                  <AvatarWithText
-                    user={{
-                      name: `${data?.firstName} ${data?.lastName}`,
-                    }}
-                    onClick={() => {
-                      history.push("/admin/index");
-                      window.location.reload();
-                    }}
-                  />
-                ) : (
-                  <NavLink
-                    {...navLinkProps}
-                    className="nav-link-icon"
-                    to={ROUTES_PATH_ENUM.Login}
-                    tag={Link}
-                  >
-                    <span className="nav-link-inner--text">
-                      {t(translationKeys.pages.authNavbar.login)}
-                    </span>
-                  </NavLink>
-                )}
-              </NavItem>
+              {renderRoutes()}
             </Nav>
           </UncontrolledCollapse>
         </Container>
