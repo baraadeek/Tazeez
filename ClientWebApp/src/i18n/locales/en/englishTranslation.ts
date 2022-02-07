@@ -100,6 +100,7 @@ const englishTranslation = {
   },
   [namespaces.routes.authRoutes]: {
     [translationKeys.authRoutes.doctors]: "Doctors",
+    [translationKeys.authRoutes.assignedQuestionnaires]: "My Questionnaires",
     [translationKeys.authRoutes.profile]: "Profile",
     [translationKeys.authRoutes.questionsTemplate]: "Questions Template",
     [translationKeys.authRoutes.questionsTemplatesList]:
