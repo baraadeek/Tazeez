@@ -34,7 +34,11 @@ namespace Tazeez.Models.Responses.QuestionsPaginationResponse
 
         public bool IsQuestionAnswered { get; set; }
 
-        public QuestionStatusEnum Status;
+        public QuestionStatusEnum Status { get; set; }
+
+        public string QuestionnaireGroupTemplateQuestionName { get; set; }
+
+        public int? QuestionnaireGroupTemplateQuestionId { get; set; }
 
         public int AssignedUserId { get; set; }
 

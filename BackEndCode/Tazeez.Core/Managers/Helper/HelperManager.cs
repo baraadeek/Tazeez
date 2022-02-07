@@ -73,6 +73,8 @@ namespace Tazeez.Core.Managers.Helper
                 baseQuestionType.DisplayOrder = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].DisplayOrder;
                 baseQuestionType.TargetScore = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].Score;
 
+                baseQuestionType.QuestionnaireGroupTemplateQuestionName = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Name;
+
                 if (assessmentQuestion.QuestionnaireTemplateQuesion == null || assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId == 0)
                 {
                     throw new ServiceValidationException($"Invalid Question type for question id => {assessmentQuestion.Id}");
@@ -103,6 +105,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceMultipleAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -123,6 +126,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceSingleAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -143,6 +147,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new OpenEndedAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -163,6 +168,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new NumberAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -184,6 +190,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new DateTimeAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
@@ -204,6 +211,7 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new AttachmentOnlyAnswer
             {
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
