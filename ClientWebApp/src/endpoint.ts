@@ -65,4 +65,8 @@ export const END_POINTS = {
     url: "api/v1/users?page=1&pageSize=50",
     method: HttpMethods.GET,
   },
+  getQuestionnaire: {
+    url: "api/v1/questionnaire",
+    method: HttpMethods.GET,
+  },
 };
