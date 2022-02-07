@@ -8,7 +8,7 @@ import moment from "moment";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Material
-import { Grid, makeStyles, CircularProgress } from "@material-ui/core";
+import { makeStyles, CircularProgress } from "@material-ui/core";
 
 import { Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
@@ -36,6 +36,7 @@ import MDButton from "components/core-components/MDButton";
 import { useTranslation } from "react-i18next";
 import { namespaces } from "i18n/i18n.constants";
 import translationKeys from "i18n/locales/translationKeys";
+import { Grid } from "@mui/material";
 
 const useStyle = makeStyles(TemplateListStyle);
 
@@ -132,7 +133,7 @@ export default function TemplateList() {
         container
         className={classes.containerGrid}
         direction="row"
-        spacing={3}
+        gap={2}
       >
         {isLoading ? (
           <Grid
@@ -152,8 +153,8 @@ export default function TemplateList() {
               direction="row"
               justifyContent={"flex-end"}
               alignItems="center"
-              spacing={1}
               mr={2}
+              gap
               className={classes.gridButton}
             >
               <MDButton
