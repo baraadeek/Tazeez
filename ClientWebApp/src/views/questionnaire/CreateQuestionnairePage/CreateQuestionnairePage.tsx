@@ -15,6 +15,8 @@ import "./style.css";
 import { createStyles, Divider, makeStyles, Theme } from "@material-ui/core";
 import MDButton from "components/core-components/MDButton";
 import DataGridTable from "components/core-components/DataGridTable/DataGridTable";
+import PageBanner from "views/examples/Common/PageBanner";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 const useICTableStyle = makeStyles((theme: Theme) =>
   createStyles({
@@ -52,7 +54,11 @@ export type IGetTemplateListRes = {
 export default function CreateQuestionnairePage(
   props: ICreateQuestionnairePageProps
 ) {
-  const { t } = useTranslation(namespaces.pages.createQuestionnaire);
+  const { t } = useTranslation([
+    namespaces.pages.createQuestionnaire,
+    namespaces.routes.authRoutes,
+    namespaces.common
+  ]);
   const classes = useICTableStyle();
   const questionnaireTitle = t(
     translationKeys.pages.createQuestionnaire.questionnaireTitle
@@ -180,120 +186,142 @@ export default function CreateQuestionnairePage(
     },
   ];
 
+  function renderSubmitBtn() {
+    return (
+      //@ts-ignore
+      <MDButton
+        onClick={onMakeQuestionnaire}
+        startIcon={
+          <Grow mountOnEnter unmountOnExit in={isAddingQuestionnaire}>
+            <CircularProgress style={{ color: "white" }} size={15} />
+          </Grow>
+        }
+        disabled={
+          isAddingQuestionnaire ||
+          !(
+            title.trim().length &&
+            selectedTemplate !== 0 &&
+            selectedUsers.length
+          )
+        }
+        variant="contained"
+        color="info"
+      >
+        {t(translationKeys.pages.createQuestionnaire.add)}
+      </MDButton>
+    );
+  }
+
   return (
-    <Grid container marginTop={10} spacing={1}>
-      <Grid container item md={12} xs={12} lg={12} spacing={1}>
-        <Grid item md={6} sm={12} lg={6}>
-          <MDInputRoot
-            style={{ width: "100%" }}
-            onChange={(e) => setTitle(e.target.value)}
-            value={title}
-            title={questionnaireTitle}
-            placeholder={questionnaireTitle}
-            type="text"
-            label={questionnaireTitle}
-          />
-        </Grid>
-        <Grid item md={6} sm={12} lg={6}>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
-              minDate={new Date()}
-              label={t(translationKeys.pages.createQuestionnaire.dueDate)}
-              inputFormat="MM/dd/yyyy"
-              value={dueDate}
-              onChange={(date: Date | null) => {
-                setDueDate(date);
-              }}
-              renderInput={(params: any) => (
-                <MDInputRoot {...params} style={{ width: "100%" }} />
-              )}
+    <>
+      <PageBanner
+        pageTitle={t(translationKeys.authRoutes.createQuestionnaire, {
+          ns: namespaces.routes.authRoutes,
+        })}
+        homePageUrl={ROUTES_PATH_ENUM.Home}
+        homePageText={t(translationKeys.common.homePage, {
+          ns: namespaces.common,
+        })}
+        activePageText={t(translationKeys.authRoutes.createQuestionnaire, {
+          ns: namespaces.routes.authRoutes,
+        })}
+        bgImage="page-title-one"
+      />
+      <Grid container marginTop={10} spacing={1} paddingX={2}>
+        <Grid container item md={12} xs={12} lg={12} spacing={1}>
+          <Grid item md={6} sm={12} lg={6}>
+            <MDInputRoot
+              style={{ width: "100%" }}
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              title={questionnaireTitle}
+              placeholder={questionnaireTitle}
+              type="text"
+              label={questionnaireTitle}
             />
-          </LocalizationProvider>
+          </Grid>
+          <Grid item md={6} sm={12} lg={6}>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+              <DesktopDatePicker
+                minDate={new Date()}
+                label={t(translationKeys.pages.createQuestionnaire.dueDate)}
+                inputFormat="MM/dd/yyyy"
+                value={dueDate}
+                onChange={(date: Date | null) => {
+                  setDueDate(date);
+                }}
+                renderInput={(params: any) => (
+                  <MDInputRoot {...params} style={{ width: "100%" }} />
+                )}
+              />
+            </LocalizationProvider>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container item md={12} xs={12} lg={12} spacing={1}>
-        <Grid item md={12} lg={12} xs={12}>
-          <Divider />
-          <p>{t(translationKeys.pages.createQuestionnaire.tempList)}</p>
-          <ICTable
-            search
-            isLoading={isLoadingTemplates}
-            select
-            hover
-            searchInputProps={{
-              onSearchClick: onSearchTemplate,
-              clearSearch: onSearchTemplate,
-              controlled: false,
-              label: "Search ...",
-            }}
-            paperProps={{
-              variant: "outlined",
-            }}
-            headers={["name", "date", "numberOfQuestions"].map((q) =>
-              //@ts-ignore
-              t(translationKeys.pages.createQuestionnaire[q])
-            )}
-            rows={templateListRows}
-          />
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <Divider />
-          <p>{t(translationKeys.pages.createQuestionnaire.users)}</p>
-          <div style={{ height: 400, width: "100%" }}>
-            <DataGridTable
+        <Grid container item md={12} xs={12} lg={12} spacing={1}>
+          <Grid item md={12} lg={12} xs={12}>
+            <Divider />
+            <p>{t(translationKeys.pages.createQuestionnaire.tempList)}</p>
+            <ICTable
               search
-              loading={isLoadingUsers}
-              searchProps={{
-                onSearchClick: onSearchUser,
-                clearSearch: onSearchUser,
+              isLoading={isLoadingTemplates}
+              select
+              hover
+              searchInputProps={{
+                onSearchClick: onSearchTemplate,
+                clearSearch: onSearchTemplate,
+                controlled: false,
                 label: "Search ...",
               }}
-              rows={
-                usersList?.data.map((u) => ({
-                  id: u.id,
-                  fullName: u.fullName,
-                  firstName: u.firstName,
-                  lastName: u.lastName,
-                  email: u.email,
-                  image: u.image,
-                })) || []
-              }
-              columns={columns}
-              pageSize={usersList?.data.length || 0}
-              classes={{
-                root: classes.paper,
+              paperProps={{
+                variant: "outlined",
               }}
-              checkboxSelection
-              disableSelectionOnClick
-              onSelectionModelChange={(selectedArr) => {
-                setSelectedUsers(selectedArr as number[]);
-              }}
+              headers={["name", "date", "numberOfQuestions"].map((q) =>
+                //@ts-ignore
+                t(translationKeys.pages.createQuestionnaire[q])
+              )}
+              rows={templateListRows}
             />
-          </div>
-        </Grid>
-        <Grid item md={12} xs={12}>
-          <MDButton
-            onClick={onMakeQuestionnaire}
-            startIcon={
-              <Grow mountOnEnter unmountOnExit in={isAddingQuestionnaire}>
-                <CircularProgress style={{ color: "white" }} size={15} />
-              </Grow>
-            }
-            disabled={
-              isAddingQuestionnaire ||
-              !(
-                title.trim().length &&
-                selectedTemplate !== 0 &&
-                selectedUsers.length
-              )
-            }
-            variant="contained"
-            color="info"
-          >
-            {t(translationKeys.pages.createQuestionnaire.add)}
-          </MDButton>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            <Divider />
+            <p>{t(translationKeys.pages.createQuestionnaire.users)}</p>
+            <div style={{ height: 400, width: "100%" }}>
+              <DataGridTable
+                search
+                loading={isLoadingUsers}
+                searchProps={{
+                  onSearchClick: onSearchUser,
+                  clearSearch: onSearchUser,
+                  label: "Search ...",
+                }}
+                rows={
+                  usersList?.data.map((u) => ({
+                    id: u.id,
+                    fullName: u.fullName,
+                    firstName: u.firstName,
+                    lastName: u.lastName,
+                    email: u.email,
+                    image: u.image,
+                  })) || []
+                }
+                columns={columns}
+                pageSize={usersList?.data.length || 0}
+                classes={{
+                  root: classes.paper,
+                }}
+                checkboxSelection
+                disableSelectionOnClick
+                onSelectionModelChange={(selectedArr) => {
+                  setSelectedUsers(selectedArr as number[]);
+                }}
+              />
+            </div>
+          </Grid>
+          <Grid item md={12} xs={12}>
+            {renderSubmitBtn()}
+          </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
