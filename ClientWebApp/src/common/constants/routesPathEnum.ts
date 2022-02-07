@@ -9,5 +9,7 @@ export enum ROUTES_PATH_ENUM {
   Doctor = "/doctor/:id",
   Profile = "/profile",
   CreateQuestionnaire = "/create_questionnaire",
-  DoctorList = "/doctors-details",
+  DoctorList = "/doctors_details",
+  AssignedQuestionnaires = "/assigned_questionnaires",
+  ContactUs = "/contact_us"
 }
