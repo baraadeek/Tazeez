@@ -11,6 +11,7 @@ import Profile from "./profile.png";
 import { namespaces } from "i18n/i18n.constants";
 import translationKeys from "i18n/locales/translationKeys";
 import { useTranslation } from "react-i18next";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 export default function ProfileDoctor() {
   const [data, setData] = React.useState({});
@@ -44,12 +45,11 @@ export default function ProfileDoctor() {
     <>
       <PageBanner
         pageTitle={name || ""}
-        homePageUrl="/"
+        homePageUrl={ROUTES_PATH_ENUM.Home}
         homePageText="Home"
         activePageText="Doctor Details"
         bgImage="page-title-five"
       />
-
       <div className="doctor-details-area pt-100 pb-70">
         <div className="container">
           <div className="row">
