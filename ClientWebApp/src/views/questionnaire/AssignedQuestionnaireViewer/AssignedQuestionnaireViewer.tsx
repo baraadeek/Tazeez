@@ -144,7 +144,7 @@ const AssignedQuestionnaireViewer: React.FunctionComponent<
     return (
       <>
         <Grid container style={{ minHeight: 700 }} paddingX={2} paddingY={2}>
-          <Grid item md={12}>
+          <Grid item md={12} xs={12} sm={12}>
             <DataGridTable
               search
               loading={isLoadingQuestionnaire}
