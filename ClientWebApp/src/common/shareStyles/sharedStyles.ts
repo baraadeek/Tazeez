@@ -28,12 +28,21 @@ const sharedStyles = {
     boxShadow: "none",
     border: "1px solid whitesmoke",
   },
-  buttonIconStyle: {
-    marginRight: 8,
-    verticalAlign: "middle",
-    width: 16,
-    height: 16,
+  fullWidth: {
+    width: "100%",
   },
-};
+  fullHeight: {
+    height: "100%",
+  },
+  get fullDimensions() {
+   return {
+     ...this.fullHeight,
+     ...this.fullWidth
+   } 
+  },
+} as const;
+
+
+export type ISharedStylesKeys = keyof typeof sharedStyles;
 
 export default sharedStyles;
