@@ -69,4 +69,8 @@ export const END_POINTS = {
     url: "api/v1/questionnaire",
     method: HttpMethods.GET,
   },
+  getQuestionnaireQuestions:{
+    url: "api/v1/questionnaire/{id}/Questions",
+    method: HttpMethods.POST, 
+  }
 };
