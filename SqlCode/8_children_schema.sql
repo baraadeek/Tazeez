@@ -82,3 +82,9 @@ ADD CONSTRAINT `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId`
   REFERENCES `tazeez`.`questionnairegrouptemplatequestion` (`Id`)
   ON DELETE NO ACTION
   ON UPDATE NO ACTION;
+
+
+-----------------------------------
+
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+CHANGE COLUMN `Archived` `Archived` TINYINT(3) NOT NULL DEFAULT '0' ;
