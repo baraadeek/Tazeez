@@ -118,6 +118,11 @@ function CustomTable({ ...props }) {
               <TableRow
                 key={key}
                 hover={hover}
+                style={
+                  key % 2
+                    ? { background: "rgba(56, 106, 230, 0.1)" }
+                    : { background: "white" }
+                }
                 className={classes.tableRow + " " + tableRowClasses}
               >
                 {renderDataTable(prop, key)}

@@ -13,6 +13,7 @@ export const namespaces = {
   common: "common",
   profile: "profile",
   doctor: "doctor",
+  children: "children",
 };
 
 export const languages = {

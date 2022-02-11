@@ -2,10 +2,9 @@ import React from "react";
 import { ThunkDispatch } from "thunk-dispatch";
 import { Form } from "react-bootstrap";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
-import classNames from "classnames";
 
 // Material
-import { Grid, makeStyles } from "@material-ui/core";
+import { Grid, makeStyles, Tooltip } from "@material-ui/core";
 import Autocomplete from "@mui/material/Autocomplete";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
@@ -27,11 +26,18 @@ import { addQuestionThunk } from "../api/question-thunk-api";
 import translationKeys from "i18n/locales/translationKeys";
 import { namespaces } from "i18n/i18n.constants";
 import { useTranslation } from "react-i18next";
+import { IconButton } from "@mui/material";
+import { useParams } from "react-router-dom";
+import AddIcon from "@mui/icons-material/Add";
+import { mainPrimaryColor } from "assets/theme/base/colors";
 
 const useStyle = makeStyles(AddTempQuestionStyle);
 
-export default function AddTemplateQuestion() {
+export default function AddTemplateQuestion(props) {
+  const { questionnaireGroupTemplateQuestionId } = props;
+
   const { control, errors, reset, handleSubmit, watch } = useForm();
+  let { id } = useParams();
 
   const { t } = useTranslation(namespaces.question);
 
@@ -54,9 +60,12 @@ export default function AddTemplateQuestion() {
     const { questionChoices } = data;
 
     const question = {
-      templateId: 1,
+      templateId: Number(id),
+      questionChoices: [],
       ...data,
       questionnaireQuestionTypeId: data.questionnaireQuestionTypeId.type,
+      questionnaireGroupTemplateQuestionId:
+        questionnaireGroupTemplateQuestionId,
     };
 
     if (
@@ -432,24 +441,12 @@ export default function AddTemplateQuestion() {
           variant={"delete"}
         ></Modal>
       ) : null}
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-end"
-        alignItems="center"
-        spacing={1}
-      >
-        <Grid item>
-          <MDButton
-            onClick={() => setShow(true)}
-            variant={"contained"}
-            color={"info"}
-            className={classes.addNewQuestion}
-          >
-            {t(translationKeys.question.add)}
-          </MDButton>
-        </Grid>
-      </Grid>
+
+      <Tooltip title={t(translationKeys.question.add)}>
+        <IconButton onClick={() => setShow(true)}>
+          <AddIcon style={{ fill: "#43A047" }} />
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
