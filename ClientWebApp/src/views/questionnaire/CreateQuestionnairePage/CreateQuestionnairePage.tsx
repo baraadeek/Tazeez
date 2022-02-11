@@ -17,14 +17,10 @@ import MDButton from "components/core-components/MDButton";
 import DataGridTable from "components/core-components/DataGridTable/DataGridTable";
 import PageBanner from "views/examples/Common/PageBanner";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
-const useICTableStyle = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      background: "white",
-    },
-  })
-);
+const useICTableStyle = makeStyles((theme: Theme) => createStyles({}));
 export interface ICreateQuestionnairePageProps {}
 
 export type IGetUsersListRes = {
@@ -57,7 +53,7 @@ export default function CreateQuestionnairePage(
   const { t } = useTranslation([
     namespaces.pages.createQuestionnaire,
     namespaces.routes.authRoutes,
-    namespaces.common
+    namespaces.common,
   ]);
   const classes = useICTableStyle();
   const questionnaireTitle = t(
@@ -259,9 +255,11 @@ export default function CreateQuestionnairePage(
         </Grid>
         <Grid container item md={12} xs={12} lg={12} spacing={1}>
           <Grid item md={12} lg={12} xs={12}>
-            <Divider />
-            <p>{t(translationKeys.pages.createQuestionnaire.tempList)}</p>
             <ICTable
+              headerIcon={<LibraryBooksIcon />}
+              headerTitle={t(
+                translationKeys.pages.createQuestionnaire.tempList
+              )}
               search
               isLoading={isLoadingTemplates}
               select
@@ -272,9 +270,6 @@ export default function CreateQuestionnairePage(
                 controlled: false,
                 label: "Search ...",
               }}
-              paperProps={{
-                variant: "outlined",
-              }}
               headers={["name", "date", "numberOfQuestions"].map((q) =>
                 //@ts-ignore
                 t(translationKeys.pages.createQuestionnaire[q])
@@ -283,10 +278,10 @@ export default function CreateQuestionnairePage(
             />
           </Grid>
           <Grid item md={12} xs={12}>
-            <Divider />
-            <p>{t(translationKeys.pages.createQuestionnaire.users)}</p>
             <div style={{ height: 400, width: "100%" }}>
               <DataGridTable
+                headerIcon={<PeopleOutlineIcon />}
+                headerTitle={t(translationKeys.pages.createQuestionnaire.users)}
                 search
                 loading={isLoadingUsers}
                 searchProps={{
@@ -306,9 +301,6 @@ export default function CreateQuestionnairePage(
                 }
                 columns={columns}
                 pageSize={usersList?.data.length || 0}
-                classes={{
-                  root: classes.paper,
-                }}
                 checkboxSelection
                 disableSelectionOnClick
                 onSelectionModelChange={(selectedArr) => {
