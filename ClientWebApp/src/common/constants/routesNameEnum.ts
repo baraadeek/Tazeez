@@ -10,4 +10,5 @@ export enum ROUTES_NAME_ENUM {
   Profile = "Profile",
   CreateQuestionnaire = "CreateQuestionnaire",
   DoctorList = "Doctors",
+  QuestionnaireGroup = "Questionnaire Group",
 }

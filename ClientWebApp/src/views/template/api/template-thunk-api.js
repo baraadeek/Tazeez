@@ -1,5 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { addTemplateAPI, getTemplateListAPI } from "./template-api";
+import {
+  addTemplateAPI,
+  deleteTemplateAPI,
+  getTemplateListAPI,
+} from "./template-api";
 
 export const getTemplateListThunk = createAsyncThunk(
   "template/getTemplateList",
@@ -15,6 +19,15 @@ export const addTemplateThunk = createAsyncThunk(
   async (data, { dispatch }) => {
     const response = await addTemplateAPI(data);
 
-    return response;
+    return { ...response, isEdit: data.isEdit };
+  }
+);
+
+export const deleteTemplateThunk = createAsyncThunk(
+  "template/deleteTemplate",
+  async (data, { dispatch }) => {
+    await deleteTemplateAPI(data);
+
+    return data;
   }
 );
