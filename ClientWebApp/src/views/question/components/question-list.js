@@ -109,7 +109,7 @@ function QuestionList() {
       </TableCell>
     );
 
-    const choices = item.questionChoices.map((choice) => choice.choice);
+    const choices = item?.questionChoices?.map((choice) => choice.choice);
     rowColumn.push(
       <TableCell className={tableCellClasses} key={key}>
         {choices?.join(", ")}
