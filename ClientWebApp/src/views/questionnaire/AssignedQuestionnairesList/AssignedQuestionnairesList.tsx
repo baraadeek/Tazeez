@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, IconButton } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import { axiosAPI } from "axiosAPI";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
@@ -12,8 +12,11 @@ import translationKeys from "i18n/locales/translationKeys";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import PageBanner from "views/examples/Common/PageBanner";
+import ArticleIcon from "@mui/icons-material/Article";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
+import { useHistory } from "react-router-dom";
 
-interface IAssignedQuestionnaireViewerProps {}
+interface IAssignedQuestionnairesListProps {}
 
 export type IQuestionnaire = {
   id: number;
@@ -37,13 +40,14 @@ export type IGetQuestionnaireRes = {
   pagination: IPagination;
   data: IQuestionnaire[];
 };
-const AssignedQuestionnaireViewer: React.FunctionComponent<
-  IAssignedQuestionnaireViewerProps
+const AssignedQuestionnairesList: React.FunctionComponent<
+  IAssignedQuestionnairesListProps
 > = (props) => {
   const { t } = useTranslation([
     namespaces.pages.login,
     namespaces.routes.authRoutes,
   ]);
+  const history = useHistory();
 
   const [isLoadingQuestionnaire, setIsLoadingQuestionnaire] =
     React.useState(false);
@@ -82,7 +86,9 @@ const AssignedQuestionnaireViewer: React.FunctionComponent<
     getTemplatesAndUsers();
   }, []);
 
-  function renderAssignedQuestionnaireViewer() {
+  function onViewQuestionnaireClick(event: Event) {}
+
+  function renderAssignedQuestionnairesList() {
     const columns: GridColDef[] = [
       {
         field: "questionnaireTemplateName",
@@ -122,7 +128,7 @@ const AssignedQuestionnaireViewer: React.FunctionComponent<
         headerName: t(translationKeys.pages.assignedQuestionnaire.completedUtc),
         width: 200,
         renderCell: (params) => (
-          <div style={{width:'100%'}}>
+          <div style={{ width: "100%" }}>
             <p style={{ textAlign: "center" }}>
               {params.row.completedUtc || "-"}
             </p>
@@ -139,13 +145,42 @@ const AssignedQuestionnaireViewer: React.FunctionComponent<
         headerName: t(translationKeys.pages.assignedQuestionnaire.status),
         width: 150,
       },
+      {
+        sortable: false,
+        disableColumnMenu: true,
+        field: " ",
+        width: 300,
+        renderCell: (params) => {
+          return (
+            <Grid container>
+              <Grid item>
+               <IconButton
+                  title="View"
+                  aria-label="View"
+                  size="small"
+                  color="info"
+                  onClick={(e) => {
+                    history.push(
+                      ROUTES_PATH_ENUM.AssignedQuestionnaire.replace(":id", "1")
+                    );
+                  }}
+                >
+                  <VisibilityOutlinedIcon fontSize="small" />
+                </IconButton> 
+              </Grid>
+            </Grid>
+          );
+        },
+      },
     ];
 
     return (
       <>
         <Grid container style={{ minHeight: 700 }} paddingX={2} paddingY={2}>
-          <Grid item md={12} xs={12} sm={12}>
+          <Grid item md={12} xs={12} sm={12} paddingTop={2}>
             <DataGridTable
+              headerIcon={<ArticleIcon />}
+              headerTitle={"Assigned Questionnaires"}
               search
               loading={isLoadingQuestionnaire}
               // searchProps={{
@@ -178,9 +213,9 @@ const AssignedQuestionnaireViewer: React.FunctionComponent<
   return (
     <React.Fragment>
       {renderPagePanner()}
-      {renderAssignedQuestionnaireViewer()}
+      {renderAssignedQuestionnairesList()}
     </React.Fragment>
   );
 };
 
-export default AssignedQuestionnaireViewer;
+export default AssignedQuestionnairesList;
