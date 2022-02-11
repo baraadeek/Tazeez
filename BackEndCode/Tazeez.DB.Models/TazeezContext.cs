@@ -530,20 +530,22 @@ namespace Tazeez.Models.Models
                       .HasColumnType("timestamp")
                       .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                entity.Property(e => e.IsOptional).HasColumnType("tinyint(3)");
-
-                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
-
                 entity.Property(e => e.QuestionnaireQuestionTypeId).HasColumnType("int(11)");
 
                 entity.Property(e => e.QuestionnaireTemplateId).HasColumnType("int(11)");
+
+                entity.Property(e => e.QuestionnaireGroupTemplateQuestionId).HasColumnType("int(11)");
 
                 entity.Property(e => e.DisplayOrder).HasColumnType("int(11)");
 
                 entity.Property(e => e.Score).HasColumnType("int(11)");
 
+                entity.Property(e => e.IsOptional).HasColumnType("tinyint(3)");
+
+                entity.Property(e => e.Archived).HasColumnType("tinyint(3)");
+
                 entity.Property(e => e.LastUpdatedUTC)
-                      .HasColumnType("datetime")
+                      .HasColumnType("timestamp")
                       .ValueGeneratedOnAddOrUpdate()
                       .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
