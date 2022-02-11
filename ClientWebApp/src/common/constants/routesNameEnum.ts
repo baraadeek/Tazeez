@@ -10,6 +10,7 @@ export enum ROUTES_NAME_ENUM {
   Profile = "Profile",
   CreateQuestionnaire = "Create Questionnaire",
   DoctorList = "Doctors",
-  AssignedQuestionnaires = "AssignedQuestionnaires",
+  AssignedQuestionnairesList = "AssignedQuestionnairesList",
+  AssignedQuestionnaire = "AssignedQuestionnaire",
   ContactUs = "ContactUs"
 }

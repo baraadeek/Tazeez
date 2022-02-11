@@ -7,7 +7,8 @@ import ProfileDoctor from "views/examples/home/doctor/components/Profile-doctor"
 import Auth from "views/layouts/Auth";
 import Overview from "views/profile";
 import QuestionList from "views/question/components/question-list";
-import AssignedQuestionnaireViewer from "views/questionnaire/AssignedQuestionnaireViewer/AssignedQuestionnaireViewer";
+import AssignedQuestionnaire from "views/questionnaire/AssignedQuestionnaire/AssignedQuestionnaire";
+import AssignedQuestionnairesList from "views/questionnaire/AssignedQuestionnairesList/AssignedQuestionnairesList";
 import CreateQuestionnairePage from "views/questionnaire/CreateQuestionnairePage/CreateQuestionnairePage";
 import Templates from "views/template";
 import { ROUTES_NAME_ENUM } from "../common/constants/routesNameEnum";
@@ -89,9 +90,17 @@ export const normalRoutes: IRoute[] = [
 
 export const authRoutes: IRoute[] = [
   {
-    name: ROUTES_NAME_ENUM.AssignedQuestionnaires,
-    path: ROUTES_PATH_ENUM.AssignedQuestionnaires,
-    component: AssignedQuestionnaireViewer,
+    name: ROUTES_NAME_ENUM.AssignedQuestionnaire,
+    path: ROUTES_PATH_ENUM.AssignedQuestionnaire,
+    component: AssignedQuestionnaire,
+    ns: namespaces.routes.authRoutes,
+    isHidden: true,
+    translationKey: translationKeys.authRoutes.assignedQuestionnaires,
+  },
+  {
+    name: ROUTES_NAME_ENUM.AssignedQuestionnairesList,
+    path: ROUTES_PATH_ENUM.AssignedQuestionnairesList,
+    component: AssignedQuestionnairesList,
     ns: namespaces.routes.authRoutes,
     isHidden: false,
     translationKey: translationKeys.authRoutes.assignedQuestionnaires,
