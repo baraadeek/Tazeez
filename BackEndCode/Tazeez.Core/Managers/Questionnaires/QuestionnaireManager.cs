@@ -617,12 +617,12 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                               List<int> assessmentQuestionsIds)
         {
             var assessmentQuestions = _context.QuestionnaireQuestion
-                                             .Include("QuestionnaireAnswerChoice")
-                                             .Include("QuestionnaireAnswerText")
-                                             .Include("QuestionAttachment")
-                                             .Where(a => a.QuestionnaireId == assessment.Id
-                                                         && assessmentQuestionsIds.Contains(a.Id))
-                                             .ToList();
+                                              .Include("QuestionnaireAnswerChoice")
+                                              .Include("QuestionnaireAnswerText")
+                                              .Include("QuestionAttachment")
+                                              .Where(a => a.QuestionnaireId == assessment.Id
+                                                          && assessmentQuestionsIds.Contains(a.Id))
+                                              .ToList();
 
             if (assessmentQuestions == null)
             {
@@ -636,7 +636,6 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                      .Include("QuestionnaireTemplate")
                                                      .Include("QuestionnaireGroupTemplateQuestion")
                                                      .Where(a => assessmentTemplateQuestionsIds.Contains(a.Id))
-                                                     .ToList()
                                                      .ToDictionary(x => x.Id, v => v);
 
             return _helperManager.ManipulateQuestionByTypeV1(currentUser,
