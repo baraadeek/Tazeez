@@ -88,3 +88,16 @@ ADD CONSTRAINT `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId`
 
 ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
 CHANGE COLUMN `Archived` `Archived` TINYINT(3) NOT NULL DEFAULT '0' ;
+
+-------------------------------------------------
+
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+DROP FOREIGN KEY `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId`;
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+CHANGE COLUMN `QuestionnaireGroupTemplateQuestionId` `QuestionnaireGroupTemplateQuestionId` INT(11) NOT NULL ;
+ALTER TABLE `tazeez`.`questionnairetemplatequestion` 
+ADD CONSTRAINT `QuestionnaireTemplateQuestionTempId_TemplateQuestionTempId`
+  FOREIGN KEY (`QuestionnaireGroupTemplateQuestionId`)
+  REFERENCES `tazeez`.`questionnairegrouptemplatequestion` (`Id`)
+  ON DELETE NO ACTION
+  ON UPDATE NO ACTION;
