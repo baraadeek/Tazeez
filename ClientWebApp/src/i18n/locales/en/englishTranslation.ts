@@ -35,12 +35,18 @@ const englishTranslation = {
     [translationKeys.pages.authNavbar.login]: "Login",
   },
   [namespaces.template]: {
+    [translationKeys.template.editTemplate]: "Edit Template",
     [translationKeys.template.add]: "Add New Template",
     [translationKeys.template.save]: "Save",
     [translationKeys.template.close]: "Close",
     [translationKeys.template.title]: "Title",
     [translationKeys.template.q]: "Q",
+    [translationKeys.template.delete]: "Delete",
+    [translationKeys.template.deleteTemplate]: "Delete Template",
+    [translationKeys.template.deleteMassage]:
+      "Do you want to delete this Template?",
   },
+
   [namespaces.question]: {
     [translationKeys.question.add]: "Add New Question",
     [translationKeys.question.save]: "Save",
@@ -60,6 +66,14 @@ const englishTranslation = {
     [translationKeys.question.lastUpdated]: "Last Updated",
     [translationKeys.question.created]: "Created",
     [translationKeys.question.questionType]: "Question Type",
+    [translationKeys.question.name]: "Name",
+    [translationKeys.question.groupScore]: "Add Group Score",
+    [translationKeys.question.addGroup]: "Add Group",
+    [translationKeys.question.editGroup]: "Edit Group",
+    [translationKeys.question.groupScoreList]: "View Group Score",
+    [translationKeys.question.description]: "Description",
+    [translationKeys.question.availableGroupScore]: "No Group Score available!",
+    [translationKeys.question.editGroupScore]: "Edit Group Score",
   },
   [namespaces.profile]: {
     [translationKeys.profile.firstName]: "First Name",
@@ -117,11 +131,30 @@ const englishTranslation = {
     [translationKeys.pages.createQuestionnaire.date]: "Create Date",
     [translationKeys.pages.createQuestionnaire.numberOfQuestions]:
       "Number of Questions",
-
     [translationKeys.pages.createQuestionnaire.fullName]: "Full Name",
     [translationKeys.pages.createQuestionnaire.email]: "Email",
     [translationKeys.pages.createQuestionnaire.image]: "Image",
     [translationKeys.pages.createQuestionnaire.users]: "Users",
+  },
+  [namespaces.children]: {
+    [translationKeys.children.name]: "Name",
+    [translationKeys.children.firstName]: "First Name",
+    [translationKeys.children.lastName]: "Last Name",
+    [translationKeys.children.birthDay]: "Birth Day",
+    [translationKeys.children.image]: "Image",
+    [translationKeys.children.gender]: "Gender",
+    [translationKeys.children.available]: "No Children available!",
+    [translationKeys.children.children]: "Children",
+    [translationKeys.children.delete]: "Delete",
+    [translationKeys.children.deleteMassage]:
+      "Do you want to delete this child?",
+    [translationKeys.children.deleteChildren]: "Delete Child",
+    [translationKeys.children.addChildren]: "Add New Child",
+    [translationKeys.children.editChildren]: "Edit child",
+    [translationKeys.children.save]: "Save",
+    [translationKeys.children.close]: "Close",
+    [translationKeys.children.male]: "Male",
+    [translationKeys.children.female]: "Female",
   },
 };
 

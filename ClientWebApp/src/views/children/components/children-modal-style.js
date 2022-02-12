@@ -1,4 +1,4 @@
-const AddTempQuestionStyle = (theme) => ({
+const childrenModalStyle = (theme) => ({
   containerChoices: {
     borderTop: "2px solid #ddd",
     marginTop: "16px",
@@ -37,23 +37,6 @@ const AddTempQuestionStyle = (theme) => ({
     marginRight: 3,
     marginLeft: 3,
   },
-  addNewQuestion: {
-    textTransform: "capitalize",
-    display: "inline-block",
-    fontSize: "15px",
-    fontWeight: 500,
-    padding: "8px 24px",
-    marginBottom: 16,
-    margin: "0px 8px",
-    borderRadius: "4px",
-  },
-  addItem: {
-    textTransform: "capitalize",
-    display: "inline-block",
-    fontSize: "15px",
-    fontWeight: 500,
-    borderRadius: "4px",
-  },
 });
 
-export default AddTempQuestionStyle;
+export default childrenModalStyle;

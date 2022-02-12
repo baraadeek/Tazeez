@@ -82,7 +82,7 @@ namespace Tazeez.Controllers
         }
         
         [Route("api/v{version:apiVersion}/questionnaire/{id}/Questions")]
-        [HttpPost]
+        [HttpGet]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public IActionResult GetQuestionnaireQuestions(int id,

@@ -1,29 +1,19 @@
-/**
-=========================================================
-* Material Dashboard 2 React - v2.0.0
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-react
-* Copyright 2021 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
 // @mui material components
 import Card from "@mui/material/Card";
 import Divider from "@mui/material/Divider";
-import Icon from "@mui/material/Icon";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 // Material Dashboard 2 React components
 import MDBox from "components/core-components/MDBox";
 import MDTypography from "components/core-components/MDTypography";
+import Grid from "@mui/material/Grid";
+
+import { IconButton } from "@mui/material";
 
 function ComplexStatisticsCard({
   color,
@@ -32,63 +22,93 @@ function ComplexStatisticsCard({
   percentage,
   icon,
   mr,
+  onClickTitle,
+  onClickEdit,
   ml,
+  onClickDelete,
   isCenter,
   ...rest
 }) {
   return (
-    <Card {...rest}>
-      {icon ? (
-        <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
-          <MDBox
-            position="absolute"
-            variant="gradient"
-            bgColor={color}
-            color={color === "light" ? "dark" : "white"}
-            coloredShadow={color}
-            borderRadius="xl"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            width="4rem"
-            height="4rem"
-            mt={-3}
-          >
-            {icon}
+    <Card>
+      <span {...rest}>
+        {icon ? (
+          <MDBox display="flex" justifyContent="space-between" pt={1} px={2}>
+            <MDBox
+              position="absolute"
+              variant="gradient"
+              bgColor={color}
+              color={color === "light" ? "dark" : "white"}
+              coloredShadow={color}
+              borderRadius="xl"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="4rem"
+              height="4rem"
+              mt={-3}
+            >
+              {icon}
+            </MDBox>
           </MDBox>
-        </MDBox>
-      ) : null}
-      <MDBox textAlign="right" lineHeight={1.25} mr={mr}>
-        <MDTypography variant="button" fontWeight="light" color="text">
-          {title}
-        </MDTypography>
-        {count ? (
-          <MDTypography variant="h4" textAlign={isCenter ? "center" : ""}>
-            {count}
-          </MDTypography>
         ) : null}
-      </MDBox>
+        <MDBox textAlign="right" lineHeight={1.25} mr={mr}>
+          <MDTypography
+            variant="button"
+            fontWeight="light"
+            color="text"
+            onClick={() => onClickTitle && onClickTitle()}
+          >
+            {title}
+          </MDTypography>
+          {count ? (
+            <MDTypography variant="h4" textAlign={isCenter ? "center" : ""}>
+              {count}
+            </MDTypography>
+          ) : null}
+        </MDBox>
+      </span>
       {percentage ? (
         <>
           <Divider />
 
           <MDBox pb={2} px={2}>
-            <MDTypography
-              component="p"
-              variant="button"
-              color="text"
-              display="flex"
-            >
-              <MDTypography
-                component="span"
-                variant="button"
-                fontWeight="bold"
-                color={percentage.color}
-              >
-                {percentage.amount}
-              </MDTypography>
-              &nbsp;{percentage.label}
-            </MDTypography>
+            <Grid container xs={12} justifyContent="space-between">
+              <Grid item>
+                <MDTypography
+                  component="p"
+                  variant="button"
+                  color="text"
+                  display="flex"
+                >
+                  <MDTypography
+                    component="span"
+                    variant="button"
+                    fontWeight="bold"
+                    color={percentage.color}
+                  >
+                    {percentage.amount}
+                  </MDTypography>
+                  &nbsp;{percentage.label}
+                </MDTypography>
+              </Grid>
+              <Grid item>
+                <IconButton
+                  onClick={(e) => {
+                    onClickEdit && onClickEdit();
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+                <IconButton
+                  onClick={(e) => {
+                    onClickDelete && onClickDelete();
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
+            </Grid>
           </MDBox>
         </>
       ) : null}

@@ -63,9 +63,9 @@ namespace Tazeez.Core.Managers.Helper
                     1 => GetMultipleChoiceMultipleAnswer(assessmentQuestion, readOnly),
                     2 => GetMultipleChoiceSingleAnswer(assessmentQuestion, readOnly),
                     3 => GetAttachmentOnlyAnswer(assessmentQuestion, readOnly),
+                    4 => GetOpenEndedAnswer(assessmentQuestion, readOnly),
                     5 => GetNumberAnswer(assessmentQuestion, readOnly),
                     6 => GetDateTimeAnswer(assessmentQuestion, readOnly),
-                    7 => GetOpenEndedAnswer(assessmentQuestion, readOnly),
                     _ => throw new ServiceValidationException("Unsupported Question Type")
                 };
 

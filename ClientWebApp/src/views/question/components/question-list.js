@@ -1,16 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { ThunkDispatch } from "thunk-dispatch";
-import { useHistory, useParams } from "react-router-dom";
-import moment from "moment";
-import PageBanner from "views/examples/Common/PageBanner";
-import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
-
+import { useParams } from "react-router-dom";
 
 // Material UI
 import { Grid, CircularProgress, makeStyles } from "@material-ui/core";
 
-import TableCell from "@material-ui/core/TableCell";
 import GroupIcon from "@material-ui/icons/Group";
 
 // Components
@@ -20,17 +15,20 @@ import Table from "components/core-components/Table/table";
 import { getQuestionListThunk } from "../api/question-thunk-api";
 import { questionSelectors } from "../selectors/question-selectors";
 import questionListViewStyle from "./question-list-view-style";
-import { COLUMNS, QUESTION_TYPE_ID } from "../enums";
+import { COLUMNS } from "../enums";
 
 import { purge } from "../slice/question-slice";
 import CardHeader from "components/core-components/card/CardHeader";
 import CardIcon from "components/core-components/card/CardIcon";
 import CardBody from "components/core-components/card/CardBody";
 import CardComponent from "components/core-components/card/CardComponent";
-import AddTemplateQuestion from "./add-temp-question";
 import { useTranslation } from "react-i18next";
 import { namespaces } from "i18n/i18n.constants";
 import translationKeys from "i18n/locales/translationKeys";
+import QuestionItem from "./question-item";
+import AddGroup from "./add-group";
+import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
+import PageBanner from "views/examples/Common/PageBanner";
 
 const useStyle = makeStyles(questionListViewStyle);
 
@@ -71,58 +69,15 @@ function QuestionList() {
 
   //#region Dispatch functions
 
-  function renderDataTable(item, key) {
+  function renderDataTable(item, keyItem) {
     let row = [];
     let rowColumn = [];
-
-    const tableCellClasses = classes.tableCell;
-
     rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {item.displayOrder}
-      </TableCell>
-    );
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {item?.question}
-      </TableCell>
-    );
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {QUESTION_TYPE_ID[item.questionnaireQuestionTypeId]}
-      </TableCell>
-    );
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {moment(item.createdUTC).format("MMMM Do YYYY")}
-      </TableCell>
-    );
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {moment(item.lastUpdatedUTC).format("MMMM Do YYYY")}
-      </TableCell>
+      <>
+        <QuestionItem item={item} classes={classes} />
+      </>
     );
 
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {item.score}
-      </TableCell>
-    );
-
-    const choices = item?.questionChoices?.map((choice) => choice.choice);
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {choices?.join(", ")}
-      </TableCell>
-    );
-
-    rowColumn.push(
-      <TableCell className={tableCellClasses} key={key}>
-        {item.isOptional === false
-          ? t(translationKeys.question.no)
-          : t(translationKeys.question.yes)}
-      </TableCell>
-    );
     row.push(rowColumn);
     return row;
   }
@@ -148,9 +103,15 @@ function QuestionList() {
               </h4>
             </CardHeader>
             <CardBody>
-              <AddTemplateQuestion />
+              <Grid item container justifyContent="flex-end">
+                <Grid item>
+                  <AddGroup />
+                </Grid>
+              </Grid>
+
               {!false ? (
                 <Table
+                  tableHeaderColor="primary"
                   renderDataTable={renderDataTable}
                   tableHead={COLUMNS.map((q) => t(translationKeys.question[q]))}
                   tableData={questionList}
@@ -160,6 +121,7 @@ function QuestionList() {
                     classes.right,
                     classes.right,
                   ]}
+                  hover
                   customClassesForCells={[0, 4, 5]}
                   customHeadCellClasses={[
                     classes.center,
