@@ -5,6 +5,7 @@ export type IUser = {
   image: string;
   gender?: any;
   email: string;
+  birthDay: Date;
 };
 
 export type IQuestion = {
@@ -25,5 +26,12 @@ export type IQuestion = {
   questionnaireGroupTemplateQuestionId: number;
   assignedUserId: number;
   answeredByUserId: number | null;
-  answerChoices: [];
+  answerChoices: IChoice[];
 };
+
+export interface IChoice {
+  id: number;
+  score: number;
+  choice: string;
+  isChecked: boolean;
+}
