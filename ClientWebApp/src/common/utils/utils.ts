@@ -2,6 +2,8 @@
 //   callback && callback((prev) => ({ ...stateObj, [name]: !prev[name] }));
 // };
 
+import { IUser } from "common/sharedInterfaces/modelsInterfaces";
+
 export function parseJwt(token: string) {
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
@@ -138,4 +140,9 @@ export function uuidv4() {
       (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
     ).toString(16)
   );
+}
+
+
+export function getUserFullName (user:IUser){
+  return `${user.firstName} ${user.lastName}`;
 }
