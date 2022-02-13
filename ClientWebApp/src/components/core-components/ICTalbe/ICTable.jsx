@@ -129,9 +129,11 @@ export default function ICTable(props) {
                 ? onRowClick(row, rowI, row?.props?.onClick)
                 : row?.props?.onClick
             }
-            className={`${row?.props?.className || ""} ${selectedRowClassName(
-              rowI
-            )}`}
+            className={classNames(
+              row?.props?.className || "",
+              selectedRowClassName(rowI),
+              { [classes.cursorPointer]: props.hover }
+            )}
           >
             {row.cells.map((cell, index) => (
               <TableCell key={index} {...cell.props}>
