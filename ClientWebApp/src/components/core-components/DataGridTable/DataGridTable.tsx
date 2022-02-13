@@ -6,6 +6,12 @@ import TextField from "@mui/material/TextField";
 import { DataGrid, DataGridProps } from "@mui/x-data-grid";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import CardComponent from "../card/CardComponent";
+import useDataGridTableStyles from "./dataGridTableStyles";
+import CardBody from "../card/CardBody";
+import CardHeader from "../card/CardHeader";
+import CardIcon from "../card/CardIcon";
+import classNames from "classnames";
 
 type IOnChangeEvent = React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>;
 
@@ -72,6 +78,8 @@ QuickSearchToolbar.propTypes = {
 };
 
 export type IDataGridTableProps = DataGridProps & {
+  headerIcon: React.ReactNode | any;
+  headerTitle: string | any;
   search?: boolean;
   searchProps?: any & {
     onChange?: any;
@@ -86,7 +94,7 @@ export default function DataGridTable(props: IDataGridTableProps) {
   let { search, searchProps, ...rest } = props;
   searchProps = searchProps || {};
   const [searchText, setSearchText] = React.useState("");
-  console.log('🚀 ~ file: DataGridTable.tsx ~ line 89 ~ DataGridTable ~ searchText', searchText)
+  const classes = useDataGridTableStyles(props);
 
   const requestSearch = (searchValue: string) => {
     setSearchText(searchValue);
@@ -100,7 +108,6 @@ export default function DataGridTable(props: IDataGridTableProps) {
         toolbar: {
           value: searchProps?.controlled ? searchProps?.value : searchText,
           onSearch: function () {
-            console.log('🚀 ~ file: DataGridTable.tsx ~ line 105 ~ makeSearch ~ searchText', searchText)
             searchProps?.onSearchClick?.(searchText);
           },
           onChange: searchProps?.controlled
@@ -120,5 +127,15 @@ export default function DataGridTable(props: IDataGridTableProps) {
     };
   }
 
-  return <DataGrid {...rest} {...makeSearch()} />;
+  return (
+    <CardComponent className={classNames(classes.fullDimensions, classes.cardComponent)}>
+      <CardHeader color="primary" icon>
+        <CardIcon color="primary">{props.headerIcon}</CardIcon>
+        <h4 className={classes.cardBodyHeaderTitle}>{props.headerTitle}</h4>
+      </CardHeader>
+      <CardBody className={classNames(classes.cardBody)}>
+        <DataGrid className={classNames(classes.dataGridTable)} {...rest} {...makeSearch()} />
+      </CardBody>
+    </CardComponent>
+  );
 }
