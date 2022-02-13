@@ -86,46 +86,50 @@ const AssignedQuestionnairesList: React.FunctionComponent<
     getTemplatesAndUsers();
   }, []);
 
-  function onViewQuestionnaireClick(event: Event) {}
-
   function renderAssignedQuestionnairesList() {
     const columns: GridColDef[] = [
       {
         field: "questionnaireTemplateName",
         headerName: t(
-          translationKeys.pages.assignedQuestionnaire.questionnaireTemplateName
+          translationKeys.pages.assignedQuestionnairesList
+            .questionnaireTemplateName
         ),
         width: 200,
       },
       {
         field: "questionnaireName",
         headerName: t(
-          translationKeys.pages.assignedQuestionnaire.questionnaireName
+          translationKeys.pages.assignedQuestionnairesList.questionnaireName
         ),
         width: 200,
       },
       {
         field: "numberOfQuestions",
         headerName: t(
-          translationKeys.pages.assignedQuestionnaire.numberOfQuestions
+          translationKeys.pages.assignedQuestionnairesList.numberOfQuestions
         ),
         width: 200,
       },
       {
         field: "numberOfAnsweredQuestions",
         headerName: t(
-          translationKeys.pages.assignedQuestionnaire.numberOfAnsweredQuestions
+          translationKeys.pages.assignedQuestionnairesList
+            .numberOfAnsweredQuestions
         ),
         width: 200,
       },
       {
         field: "dueDateUTC",
-        headerName: t(translationKeys.pages.assignedQuestionnaire.dueDateUTC),
+        headerName: t(
+          translationKeys.pages.assignedQuestionnairesList.dueDateUTC
+        ),
         width: 200,
       },
       {
         field: "completedUtc",
-        headerName: t(translationKeys.pages.assignedQuestionnaire.completedUtc),
+        headerName: t(
+          translationKeys.pages.assignedQuestionnairesList.completedUtc
+        ),
         width: 200,
         renderCell: (params) => (
           <div style={{ width: "100%" }}>
@@ -137,12 +141,14 @@ const AssignedQuestionnairesList: React.FunctionComponent<
       },
       {
         field: "createdUTC",
-        headerName: t(translationKeys.pages.assignedQuestionnaire.createdUTC),
+        headerName: t(
+          translationKeys.pages.assignedQuestionnairesList.createdUTC
+        ),
         width: 150,
       },
       {
         field: "status",
-        headerName: t(translationKeys.pages.assignedQuestionnaire.status),
+        headerName: t(translationKeys.pages.assignedQuestionnairesList.status),
         width: 150,
       },
       {
@@ -154,19 +160,22 @@ const AssignedQuestionnairesList: React.FunctionComponent<
           return (
             <Grid container>
               <Grid item>
-               <IconButton
+                <IconButton
                   title="View"
                   aria-label="View"
                   size="small"
                   color="info"
                   onClick={(e) => {
                     history.push(
-                      ROUTES_PATH_ENUM.AssignedQuestionnaire.replace(":id", "1")
+                      ROUTES_PATH_ENUM.AssignedQuestionnaire.replace(
+                        ":id",
+                        params.id.toString()
+                      )
                     );
                   }}
                 >
                   <VisibilityOutlinedIcon fontSize="small" />
-                </IconButton> 
+                </IconButton>
               </Grid>
             </Grid>
           );
@@ -199,6 +208,7 @@ const AssignedQuestionnairesList: React.FunctionComponent<
                   createdUTC: q.createdUTC,
                   status: q.status,
                   completedUtc: q.completedUtc,
+                  " ": null,
                 })) || []
               }
               columns={columns}
