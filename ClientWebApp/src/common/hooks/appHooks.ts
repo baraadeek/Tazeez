@@ -39,3 +39,12 @@ export function useMountedState<S>(
 
   return [state, onSetState];
 }
+
+export const useFlexDirection = (): [
+  "row" | "row-reverse",
+  "column" | "column-reverse"
+] => {
+  const isRtl = useIsRtl();
+
+  return [isRtl ? "row-reverse" : "row", isRtl ? "column-reverse" : "column"];
+};
