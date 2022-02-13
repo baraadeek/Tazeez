@@ -1,4 +1,3 @@
-
 const sharedStyles = {
   disabled: {
     "pointer-events": "none",
@@ -24,6 +23,9 @@ const sharedStyles = {
   removeMargin: {
     margin: "0 !important",
   },
+  removePadding: {
+    padding: "0 !important",
+  },
   removePaperEffect: {
     boxShadow: "none",
     border: "1px solid whitesmoke",
@@ -34,14 +36,22 @@ const sharedStyles = {
   fullHeight: {
     height: "100%",
   },
+  displayFlex: {
+    display: "flex",
+  },
+  flexGrowFull: {
+    flexGrow: 1,
+  },
+  get displayFlexGrowFull() {
+    return { ...this.displayFlex, ...this.flexGrowFull };
+  },
   get fullDimensions() {
-   return {
-     ...this.fullHeight,
-     ...this.fullWidth
-   } 
+    return {
+      ...this.fullHeight,
+      ...this.fullWidth,
+    };
   },
 } as const;
-
 
 export type ISharedStylesKeys = keyof typeof sharedStyles;
 
