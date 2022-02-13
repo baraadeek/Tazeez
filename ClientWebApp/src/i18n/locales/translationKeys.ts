@@ -1,7 +1,12 @@
 const translationKeys = {
   pages: {
-    assignedQuestionnaire: {
-      questionnaireGroupId:"questionnaireGroupId",
+    assignedQuestionnaires: {
+      commentAnswer: "commentAnswer",
+      question: "question",
+      choices: "choices",
+    },
+    assignedQuestionnairesList: {
+      questionnaireGroupId: "questionnaireGroupId",
       status: "status",
       statusOrder: "statusOrder",
       questionnaireTemplateName: "questionnaireTemplateName",
