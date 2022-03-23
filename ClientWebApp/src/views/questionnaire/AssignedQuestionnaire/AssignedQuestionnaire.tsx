@@ -3,10 +3,7 @@ import { Wizard, useWizard } from "react-use-wizard";
 import {
   Avatar,
   CardHeader,
-  Checkbox,
   CircularProgress,
-  FormControlLabel,
-  FormGroup,
   Grid,
   IconButton,
   TextField,
@@ -18,7 +15,7 @@ import {
   IGetQuestionnaireQuestionsRes,
 } from "store/actions/questions/questionsActionCretors";
 import { useParams } from "react-router-dom";
-import { IQuestion, IUser } from "common/sharedInterfaces/modelsInterfaces";
+import { IChoice, IQuestion, IUser } from "common/sharedInterfaces/modelsInterfaces";
 import CardComponent from "components/core-components/card/CardComponent";
 import CardBody from "components/core-components/card/CardBody";
 import { useFlexDirection, useMountedState } from "common/hooks/appHooks";
@@ -28,17 +25,26 @@ import translationKeys from "i18n/locales/translationKeys";
 import useAssignedQuestionnaireStyles from "./assignedQuestionnaireStyles";
 import classNames from "classnames";
 import { getUserFullName } from "common/utils/utils";
+import {
+  SINGLE_ANSWER_QUESTION_TYPE_ID,
+  MULTIPLE_ANSWER_QUESTION_TYPE_ID,
+} from "views/question/enums";
+import MultiChoice from "components/common-components/MultiChoice/MultiChoice";
+import { Dictionary } from "common/sharedInterfaces/GenericInterfaces";
 const {
   pages: { assignedQuestionnaires },
 } = translationKeys;
 interface IAssignedQuestionnaireProps {}
 
-const AssignedQuestionnaire: React.FunctionComponent<
-  IAssignedQuestionnaireProps
-> = (props) => {
+const AssignedQuestionnaire: React.FunctionComponent<IAssignedQuestionnaireProps> = (
+  props
+) => {
   const [getQuestionsRes, setGetQuestionsRes] =
     useMountedState<IGetQuestionnaireQuestionsRes | null>(null);
   const [isLoading, setIsLoading] = useMountedState(false);
+  const [selectedChoices, setSelectedChoices] = React.useState<
+  Dictionary<boolean> | undefined
+  >();
   const params = useParams<{ id: string }>();
   const { t } = useTranslation(namespaces.pages.assignedQuestionnaire);
   const classes = useAssignedQuestionnaireStyles();
@@ -51,9 +57,7 @@ const AssignedQuestionnaire: React.FunctionComponent<
             className={classes.textField}
             fullWidth
             multiline
-            label={t(
-              translationKeys.pages.assignedQuestionnaires.commentAnswer
-            )}
+            label={t(translationKeys.pages.assignedQuestionnaires.commentAnswer)}
           />
         </Grid>
         <Grid item md={6} paddingX={2} className={classes.attachmentBox}>
@@ -94,15 +98,47 @@ const AssignedQuestionnaire: React.FunctionComponent<
     );
   }
 
+  function onChoiceSelected(checked: boolean, choiceId: string) {
+    setSelectedChoices((prev) => ({ ...prev, [choiceId]: checked }));
+  }
+
+  function renderAnswerView(questionType: number, choices: IChoice[]) {
+    let view = null;
+    switch (questionType) {
+      case SINGLE_ANSWER_QUESTION_TYPE_ID:
+        view = (
+          <MultiChoice
+            singleAnswer={true}
+            selectedChoices={selectedChoices}
+            choices={choices}
+            onChange={onChoiceSelected}
+          />
+        );
+        break;
+      case MULTIPLE_ANSWER_QUESTION_TYPE_ID:
+        view = (
+          <MultiChoice
+            singleAnswer={false}
+            selectedChoices={selectedChoices}
+            choices={choices}
+            onChange={onChoiceSelected}
+          />
+        );
+        break;
+
+      default:
+        break;
+    }
+
+    return view;
+  }
+
   function renderSteps({ questions }: { questions: IQuestion[] | undefined }) {
     if (!questions) return null;
 
     return questions.map((q) => (
       <CardComponent
-        className={classNames(
-          classes.cardComponent,
-          classes.displayFlexGrowFull
-        )}
+        className={classNames(classes.cardComponent, classes.displayFlexGrowFull)}
         key={q.questionId}
       >
         <CardBody
@@ -116,9 +152,7 @@ const AssignedQuestionnaire: React.FunctionComponent<
           className={classes.displayFlex}
         >
           <Grid item flexGrow={0}>
-            <h2 className={classes.question}>
-              {t(assignedQuestionnaires.question)}:{" "}
-            </h2>
+            <h2 className={classes.question}>{t(assignedQuestionnaires.question)}: </h2>
             <p className={classes.questionText}>{q.questionText}</p>
           </Grid>
           <Grid container item gap={2} flexGrow={0}>
@@ -128,16 +162,7 @@ const AssignedQuestionnaire: React.FunctionComponent<
               </h2>
             </Grid>
             <Grid item className={classes.choicesContainer}>
-              <FormGroup>
-                {q.answerChoices.map((c) => (
-                  <FormControlLabel
-                    key={c.id}
-                    control={<Checkbox />}
-                    label={c.choice}
-                    className={classes.choiceCheckBox}
-                  />
-                ))}
-              </FormGroup>
+              {renderAnswerView(Number(q.questionType), q.answerChoices)}
             </Grid>
           </Grid>
           {renderAdditionalAnswer()}
@@ -149,9 +174,7 @@ const AssignedQuestionnaire: React.FunctionComponent<
   function renderAssignedUser() {
     if (!getQuestionsRes) return;
 
-    const assignedUser = Object.values(
-      getQuestionsRes?.assignedUsers
-    )[0] as IUser;
+    const assignedUser = Object.values(getQuestionsRes?.assignedUsers)[0] as IUser;
 
     assignedUser.birthDay = new Date();
 
@@ -161,7 +184,9 @@ const AssignedQuestionnaire: React.FunctionComponent<
           <p className={classes.removeMargin}>{getUserFullName(assignedUser)}</p>
         </Grid>
         <Grid item md={12}>
-          <p className={classes.removeMargin}>{assignedUser.birthDay.toLocaleDateString()}</p>
+          <p className={classes.removeMargin}>
+            {assignedUser.birthDay.toLocaleDateString()}
+          </p>
         </Grid>
       </Grid>
     );
@@ -169,9 +194,7 @@ const AssignedQuestionnaire: React.FunctionComponent<
     return (
       <Grid item>
         <CardHeader
-          avatar={
-            <Avatar alt={assignedUser.firstName} src={assignedUser.image} />
-          }
+          avatar={<Avatar alt={assignedUser.firstName} src={assignedUser.image} />}
           title={title}
         />
       </Grid>
@@ -199,24 +222,13 @@ export default AssignedQuestionnaire;
 type IWizardFooterProps = {};
 
 function WizardFooter(props: IWizardFooterProps) {
-  const {
-    nextStep,
-    previousStep,
-    isLastStep,
-    isFirstStep,
-    activeStep,
-    stepCount,
-  } = useWizard();
+  const { nextStep, previousStep, isLastStep, isFirstStep, activeStep, stepCount } =
+    useWizard();
   const [flexDirection] = useFlexDirection();
 
   return (
     <Grid item container justifyContent={"center"}>
-      <Grid
-        item
-        container
-        justifyContent={"center"}
-        flexDirection={flexDirection}
-      >
+      <Grid item container justifyContent={"center"} flexDirection={flexDirection}>
         <Grid item>
           <IconButton
             disabled={isFirstStep}
