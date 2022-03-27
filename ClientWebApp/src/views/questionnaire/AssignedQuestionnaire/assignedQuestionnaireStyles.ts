@@ -6,7 +6,10 @@ const useAssignedQuestionnaireStyles = makeStyles((theme: Theme) =>
     ...sharedStyles,
     attachmentBox: {
       border: "1px solid gray",
-      borderRadius:10
+      borderRadius:10,
+      "& button":{
+        color:'white!important'
+      }
     },
     question: {
       fontSize: "2rem",
@@ -19,7 +22,7 @@ const useAssignedQuestionnaireStyles = makeStyles((theme: Theme) =>
       fontSize: "2rem",
     },
     cardComponent: {
-      margin:0
+      margin:0,
     },
     choicesContainer: {
       display: "flex",
