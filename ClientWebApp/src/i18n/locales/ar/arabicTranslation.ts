@@ -36,6 +36,7 @@ const arabicTranslation = {
   },
   [namespaces.routes.authRoutes]: {
     [translationKeys.authRoutes.doctors]: "الأطباء",
+    [translationKeys.authRoutes.assignedQuestionnaires]: "إستبياناتي",
     [translationKeys.authRoutes.profile]: "الملف الشخصي",
     [translationKeys.authRoutes.questionsTemplate]: "نموذج الاسئلة",
     [translationKeys.authRoutes.questionsTemplatesList]: "قائمة نماذج الأسئلة",

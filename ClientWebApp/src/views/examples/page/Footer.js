@@ -180,12 +180,7 @@ const Footer = () => {
       <div className="copyright-area">
         <div className="container">
           <div className="copyright-item">
-            <p>
-              Copyright &copy; {currentYear} Design & Developed by{" "}
-              <a href="https://hibootstrap.com/" target="_blank">
-                HiBootstrap
-              </a>
-            </p>
+            <p>Copyright &copy; {currentYear} Design & Developed by Tazeez</p>
           </div>
         </div>
       </div>

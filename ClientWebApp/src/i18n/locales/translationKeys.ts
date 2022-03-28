@@ -1,5 +1,22 @@
 const translationKeys = {
   pages: {
+    assignedQuestionnaires: {
+      commentAnswer: "commentAnswer",
+      question: "question",
+      choices: "choices",
+    },
+    assignedQuestionnairesList: {
+      questionnaireGroupId: "questionnaireGroupId",
+      status: "status",
+      statusOrder: "statusOrder",
+      questionnaireTemplateName: "questionnaireTemplateName",
+      questionnaireName: "questionnaireName",
+      numberOfQuestions: "numberOfQuestions",
+      numberOfAnsweredQuestions: "numberOfAnsweredQuestions",
+      dueDateUTC: "dueDateUTC",
+      completedUtc: "completedUtc",
+      createdUTC: "createdUTC",
+    },
     createQuestionnaire: {
       questionnaireTitle: "questionnaireTitle",
       add: "add",
@@ -43,6 +60,7 @@ const translationKeys = {
     questionsTemplate: "questionsTemplate",
     doctors: "doctors",
     profile: "profile",
+    assignedQuestionnaires: "assignedQuestionnaires",
     createQuestionnaire: "createQuestionnaire",
     questionnaireGroup: "questionnaireGroup",
   },

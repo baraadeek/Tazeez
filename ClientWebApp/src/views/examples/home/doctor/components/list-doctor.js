@@ -15,14 +15,12 @@ import Profile from "./profile.png";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 
 export default function DoctorsList() {
-  const { t } = useTranslation(namespaces.pages.login);
+  const { t } = useTranslation([
+    namespaces.pages.login,
+    namespaces.routes.authRoutes,
+  ]);
 
   const doctorList = useSelector(doctorSelectors);
-  console.log(
-    "🚀 ~ file: OurDoctors.js ~ line 13 ~ OurDoctors ~ doctorList",
-    doctorList
-  );
-
   const getQuestionList = useCallback(dispatchGetQuestionListFunc, []);
 
   useEffect(
@@ -42,10 +40,14 @@ export default function DoctorsList() {
   return (
     <>
       <PageBanner
-        pageTitle={"Doctors"}
-        homePageUrl="/"
+        pageTitle={t(translationKeys.authRoutes.doctors, {
+          ns: namespaces.routes.authRoutes,
+        })}
+        homePageUrl={ROUTES_PATH_ENUM.Home}
         homePageText={t(translationKeys.common.homePage)}
-        activePageText={"Doctors"}
+        activePageText={t(translationKeys.authRoutes.doctors, {
+          ns: namespaces.routes.authRoutes,
+        })}
         bgImage="page-title-one"
       />
       <div className="doctors-area ptb-100">

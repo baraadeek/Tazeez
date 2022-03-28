@@ -23,6 +23,7 @@ function CardBody({ ...props }) {
     color,
     profile,
     calendar,
+    component,
     ...rest
   } = props;
   const cardBodyClasses = classNames({
@@ -37,10 +38,13 @@ function CardBody({ ...props }) {
     [classes.cardBodyCalendar]: calendar,
     [className]: className !== undefined,
   });
+
+  const RenderedComponent = component || ((props) => <div {...props} />);
+
   return (
-    <div className={cardBodyClasses} {...rest}>
+    <RenderedComponent className={cardBodyClasses} {...rest}>
       {children}
-    </div>
+    </RenderedComponent>
   );
 }
 
@@ -56,6 +60,7 @@ CardBody.propTypes = {
   profile: PropTypes.bool,
   calendar: PropTypes.bool,
   children: PropTypes.node,
+  component: PropTypes.object,
 };
 
 export default withStyles(cardBodyStyle)(CardBody);

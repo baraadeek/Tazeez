@@ -9,11 +9,15 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import TablePagination from "@material-ui/core/TablePagination";
 import useICTableStyle from "./icTableStyle";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search";
+import CardComponent from "../card/CardComponent";
+import CardBody from "../card/CardBody";
+import CardIcon from "../card/CardIcon";
+import CardHeader from "../card/CardHeader";
+import classNames from "classnames";
 export default function ICTable(props) {
   const classes = useICTableStyle(props);
   const {
@@ -125,9 +129,11 @@ export default function ICTable(props) {
                 ? onRowClick(row, rowI, row?.props?.onClick)
                 : row?.props?.onClick
             }
-            className={`${row?.props?.className || ""} ${selectedRowClassName(
-              rowI
-            )}`}
+            className={classNames(
+              row?.props?.className || "",
+              selectedRowClassName(rowI),
+              { [classes.cursorPointer]: props.hover }
+            )}
           >
             {row.cells.map((cell, index) => (
               <TableCell key={index} {...cell.props}>
@@ -138,7 +144,6 @@ export default function ICTable(props) {
         ))) ||
       [];
   }
-
 
   function renderSearchBar() {
     if (!search) return null;
@@ -195,77 +200,73 @@ export default function ICTable(props) {
     );
   }
 
-
-  if (isLoading || (tableRows && !tableRows.length) || !tableRows) {
-    return (
-      <Paper
-        className={`${(!paperEffect && classes.removePaperEffect) || ""} ${
-          paperProps?.className || ""
-        } ${classes.loader}`}
+  const renderLoaderOrEmptyView = () => (
+    <>
+      {renderSearchBar()}
+      <Grid
+        container
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        className={classes.loader}
         {...paperProps}
       >
-        {renderSearchBar()}
-        <Grid
-          container
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          className={classes.loader}
-          {...paperProps}
-        >
-          <Grid item>
-            {isLoading ? (
-              <CircularProgress />
-            ) : emptyView ? (
-              emptyView
-            ) : (
-              <strong>No Data!</strong>
-            )}
-          </Grid>
+        <Grid item>
+          {isLoading ? (
+            <CircularProgress />
+          ) : emptyView ? (
+            emptyView
+          ) : (
+            <strong>No Data!</strong>
+          )}
         </Grid>
-      </Paper>
-    );
-  }
+      </Grid>
+    </>
+  );
 
-
-  const classNames = `${disabled ? classes.disabled : ""} ${
+  const tableContainerClassName = `${disabled ? classes.disabled : ""} ${
     (!paperEffect && classes.removePaperEffect) || ""
   }`;
 
   return (
-    <div className={classes.fullWidth}>
-      <Paper
-        className={`${(!paperEffect && classes.removePaperEffect) || ""} ${
-          paperProps?.className || ""
-        }`}
-        {...paperProps}
-      >
-        {renderSearchBar()}
-        <TableContainer
-          {...tableContainerProps}
-          component={"div"}
-          className={classNames}
-        >
-          <Table className={classes.table} aria-label="simple table">
-            <TableHead>
-              <TableRow>{tableHeaders}</TableRow>
-            </TableHead>
-            <TableBody>{tableRows}</TableBody>
-          </Table>
-        </TableContainer>
-        {addPagination && (
-          <TablePagination
-            component="div"
-            rowsPerPageOptions={rowsPerPageOptions}
-            count={totalItems || rows.length}
-            rowsPerPage={rowsPerPage}
-            page={page - 1}
-            onPageChange={onChangePage}
-            onRowsPerPageChange={onChangeRowsPerPage}
-          />
+    <CardComponent>
+      <CardHeader color="primary" icon>
+        <CardIcon color="primary">{props.headerIcon}</CardIcon>
+        <h4 className={classes.cardBodyHeaderTitle}>{props.headerTitle}</h4>
+      </CardHeader>
+      <CardBody className={classNames(classes.cardBody)}>
+        {isLoading || (tableRows && !tableRows.length) || !tableRows ? (
+          renderLoaderOrEmptyView()
+        ) : (
+          <>
+            {renderSearchBar()}
+            <TableContainer
+              {...tableContainerProps}
+              component={"div"}
+              className={tableContainerClassName}
+            >
+              <Table className={classes.table} aria-label="simple table">
+                <TableHead>
+                  <TableRow>{tableHeaders}</TableRow>
+                </TableHead>
+                <TableBody>{tableRows}</TableBody>
+              </Table>
+            </TableContainer>
+            {addPagination && (
+              <TablePagination
+                component="div"
+                rowsPerPageOptions={rowsPerPageOptions}
+                count={totalItems || rows.length}
+                rowsPerPage={rowsPerPage}
+                page={page - 1}
+                onPageChange={onChangePage}
+                onRowsPerPageChange={onChangeRowsPerPage}
+              />
+            )}
+          </>
         )}
-      </Paper>
-    </div>
+      </CardBody>
+    </CardComponent>
   );
 }
 
@@ -283,11 +284,13 @@ ICTable.propTypes = {
   paperEffect: PropTypes.bool,
   search: PropTypes.bool,
   rowsPerPageOptions: PropTypes.array,
-  searchInputProps:PropTypes.object,
+  searchInputProps: PropTypes.object,
   rowsPerPage: PropTypes.number,
   page: PropTypes.number,
   totalItems: PropTypes.number,
   onChangePage: PropTypes.func,
+  headerIcon: PropTypes.any,
+  headerTitle: PropTypes.string,
   onChangeRowsPerPage: PropTypes.func,
 };
 

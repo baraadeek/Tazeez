@@ -4,6 +4,8 @@ export const namespaces = {
     login: "pages.login",
     authNavbar: "pages.authNavbar",
     createQuestionnaire: "pages.createQuestionnaire",
+    assignedQuestionnairesList: "pages.assignedQuestionnairesList",
+    assignedQuestionnaire: "pages.assignedQuestionnaire",
   },
   routes: {
     authRoutes: "routes.authRoutes",

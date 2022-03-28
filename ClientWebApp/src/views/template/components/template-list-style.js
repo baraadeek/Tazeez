@@ -1,7 +1,6 @@
 const TemplateListStyle = (theme) => ({
   containerGrid: {
     width: "100%",
-    height: 100,
     cursor: "pointer",
   },
   descriptionGrid: {

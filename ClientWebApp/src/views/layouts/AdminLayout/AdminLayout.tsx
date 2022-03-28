@@ -7,13 +7,12 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Sidenav from "examples/Sidenav";
 
 // Material Dashboard 2 React themes
-import theme from "assets/theme";
-import { IAuthRoutes } from "routes/routes";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import { useSelector } from "react-redux";
 import { IRootReducer } from "store/reducers/rootReducer";
 import { useIsRtl } from "common/hooks/appHooks";
+import theme from "assets/theme";
 import themeRTL from "assets/theme/theme-rtl";
 import { EmotionCache } from "@emotion/react";
 
@@ -26,9 +25,10 @@ import translationKeys from "i18n/locales/translationKeys";
 import { useTranslation } from "react-i18next";
 import { namespaces } from "i18n/i18n.constants";
 import { getKeyValue } from "common/utils/utils";
+import { IRoute } from "routes/routes";
 
 interface IAdminLayoutProps {
-  routes: IAuthRoutes[];
+  routes: IRoute[];
 }
 
 const AdminLayout: React.FunctionComponent<IAdminLayoutProps> = (props) => {

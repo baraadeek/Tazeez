@@ -8,7 +8,10 @@ export enum ROUTES_NAME_ENUM {
   Doctors = "Doctors",
   Doctor = "Doctor",
   Profile = "Profile",
-  CreateQuestionnaire = "CreateQuestionnaire",
+  CreateQuestionnaire = "Create Questionnaire",
   DoctorList = "Doctors",
+  AssignedQuestionnairesList = "AssignedQuestionnairesList",
+  AssignedQuestionnaire = "AssignedQuestionnaire",
+  ContactUs = "ContactUs",
   QuestionnaireGroup = "Questionnaire Group",
 }
