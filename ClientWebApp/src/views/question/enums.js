@@ -10,13 +10,20 @@ export const COLUMNS_ITEM = [
   "optional",
 ];
 
+export const SINGLE_ANSWER_QUESTION_TYPE_ID = 1;
+export const MULTIPLE_ANSWER_QUESTION_TYPE_ID = 2;
+export const OPEN_ENDED_QUESTION_TYPE_ID = 3;
+export const ATTACHMENT_ONLY_QUESTION_TYPE_ID = 4;
+export const NUMBER_ANSWER_QUESTION_TYPE_ID = 5;
+export const DATE_TIME_ANSWER_QUESTION_TYPE_ID = 6;
+
 export const QUESTION_TYPE_ID = {
-  1: "Single Answer",
-  2: "Multiple Answer",
-  3: "Open Ended",
-  4: "Attachment Only Answer",
-  5: "Number Answer",
-  6: "Date Time Answer",
+  SINGLE_ANSWER_QUESTION_TYPE_ID: "Single Answer",
+  MULTIPLE_ANSWER_QUESTION_TYPE_ID: "Multiple Answer",
+  OPEN_ENDED_QUESTION_TYPE_ID: "Open Ended",
+  ATTACHMENT_ONLY_QUESTION_TYPE_ID: "Attachment Only Answer",
+  NUMBER_ANSWER_QUESTION_TYPE_ID: "Number Answer",
+  DATE_TIME_ANSWER_QUESTION_TYPE_ID: "Date Time Answer",
 };
 export const COLUMNS_GROUP_SCORE = ["name", "score", "description", ""];
 
