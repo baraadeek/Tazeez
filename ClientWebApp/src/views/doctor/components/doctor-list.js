@@ -17,7 +17,7 @@ import Table from "components/core-components/Table/table";
 import { getDoctorListThunk } from "../api/doctor-thunk-api";
 import { doctorSelectors } from "../selectors/doctor-selectors";
 import questionListViewStyle from "./question-list-view-style";
-import { COLUMNS, QUESTION_TYPE_ID } from "../enums";
+import { COLUMNS } from "../enums";
 import MDAvatar from "components/core-components/MDAvatar";
 import MDTypography from "components/core-components/MDTypography";
 

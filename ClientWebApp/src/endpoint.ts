@@ -101,4 +101,16 @@ export const END_POINTS = {
     url: "/api/v1/questionnairetemplategroup/{id}/groupscore",
     method: HttpMethods.GET,
   },
+  saveMultiChoiceAnswer: {
+    url: "/api/v1/questionnaire/{id}/question/{questionId}/multiChoice",
+    method: HttpMethods.PUT,
+  },
+  saveTextAnswer: {
+    url: "/api/v1/questionnaire/{id}/question/{questionId}/textAnswer",
+    method: HttpMethods.PUT,
+  },
+  saveAdditionalTextAnswer: {
+    url: "/api/v1/questionnaire/{id}/question/{questionId}/additionalText",
+    method: HttpMethods.PUT,
+  },
 };
