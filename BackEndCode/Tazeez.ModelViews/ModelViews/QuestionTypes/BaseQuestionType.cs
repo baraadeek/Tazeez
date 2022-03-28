@@ -60,7 +60,7 @@ namespace Tazeez.Models.QuestionTypes
 
         public List<QuestionAttachmentModel> QuestionAttachment { get; set; }
 
-        public QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuesion { get; set; }
+        public QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuestion { get; set; }
 
         public abstract int? AnsweredByUserId { get; }
         
@@ -201,7 +201,7 @@ namespace Tazeez.Models.QuestionTypes
 
             var isDraft = !existingQuestion.QuestionAttachment.Any();
 
-            if (StaticData.TextAnswerQuestionType.Contains(existingQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId))
+            if (StaticData.TextAnswerQuestionType.Contains(existingQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId))
             {
                 if (existingQuestion.QuestionnaireAnswerText.FirstOrDefault() == null)
                 {
