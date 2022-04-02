@@ -9,13 +9,7 @@ namespace Tazeez.Enums
         [Description("MultipleChoiceQuestionMultipleAnswer")]
         McqMultipleAnswer = 2,
         [Description("OpenEnded")]
-        OpenEnded = 3,
-        [Description("AttachmentOnlyAnswer")]
-        AttachmentOnlyAnswer = 4, 
-        [Description("NumberAnswer")]
-        NumberAnswer = 5,
-        [Description("DateTimeAnswer")]
-        DateTimeAnswer = 6
+        OpenEnded = 3
     }
 
     public enum QuestionStatusEnum
