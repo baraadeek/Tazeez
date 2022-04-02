@@ -119,9 +119,9 @@ namespace Tazeez.Controllers
         [HttpPut]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult PutQuestionnaireTemplateQuestion(int id, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel)
+        public IActionResult PutQuestionnaireTemplateQuestion(int id, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuestionModel)
         {
-            var result = _questionnaireManager.PutQuestionnaireTemplateQuestion(LoggedInUser, id, questionnaireTemplateQuesionModel);
+            var result = _questionnaireManager.PutQuestionnaireTemplateQuestion(LoggedInUser, id, questionnaireTemplateQuestionModel);
             return Ok(result);
         }
         

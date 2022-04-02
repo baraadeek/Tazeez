@@ -58,7 +58,7 @@ namespace Tazeez.Core.Managers.Helper
                                                                                     .OrderBy(a => a.DisplayOrder)
                                                                                     .ToList();
 
-                BaseQuestionType baseQuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId switch
+                BaseQuestionType baseQuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId switch
                 {
                     1 => GetMultipleChoiceMultipleAnswer(assessmentQuestion, readOnly),
                     2 => GetMultipleChoiceSingleAnswer(assessmentQuestion, readOnly),
@@ -75,12 +75,12 @@ namespace Tazeez.Core.Managers.Helper
 
                 baseQuestionType.QuestionnaireGroupTemplateQuestionName = assessmentTemplateQuestion[assessmentQuestion.TemplateQuestionId].QuestionnaireGroupTemplateQuestion?.Name;
 
-                if (assessmentQuestion.QuestionnaireTemplateQuesion == null || assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId == 0)
+                if (assessmentQuestion.QuestionnaireTemplateQuestion == null || assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId == 0)
                 {
                     throw new ServiceValidationException($"Invalid Question type for question id => {assessmentQuestion.Id}");
                 }
 
-                var assessmentTemplateQuestionChoice = baseQuestionType.QuestionnaireTemplateQuesion?.QuestionChoices?.ToList();
+                var assessmentTemplateQuestionChoice = baseQuestionType.QuestionnaireTemplateQuestion?.QuestionChoices?.ToList();
                 var assessmentQuestionAnswerChoice = assessmentQuestion.QuestionnaireAnswerChoice.ToList();
                 baseQuestionType.AnswerChoices = _mapper.Map<List<QuestionChoiceResponse>>(assessmentTemplateQuestionChoice);
                 assessmentQuestionAnswerChoice.ForEach(c =>
@@ -105,14 +105,14 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceMultipleAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireQuestionAnswerChoice = _mapper.Map<List<QuestionnaireQuestionAnswerChoiceModel>>(assessmentQuestion.QuestionnaireAnswerChoice),
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 AssignedUserId = assessmentQuestion.Questionnaire.UserId,
                 IsReadOnly = readOnly,
@@ -126,14 +126,14 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceSingleAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireQuestionAnswerChoice = _mapper.Map<List<QuestionnaireQuestionAnswerChoiceModel>>(assessmentQuestion.QuestionnaireAnswerChoice),
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 AssignedUserId = assessmentQuestion.Questionnaire.UserId,
                 IsReadOnly = readOnly,
@@ -147,13 +147,13 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new OpenEndedAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireAnswerText = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 AssignedUserId = assessmentQuestion.Questionnaire.UserId,
@@ -168,13 +168,13 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new NumberAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireAnswerText = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 AssignedUserId = assessmentQuestion.Questionnaire.UserId,
@@ -190,13 +190,13 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new DateTimeAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireAnswerTextModel = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 IsReadOnly = readOnly,
@@ -211,13 +211,13 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new AttachmentOnlyAnswer
             {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuesion.IsOptional,
+                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
+                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
                 QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId,
+                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireTemplateQuesion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuesion),
+                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
                 QuestionnaireId = assessmentQuestion.QuestionnaireId,
                 IsReadOnly = readOnly,
                 AdditionalAnswer = assessmentQuestion.QuestionnaireAnswerText.FirstOrDefault()?.Text

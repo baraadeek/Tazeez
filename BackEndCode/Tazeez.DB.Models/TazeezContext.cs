@@ -420,7 +420,7 @@ namespace Tazeez.Models.Models
                     .HasForeignKey(d => d.QuestionnaireId)
                     .HasConstraintName("questionnaireId_questionQuestionnaireId");
 
-                entity.HasOne(d => d.QuestionnaireTemplateQuesion)
+                entity.HasOne(d => d.QuestionnaireTemplateQuestion)
                     .WithMany(p => p.QuestionnaireQuestions)
                     .HasForeignKey(d => d.TemplateQuestionId)
                     .HasConstraintName("questionnaireTemplateId_questionTemplateId");
@@ -550,7 +550,7 @@ namespace Tazeez.Models.Models
                       .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                 entity.HasOne(d => d.QuestionnaireTemplate)
-                      .WithMany(p => p.QuestionnaireTemplateQuesions)
+                      .WithMany(p => p.QuestionnaireTemplateQuestions)
                       .HasForeignKey(d => d.QuestionnaireTemplateId)
                       .HasConstraintName("GroupTemplateQuestion_TemplateQuestionId");
 

@@ -59,7 +59,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             }
 
             var template = _context.QuestionnaireTemplate
-                                   .Include("QuestionnaireTemplateQuesions")
+                                   .Include("QuestionnaireTemplateQuestions")
                                    .FirstOrDefault(a => a.Id == createQuestionnaire.QuestionnaireTemplateId)
                                    ?? throw new ServiceValidationException("Invalid questionnaire template id received");
 
@@ -78,7 +78,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                     UserId = id
                 };
 
-                foreach (var templateQuestion in template.QuestionnaireTemplateQuesions)
+                foreach (var templateQuestion in template.QuestionnaireTemplateQuestions)
                 {
                     questionnaire.QuestionnaireQuestions.Add(new QuestionnaireQuestion
                     {
@@ -120,17 +120,17 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                    .Where(a => a.QuestionnaireId == questionnaireId
                                                                && (searchText == null 
                                                                    || string.IsNullOrWhiteSpace(searchText.SearchText) 
-                                                                   || a.QuestionnaireTemplateQuesion
+                                                                   || a.QuestionnaireTemplateQuestion
                                                                        .Question
                                                                        .Contains(searchText.SearchText, StringComparison.InvariantCultureIgnoreCase))
                                                                && (questionId == 0 || a.Id == questionId))
-                                                   .OrderBy(a => a.QuestionnaireTemplateQuesion.DisplayOrder)
+                                                   .OrderBy(a => a.QuestionnaireTemplateQuestion.DisplayOrder)
                                                    .Select(q => new QuestionnaireQuestionBrief
                                                    {
                                                        QuestionId = q.Id,
                                                        Status = (QuestionStatusEnum)q.Status,
-                                                       DisplayOrder = q.QuestionnaireTemplateQuesion.DisplayOrder,
-                                                       IsOptional = q.QuestionnaireTemplateQuesion.IsOptional
+                                                       DisplayOrder = q.QuestionnaireTemplateQuestion.DisplayOrder,
+                                                       IsOptional = q.QuestionnaireTemplateQuestion.IsOptional
                                                    });
 
             var assessmentQuestions = assessmentQuestionBriefs.GetPaged(page, pageSize);
@@ -143,7 +143,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             {
                 Questions = new PagedResult<BaseQuestionTypeResponse>
                 {
-                    Data = _mapper.Map<List<BaseQuestionTypeResponse>>(assessmentQuestionsDetails.OrderBy(a => a.QuestionnaireTemplateQuesion.DisplayOrder)
+                    Data = _mapper.Map<List<BaseQuestionTypeResponse>>(assessmentQuestionsDetails.OrderBy(a => a.QuestionnaireTemplateQuestion.DisplayOrder)
                                                                                                  .ToList()),
                     Pagination = assessmentQuestions.Pagination
                 },
@@ -238,7 +238,7 @@ namespace Tazeez.Core.Managers.Questionnaires
             return questionnaire;
         }
 
-        public QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel)
+        public QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser, int questionnaireTemplateId, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuestionModel)
         {
             Log.Information($"Inside PutQuestionnaireTemplateQuestion for template id => {questionnaireTemplateId}");
 
@@ -247,10 +247,10 @@ namespace Tazeez.Core.Managers.Questionnaires
                 throw new ServiceValidationException("You don't have permission to add questionnaire template question");
             }
 
-            if (questionnaireTemplateQuesionModel.Id == 0 
-                && (questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqSingleAnswer
-                     || questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqMultipleAnswer) 
-                && !questionnaireTemplateQuesionModel.QuestionChoices.Any())
+            if (questionnaireTemplateQuestionModel.Id == 0 
+                && (questionnaireTemplateQuestionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqSingleAnswer
+                     || questionnaireTemplateQuestionModel.QuestionnaireQuestionTypeId == QuestionTypeEnum.McqMultipleAnswer) 
+                && !questionnaireTemplateQuestionModel.QuestionChoices.Any())
             {
                 throw new ServiceValidationException("Invalid Choices for template question");
             }
@@ -260,40 +260,40 @@ namespace Tazeez.Core.Managers.Questionnaires
                 throw new ServiceValidationException("Invalid questionnaire template id");
             }
 
-            QuestionnaireTemplateQuestion questionnaireTemplateQuesion = null;
+            QuestionnaireTemplateQuestion questionnaireTemplateQuestion = null;
 
-            if (questionnaireTemplateQuesionModel.Id > 0)
+            if (questionnaireTemplateQuestionModel.Id > 0)
             {
-                questionnaireTemplateQuesion = _context.QuestionnaireTemplateQuestion
+                questionnaireTemplateQuestion = _context.QuestionnaireTemplateQuestion
                                                        .Include(a => a.QuestionChoices)
-                                                       .FirstOrDefault(a => a.Id == questionnaireTemplateQuesionModel.Id)
+                                                       .FirstOrDefault(a => a.Id == questionnaireTemplateQuestionModel.Id)
                                                        ?? throw new ServiceValidationException("Invalid questionnaire template question id");
 
-                questionnaireTemplateQuesion.Question = questionnaireTemplateQuesionModel.Question;
-                questionnaireTemplateQuesion.DisplayOrder = questionnaireTemplateQuesionModel.DisplayOrder;
-                questionnaireTemplateQuesion.Score = questionnaireTemplateQuesionModel.Score;
-                questionnaireTemplateQuesion.IsOptional = questionnaireTemplateQuesionModel.IsOptional;
-                questionnaireTemplateQuesion.QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuesionModel.QuestionnaireGroupTemplateQuestionId;
+                questionnaireTemplateQuestion.Question = questionnaireTemplateQuestionModel.Question;
+                questionnaireTemplateQuestion.DisplayOrder = questionnaireTemplateQuestionModel.DisplayOrder;
+                questionnaireTemplateQuestion.Score = questionnaireTemplateQuestionModel.Score;
+                questionnaireTemplateQuestion.IsOptional = questionnaireTemplateQuestionModel.IsOptional;
+                questionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuestionModel.QuestionnaireGroupTemplateQuestionId;
             }
             else
             {
-                questionnaireTemplateQuesion = _context.QuestionnaireTemplateQuestion.Add(new QuestionnaireTemplateQuestion
+                questionnaireTemplateQuestion = _context.QuestionnaireTemplateQuestion.Add(new QuestionnaireTemplateQuestion
                 {
-                    Question = questionnaireTemplateQuesionModel.Question,
-                    IsOptional = questionnaireTemplateQuesionModel.IsOptional,
-                    DisplayOrder = questionnaireTemplateQuesionModel.DisplayOrder,
-                    QuestionnaireQuestionTypeId = (int)questionnaireTemplateQuesionModel.QuestionnaireQuestionTypeId,
-                    Score = questionnaireTemplateQuesionModel.Score,
+                    Question = questionnaireTemplateQuestionModel.Question,
+                    IsOptional = questionnaireTemplateQuestionModel.IsOptional,
+                    DisplayOrder = questionnaireTemplateQuestionModel.DisplayOrder,
+                    QuestionnaireQuestionTypeId = (int)questionnaireTemplateQuestionModel.QuestionnaireQuestionTypeId,
+                    Score = questionnaireTemplateQuestionModel.Score,
                     QuestionnaireTemplateId = questionnaireTemplateId,
-                    QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuesionModel.QuestionnaireGroupTemplateQuestionId
+                    QuestionnaireGroupTemplateQuestionId = questionnaireTemplateQuestionModel.QuestionnaireGroupTemplateQuestionId
                 }).Entity;
             }
 
-            foreach (var item in questionnaireTemplateQuesionModel.QuestionChoices)
+            foreach (var item in questionnaireTemplateQuestionModel.QuestionChoices)
             {
                 if (item.Id > 1)
                 {
-                    var choice = questionnaireTemplateQuesion.QuestionChoices
+                    var choice = questionnaireTemplateQuestion.QuestionChoices
                                                              .FirstOrDefault(a => a.Id == item.Id)
                                                              ?? throw new ServiceValidationException("Invalid question choice id");
 
@@ -303,7 +303,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                 }
                 else
                 {
-                    questionnaireTemplateQuesion.QuestionChoices.Add(new QuestionChoice
+                    questionnaireTemplateQuestion.QuestionChoices.Add(new QuestionChoice
                     {
                         Choice = item.Choice,
                         DisplayOrder = item.DisplayOrder,
@@ -314,7 +314,7 @@ namespace Tazeez.Core.Managers.Questionnaires
 
             _context.SaveChanges();
             Log.Information($"Finish PutQuestionnaireTemplateQuestion for template id => {questionnaireTemplateId}");
-            return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuesion);
+            return _mapper.Map<QuestionnaireTemplateQuestionModel>(questionnaireTemplateQuestion);
         }
 
         public QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateRequest request)
@@ -427,7 +427,7 @@ namespace Tazeez.Core.Managers.Questionnaires
                               { 
                                  Id = a.Id, 
                                  Name = a.Name,
-                                 NumberOfQuestions = a.QuestionnaireTemplateQuesions.Count,
+                                 NumberOfQuestions = a.QuestionnaireTemplateQuestions.Count,
                                  CreatedDate = a.CreatedUTC
                               })
                               .ToList();
@@ -606,7 +606,7 @@ namespace Tazeez.Core.Managers.Questionnaires
         private bool IsAllAssessmentQuestionsAnswered(int assessmentId)
         {
             return _context.QuestionnaireQuestion.Where(q => q.QuestionnaireId == assessmentId
-                                                          && !q.QuestionnaireTemplateQuesion.IsOptional)
+                                                          && !q.QuestionnaireTemplateQuestion.IsOptional)
                                               .All(a => a.Status == (int)QuestionStatusEnum.Answered
                                                          || a.Status == (int)QuestionStatusEnum.Released);
         }

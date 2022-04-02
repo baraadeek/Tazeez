@@ -42,7 +42,7 @@ namespace Tazeez.Core.Managers.Questionnaires
 
         QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser,
                                                                             int questionnaireTemplateId,
-                                                                            QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);
+                                                                            QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuestionModel);
 
         TemplateQuestionResponse GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
 

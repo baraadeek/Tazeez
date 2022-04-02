@@ -18,7 +18,7 @@ namespace Tazeez.ModelViews.ModelViews
 
         public bool Archived { get; set; }
 
-        public virtual QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuesion { get; set; }
+        public virtual QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuestion { get; set; }
 
         public virtual QuestionnaireModel Questionnaire { get; set; }
     }
