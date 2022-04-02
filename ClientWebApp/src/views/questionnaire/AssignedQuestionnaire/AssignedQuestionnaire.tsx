@@ -101,7 +101,7 @@ const AssignedQuestionnaire: React.FunctionComponent<IAssignedQuestionnaireProps
       setIsLoading(true);
       try {
         const { data } = await getQuestionnaireQuestionsAction({
-          questionnaireId: Number(params.id) + 1,
+          questionnaireId: Number(params.id),
         });
 
         setGetQuestionsRes(data);
@@ -134,16 +134,16 @@ const AssignedQuestionnaire: React.FunctionComponent<IAssignedQuestionnaireProps
   );
 
   const saveTextAnswer = React.useCallback(
-    async function (isAdditionalTextAnswer = false) {
+    async function (isOpenEnded = false) {
       const currentQuestion = questions?.at(activeStep);
 
       if (textAnswer?.trim().length) return;
 
       setIsSavingAnswer(true);
       try {
-        const action = isAdditionalTextAnswer
-          ? saveAdditionalTextAnswerAction
-          : saveTextAnswerAction;
+        const action = isOpenEnded
+          ? saveTextAnswerAction
+          : saveAdditionalTextAnswerAction;
 
         const { data } = await action({
           questionnaireId: Number(params.id),
@@ -163,11 +163,12 @@ const AssignedQuestionnaire: React.FunctionComponent<IAssignedQuestionnaireProps
       setIsSavingAnswer(true);
 
       try {
-        const isAdditionalTextAnswer =
-          currentQuestion?.questionType === OPEN_ENDED_QUESTION_TYPE_ID.toString();
+        const isOpenEnded =
+          currentQuestion?.questionType.toString() ===
+          OPEN_ENDED_QUESTION_TYPE_ID.toString();
 
-        if (isAdditionalTextAnswer) {
-          await saveTextAnswer(isAdditionalTextAnswer);
+        if (isOpenEnded) {
+          await saveTextAnswer(isOpenEnded);
         } else {
           await saveTextAnswer();
           await saveChoiceAnswer();
