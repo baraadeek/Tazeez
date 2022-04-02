@@ -36,7 +36,7 @@ namespace Tazeez.Models.QuestionTypes
                                     .Select(a => a.Id)
                                     .ToList();
 
-            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuestion.QuestionChoices
                                                                      .Select(a => a.Id)
                                                                      .ToList();
 
@@ -52,7 +52,7 @@ namespace Tazeez.Models.QuestionTypes
         {
             QuestionnaireQuestionAnswerChoiceRequest assessmentQuestionAnswerChoice = (QuestionnaireQuestionAnswerChoiceRequest)assessmentQuestion;
 
-            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuestion.QuestionChoices
                                                                      .Select(a => a.Id)
                                                                      .ToList();
 

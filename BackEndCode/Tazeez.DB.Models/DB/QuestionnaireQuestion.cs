@@ -29,7 +29,7 @@ namespace Tazeez.DB.Models.DB
 
         public bool IsDraft { get; set; }
 
-        public virtual QuestionnaireTemplateQuestion QuestionnaireTemplateQuesion { get; set; }
+        public virtual QuestionnaireTemplateQuestion QuestionnaireTemplateQuestion { get; set; }
         
         public virtual Questionnaire Questionnaire { get; set; }
 
