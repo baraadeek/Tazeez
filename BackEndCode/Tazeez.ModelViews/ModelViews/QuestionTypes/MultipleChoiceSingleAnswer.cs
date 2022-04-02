@@ -175,7 +175,7 @@ namespace Tazeez.Models.QuestionTypes
 
             ValidateAnswer(assessmentQuestionRequest, currentUser, _context, _mapper);
 
-            var isDraft = IsDraft(existingQuestion, assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds);
+            var isDraft = !assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds.Any();
 
             foreach (var answer in assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds)
             {

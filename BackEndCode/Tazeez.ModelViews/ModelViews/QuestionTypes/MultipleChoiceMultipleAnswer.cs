@@ -67,10 +67,10 @@ namespace Tazeez.Models.QuestionTypes
         public override void AnswerQuestion(UserModel currentUser, IQuestionAnswerRequest assessmentQuestionRequest, QuestionnaireQuestion existingQuestion, TazeezContext _context, IMapper _mapper, int questionId)
         {
             QuestionnaireQuestionAnswerChoiceRequest assessmentQuestionAnswerChoiceRequest = (QuestionnaireQuestionAnswerChoiceRequest)assessmentQuestionRequest;
-            
+
             ValidateAnswer(assessmentQuestionAnswerChoiceRequest, currentUser, _context, _mapper);
 
-            var isDraft = IsDraft(existingQuestion, assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds);
+            var isDraft = !assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds.Any();
 
             foreach (var answer in assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds)
             {

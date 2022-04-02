@@ -101,7 +101,7 @@ const AssignedQuestionnaire: React.FunctionComponent<IAssignedQuestionnaireProps
       setIsLoading(true);
       try {
         const { data } = await getQuestionnaireQuestionsAction({
-          questionnaireId: Number(params.id) + 1,
+          questionnaireId: Number(params.id),
         });
 
         setGetQuestionsRes(data);

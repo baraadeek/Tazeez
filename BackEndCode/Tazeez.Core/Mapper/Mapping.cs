@@ -1,4 +1,5 @@
-﻿using Tazeez.Common.Extensions;
+﻿using JustProtect.Models;
+using Tazeez.Common.Extensions;
 using Tazeez.DataAccess.Models;
 using Tazeez.DB.Models.DB;
 using Tazeez.Models;
@@ -40,14 +41,13 @@ namespace Tazeez.Core.Mapper
             CreateMap<QuestionAttachment, AttachmentModel>().ForMember(model => model.SourceId, m => m.MapFrom(e => e.QuestionId));
             CreateMap<QuestionAttachment, QuestionAttachmentModel>().ReverseMap();
             CreateMap<QuestionChoiceResponse, QuestionChoiceModel>().ReverseMap();
+            CreateMap<QuestionnaireAnswerChoice, QuestionnaireQuestionAnswerChoiceModel>().ReverseMap();
+            CreateMap<QuestionnaireAnswerText, QuestionnaireAnswerTextModel>().ReverseMap();
             
             CreateMap<BaseQuestionType, BaseQuestionTypeResponse>().ReverseMap();
-            CreateMap<NumberAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
             CreateMap<OpenEndedAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
-            CreateMap<DateTimeAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
             CreateMap<MultipleChoiceMultipleAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
             CreateMap<MultipleChoiceSingleAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
-            CreateMap<AttachmentOnlyAnswer, BaseQuestionTypeResponse>().IncludeBase<BaseQuestionType, BaseQuestionTypeResponse>();
             CreateMap<PagedResult<BaseQuestionType>, PagedResult<BaseQuestionTypeResponse>>().ReverseMap();
         }
     }

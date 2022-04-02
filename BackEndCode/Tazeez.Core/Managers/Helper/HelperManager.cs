@@ -60,12 +60,9 @@ namespace Tazeez.Core.Managers.Helper
 
                 BaseQuestionType baseQuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId switch
                 {
-                    1 => GetMultipleChoiceMultipleAnswer(assessmentQuestion, readOnly),
-                    2 => GetMultipleChoiceSingleAnswer(assessmentQuestion, readOnly),
-                    3 => GetAttachmentOnlyAnswer(assessmentQuestion, readOnly),
-                    4 => GetOpenEndedAnswer(assessmentQuestion, readOnly),
-                    5 => GetNumberAnswer(assessmentQuestion, readOnly),
-                    6 => GetDateTimeAnswer(assessmentQuestion, readOnly),
+                    (int)QuestionTypeEnum.McqSingleAnswer => GetMultipleChoiceSingleAnswer(assessmentQuestion, readOnly),
+                    (int)QuestionTypeEnum.McqMultipleAnswer => GetMultipleChoiceMultipleAnswer(assessmentQuestion, readOnly),
+                    (int)QuestionTypeEnum.OpenEnded => GetOpenEndedAnswer(assessmentQuestion, readOnly),
                     _ => throw new ServiceValidationException("Unsupported Question Type")
                 };
 
@@ -163,68 +160,5 @@ namespace Tazeez.Core.Managers.Helper
 
             return questionType;
         }
-
-        private NumberAnswer GetNumberAnswer(QuestionnaireQuestion assessmentQuestion, bool readOnly)
-        {
-            var questionType = new NumberAnswer
-            {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
-                Status = (QuestionStatusEnum)assessmentQuestion.Status,
-                QuestionnaireAnswerText = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),
-                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
-                QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireId = assessmentQuestion.QuestionnaireId,
-                AssignedUserId = assessmentQuestion.Questionnaire.UserId,
-                IsReadOnly = readOnly,
-                Answer = assessmentQuestion.QuestionnaireAnswerText.FirstOrDefault()?.Text,
-                AdditionalAnswer = assessmentQuestion.QuestionnaireAnswerText.ToArray().Length > 1 ? assessmentQuestion.QuestionnaireAnswerText.ToArray()[1]?.Text : string.Empty,
-            };
-
-            return questionType;
-        }
-
-        private DateTimeAnswer GetDateTimeAnswer(QuestionnaireQuestion assessmentQuestion, bool readOnly)
-        {
-            var questionType = new DateTimeAnswer
-            {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
-                Status = (QuestionStatusEnum)assessmentQuestion.Status,
-                QuestionnaireAnswerTextModel = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),
-                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
-                QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireId = assessmentQuestion.QuestionnaireId,
-                IsReadOnly = readOnly,
-                Answer = assessmentQuestion.QuestionnaireAnswerText.FirstOrDefault()?.Text,
-                AdditionalAnswer = assessmentQuestion.QuestionnaireAnswerText.ToArray().Length > 1 ? assessmentQuestion.QuestionnaireAnswerText.ToArray()[1]?.Text : string.Empty,
-            };
-
-            return questionType;
-        }
-
-        private AttachmentOnlyAnswer GetAttachmentOnlyAnswer(QuestionnaireQuestion assessmentQuestion, bool readOnly)
-        {
-            var questionType = new AttachmentOnlyAnswer
-            {
-                QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
-                IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
-                QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
-                Status = (QuestionStatusEnum)assessmentQuestion.Status,
-                QuestionAttachment = _mapper.Map<List<QuestionAttachmentModel>>(assessmentQuestion.QuestionAttachment),
-                QuestionnaireTemplateQuestion = _mapper.Map<QuestionnaireTemplateQuestionModel>(assessmentQuestion.QuestionnaireTemplateQuestion),
-                QuestionnaireId = assessmentQuestion.QuestionnaireId,
-                IsReadOnly = readOnly,
-                AdditionalAnswer = assessmentQuestion.QuestionnaireAnswerText.FirstOrDefault()?.Text
-            };
-
-            return questionType;
-        }
-
     }
 }
