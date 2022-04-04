@@ -19,7 +19,7 @@ namespace Tazeez.Enums
         [Description("Answered")]
         Answered = 1,
         [Description("Released")]
-        Released = 2,
+        Released = 2
     }
 
     public enum AnswerTypeEnum

@@ -177,6 +177,19 @@ namespace Tazeez.Models.QuestionTypes
 
             var isDraft = !assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds.Any();
 
+            foreach (var answer in existingQuestion.QuestionnaireAnswerChoice)
+            {
+                if (assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds
+                                                         .All(a => a != answer.QuestionChoiceId))
+                {
+                    answer.Archived = true;
+                }
+                else
+                {
+                    answer.IsDraft = isDraft;
+                }
+            }
+
             foreach (var answer in assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds)
             {
                 if (existingQuestion.QuestionnaireAnswerChoice.All(a => a.QuestionChoiceId != answer))
