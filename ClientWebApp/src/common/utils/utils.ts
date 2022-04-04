@@ -48,15 +48,11 @@ export function replaceObj(arrObj = [], objToReplace: any, key = "id") {
   });
 }
 
-export const formatParameterizedURL = (
-  formattedURL: string,
-  replacementsObj: any
-) => {
+export const formatParameterizedURL = (formattedURL: string, replacementsObj: any) => {
   return formattedURL.replace(
     /{\w+}/g,
     (placeholder) =>
-      replacementsObj[placeholder.substring(1, placeholder.length - 1)] ??
-      placeholder
+      replacementsObj[placeholder.substring(1, placeholder.length - 1)] ?? placeholder
   );
 };
 
@@ -79,8 +75,7 @@ export const openURLInNewTab = (url: string) => {
  * @param {Any} param
  * @returns {boolean}
  */
-export const isUndefinedOrNull = (param: any) =>
-  param === undefined || param === null;
+export const isUndefinedOrNull = (param: any) => param === undefined || param === null;
 
 /**
  * @function arePropsEqual
@@ -129,20 +124,16 @@ export function conditionalRender(render: boolean, component: any) {
   return render ? component : null;
 }
 
-export const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] =>
-  obj[key];
+export const getKeyValue = <T, K extends keyof T>(obj: T, key: K): T[K] => obj[key];
 
 export function uuidv4() {
   //@ts-ignore
   return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, (c) =>
-    (
-      c ^
-      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
-    ).toString(16)
+    (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)
   );
 }
 
-
-export function getUserFullName (user:IUser){
+export function getUserFullName(user: IUser) {
   return `${user.firstName} ${user.lastName}`;
 }
+
