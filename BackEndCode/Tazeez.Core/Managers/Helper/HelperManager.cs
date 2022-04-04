@@ -83,6 +83,7 @@ namespace Tazeez.Core.Managers.Helper
                 assessmentQuestionAnswerChoice.ForEach(c =>
                 {
                     var selectedChoice = baseQuestionType.AnswerChoices?.FirstOrDefault(a => a.Id == c.QuestionChoiceId);
+                    
                     if (selectedChoice != null)
                     {
                         selectedChoice.IsChecked = true;
@@ -102,9 +103,9 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceMultipleAnswer
             {
+                QuestionId = assessmentQuestion.Id,
                 QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireQuestionAnswerChoice = _mapper.Map<List<QuestionnaireQuestionAnswerChoiceModel>>(assessmentQuestion.QuestionnaireAnswerChoice),
@@ -123,9 +124,9 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new MultipleChoiceSingleAnswer
             {
+                QuestionId = assessmentQuestion.Id,
                 QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireQuestionAnswerChoice = _mapper.Map<List<QuestionnaireQuestionAnswerChoiceModel>>(assessmentQuestion.QuestionnaireAnswerChoice),
@@ -144,9 +145,9 @@ namespace Tazeez.Core.Managers.Helper
         {
             var questionType = new OpenEndedAnswer
             {
+                QuestionId = assessmentQuestion.Id,
                 QuestionnaireGroupTemplateQuestionId = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireGroupTemplateQuestionId,
                 IsOptional = assessmentQuestion.QuestionnaireTemplateQuestion.IsOptional,
-                QuestionId = assessmentQuestion.Id,
                 QuestionType = assessmentQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId,
                 Status = (QuestionStatusEnum)assessmentQuestion.Status,
                 QuestionnaireAnswerText = _mapper.Map<List<QuestionnaireAnswerTextModel>>(assessmentQuestion.QuestionnaireAnswerText),

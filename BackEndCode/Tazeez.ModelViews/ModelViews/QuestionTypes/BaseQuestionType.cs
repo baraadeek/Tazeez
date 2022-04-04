@@ -181,7 +181,7 @@ namespace Tazeez.Models.QuestionTypes
                 });
             }
         }
-        
+
         public bool ValidateQuestionAttachment(QuestionAttachmentAnswer questionAttachment) 
         {
             if (questionAttachment.QuestionAttachment.Any())
