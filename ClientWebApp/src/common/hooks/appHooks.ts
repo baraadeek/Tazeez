@@ -19,10 +19,11 @@ export function useIsRtl() {
 }
 
 export function useMountedState<S>(
-  initialState: S | (() => S)
-): [S, Dispatch<SetStateAction<S>>] {
+  initialState?: undefined | S | (() => S)
+): [S, Dispatch<SetStateAction<S>>, boolean] {
   const isMounted = useRef(true);
-  const [state, setState] = useState<S>(initialState);
+  const isStateChanged = useRef(false);
+  const [state, setState] = useState<S>(initialState!);
 
   useEffect(
     () => () => {
@@ -34,10 +35,11 @@ export function useMountedState<S>(
   const onSetState = useCallback(function (state) {
     if (isMounted.current) {
       setState(state);
+      isStateChanged.current = true;
     }
   }, []);
 
-  return [state, onSetState];
+  return [state, onSetState, isStateChanged.current];
 }
 
 export const useFlexDirection = (): [

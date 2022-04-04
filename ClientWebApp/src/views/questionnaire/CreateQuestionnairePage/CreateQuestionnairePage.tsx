@@ -12,13 +12,14 @@ import { axiosAPI } from "axiosAPI";
 import { END_POINTS } from "endpoint";
 import { GridColDef } from "@mui/x-data-grid";
 import "./style.css";
-import { createStyles, Divider, makeStyles, Theme } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from "@material-ui/core";
 import MDButton from "components/core-components/MDButton";
 import DataGridTable from "components/core-components/DataGridTable/DataGridTable";
 import PageBanner from "views/examples/Common/PageBanner";
 import { ROUTES_PATH_ENUM } from "common/constants/routesPathEnum";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import { useHistory } from "react-router-dom";
 
 const useICTableStyle = makeStyles((theme: Theme) => createStyles({}));
 export interface ICreateQuestionnairePageProps {}
@@ -47,9 +48,7 @@ export type IGetTemplateListRes = {
   numberOfQuestions: number;
 }[];
 
-export default function CreateQuestionnairePage(
-  props: ICreateQuestionnairePageProps
-) {
+export default function CreateQuestionnairePage(props: ICreateQuestionnairePageProps) {
   const { t } = useTranslation([
     namespaces.pages.createQuestionnaire,
     namespaces.routes.authRoutes,
@@ -59,19 +58,14 @@ export default function CreateQuestionnairePage(
   const questionnaireTitle = t(
     translationKeys.pages.createQuestionnaire.questionnaireTitle
   );
-
+  const history = useHistory();
   const [dueDate, setDueDate] = React.useState<Date | null>(new Date());
   const [title, setTitle] = React.useState<string>("");
-  const [templateList, setTemplateList] = React.useState<IGetTemplateListRes>(
-    []
-  );
-  const [usersList, setUsersList] = React.useState<IGetUsersListRes | null>(
-    null
-  );
+  const [templateList, setTemplateList] = React.useState<IGetTemplateListRes>([]);
+  const [usersList, setUsersList] = React.useState<IGetUsersListRes | null>(null);
   const [isLoadingTemplates, setIsLoadingTemplates] = React.useState(false);
   const [isLoadingUsers, setIsLoadingUsers] = React.useState(false);
-  const [isAddingQuestionnaire, setIsAddingQuestionnaire] =
-    React.useState(false);
+  const [isAddingQuestionnaire, setIsAddingQuestionnaire] = React.useState(false);
   const [selectedUsers, setSelectedUsers] = React.useState<number[]>([]);
   const [selectedTemplate, setSelectedTemplate] = React.useState<number>(0);
 
@@ -91,6 +85,7 @@ export default function CreateQuestionnairePage(
     props: {
       onClick: (_: any, row: any) => {
         setSelectedTemplate(row.id);
+        setTitle(template.name);
       },
     },
   }));
@@ -150,11 +145,8 @@ export default function CreateQuestionnairePage(
         assessmentName: title,
         dueDate,
       });
+      history.push(ROUTES_PATH_ENUM.AssignedQuestionnairesList)
     } catch (error) {}
-    setSelectedTemplate(0);
-    setSelectedUsers([]);
-    setTitle("");
-    setIsAddingQuestionnaire(false);
   };
 
   const columns: GridColDef[] = [
@@ -194,11 +186,7 @@ export default function CreateQuestionnairePage(
         }
         disabled={
           isAddingQuestionnaire ||
-          !(
-            title.trim().length &&
-            selectedTemplate !== 0 &&
-            selectedUsers.length
-          )
+          !(title.trim().length && selectedTemplate !== 0 && selectedUsers.length)
         }
         variant="contained"
         color="info"
@@ -225,18 +213,7 @@ export default function CreateQuestionnairePage(
       />
       <Grid container marginTop={10} spacing={1} paddingX={2}>
         <Grid container item md={12} xs={12} lg={12} spacing={1}>
-          <Grid item md={6} sm={12} lg={6}>
-            <MDInputRoot
-              style={{ width: "100%" }}
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              title={questionnaireTitle}
-              placeholder={questionnaireTitle}
-              type="text"
-              label={questionnaireTitle}
-            />
-          </Grid>
-          <Grid item md={6} sm={12} lg={6}>
+          <Grid item md={12} sm={12} lg={12}>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DesktopDatePicker
                 minDate={new Date()}
@@ -257,9 +234,7 @@ export default function CreateQuestionnairePage(
           <Grid item md={12} lg={12} xs={12}>
             <ICTable
               headerIcon={<LibraryBooksIcon />}
-              headerTitle={t(
-                translationKeys.pages.createQuestionnaire.tempList
-              )}
+              headerTitle={t(translationKeys.pages.createQuestionnaire.tempList)}
               search
               isLoading={isLoadingTemplates}
               select
@@ -303,6 +278,7 @@ export default function CreateQuestionnairePage(
                 pageSize={usersList?.data.length || 0}
                 checkboxSelection
                 disableSelectionOnClick
+                selectionModel={selectedUsers}
                 onSelectionModelChange={(selectedArr) => {
                   setSelectedUsers(selectedArr as number[]);
                 }}
