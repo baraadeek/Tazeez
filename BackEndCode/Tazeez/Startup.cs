@@ -16,10 +16,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Serilog.Events;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
 using System.Text;
 using Tazeez.Extensions;
 using Tazeez.Factory;
@@ -33,7 +30,6 @@ namespace Tazeez
         #region Properties
 
         private MapperConfiguration AutoMapperConfiguration { get; set; }
-
         public IConfiguration Configuration { get; }
 
         #endregion Properties
@@ -47,10 +43,10 @@ namespace Tazeez
                           .CreateLogger();
 
             var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+                            .SetBasePath(env.ContentRootPath)
+                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true)
+                            .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -108,13 +104,13 @@ namespace Tazeez
                 //options.IncludeXmlComments(xmlPath);
 
                 options.AddSecurityDefinition("Bearer",
-                        new OpenApiSecurityScheme()
-                        {
-                            Description = "Please insert Bearer JWT token into field. Example: 'Bearer {token}'",
-                            Name = "Authorization",
-                            In = ParameterLocation.Header,
-                            Type = SecuritySchemeType.ApiKey
-                        });
+                       new OpenApiSecurityScheme()
+                       {
+                           Description = "Please insert Bearer JWT token into field. Example: 'Bearer {token}'",
+                           Name = "Authorization",
+                           In = ParameterLocation.Header,
+                           Type = SecuritySchemeType.ApiKey
+                       });
 
                 options.AddSecurityRequirement(new OpenApiSecurityRequirement()
                 {
