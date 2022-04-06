@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
 
 namespace Tazeez.ModelViews.ModelViews
 {
@@ -6,7 +6,8 @@ namespace Tazeez.ModelViews.ModelViews
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Name is required")]
         public string Name { get; set; }
+
+        public List<QuestionnaireGroupTemplateQuestionModel> QuestionnaireGroupTemplateQuestion { get; set; }
     }
 }

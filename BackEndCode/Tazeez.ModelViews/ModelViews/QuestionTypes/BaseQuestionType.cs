@@ -40,6 +40,10 @@ namespace Tazeez.Models.QuestionTypes
 
         public bool IsReadOnly { get; set; }
 
+        public string QuestionnaireGroupTemplateQuestionName { get; set; }
+
+        public int? QuestionnaireGroupTemplateQuestionId { get; set; }
+         
         public List<QuestionChoiceResponse> AnswerChoices { get; set; }
 
         public QuestionStatusEnum Status;
@@ -56,7 +60,7 @@ namespace Tazeez.Models.QuestionTypes
 
         public List<QuestionAttachmentModel> QuestionAttachment { get; set; }
 
-        public QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuesion { get; set; }
+        public QuestionnaireTemplateQuestionModel QuestionnaireTemplateQuestion { get; set; }
 
         public abstract int? AnsweredByUserId { get; }
         
@@ -177,7 +181,7 @@ namespace Tazeez.Models.QuestionTypes
                 });
             }
         }
-        
+
         public bool ValidateQuestionAttachment(QuestionAttachmentAnswer questionAttachment) 
         {
             if (questionAttachment.QuestionAttachment.Any())
@@ -197,7 +201,7 @@ namespace Tazeez.Models.QuestionTypes
 
             var isDraft = !existingQuestion.QuestionAttachment.Any();
 
-            if (StaticData.TextAnswerQuestionType.Contains(existingQuestion.QuestionnaireTemplateQuesion.QuestionnaireQuestionTypeId))
+            if (StaticData.TextAnswerQuestionType.Contains(existingQuestion.QuestionnaireTemplateQuestion.QuestionnaireQuestionTypeId))
             {
                 if (existingQuestion.QuestionnaireAnswerText.FirstOrDefault() == null)
                 {
@@ -264,7 +268,7 @@ namespace Tazeez.Models.QuestionTypes
                 }
             }
 
-            isDraft = ComputeIsDraft(existingQuestion, isDraft);
+            isDraft = !existingQuestion.QuestionnaireAnswerText.Any();
 
             if (isDraft)
             {
@@ -274,50 +278,6 @@ namespace Tazeez.Models.QuestionTypes
             {
                 existingQuestion.Status = (int)QuestionStatusEnum.Answered;
             }
-        }
-
-        private bool ComputeIsDraft(QuestionnaireQuestion existingQuestion, bool isDraft)
-        {
-            if (!isDraft)
-            {
-                if (StaticData.MultipleChoiceQuestion.Contains(QuestionType) 
-                    && existingQuestion.QuestionnaireAnswerChoice.Count == 0)
-                {
-                    isDraft = true;
-                }
-                else if (StaticData.MultipleChoiceQuestion.Contains(QuestionType))
-                {
-                    List<int> choiceIds = existingQuestion.QuestionnaireAnswerChoice.Select(a => a.QuestionChoiceId).ToList();
-                    isDraft = IsDraft(existingQuestion, choiceIds);
-                }
-                else if (StaticData.TextAnswerQuestionType.Contains(QuestionType) 
-                    && (existingQuestion.QuestionnaireAnswerText.FirstOrDefault() == null 
-                         || string.IsNullOrWhiteSpace(existingQuestion.QuestionnaireAnswerText.First().Text)))
-                {
-                    isDraft = true;
-                }
-            }
-
-            return isDraft;
-        }
-
-        protected bool IsDraft(QuestionnaireQuestion existingQuestion, List<int> choiceIds)
-        {
-            bool isDraft;
-
-            isDraft = (!existingQuestion.QuestionAttachment.Any())
-                            || (!existingQuestion.QuestionnaireAnswerText.Any(a => !string.IsNullOrWhiteSpace(a.Text) && a.Archived != true))
-                            || !choiceIds.Any();
-
-            foreach (var answerChoice in existingQuestion.QuestionnaireAnswerChoice)
-            {
-                if (choiceIds.All(a => a != answerChoice.QuestionChoiceId))
-                {
-                    answerChoice.Archived = true;
-                }
-            }
-
-            return isDraft;
         }
 
         public void AddQuestionAttachment(UserModel currentUser,
@@ -362,8 +322,6 @@ namespace Tazeez.Models.QuestionTypes
                 isDraft =  (existingQuestion.QuestionnaireAnswerText.Count < 2 
                              || string.IsNullOrWhiteSpace(existingQuestion.QuestionnaireAnswerText.ToList()[1].Text));
             }
-
-            isDraft = ComputeIsDraft(existingQuestion, isDraft);
 
             if (!isDraft)
             {

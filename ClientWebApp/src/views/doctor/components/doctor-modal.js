@@ -1,0 +1,263 @@
+import React, { useCallback, useEffect } from "react";
+import { ThunkDispatch } from "thunk-dispatch";
+import { Form } from "react-bootstrap";
+import { Controller, useForm } from "react-hook-form";
+import classNames from "classnames";
+
+import { convertToRaw } from "draft-js";
+import draftToHtml from "draftjs-to-html";
+
+// Material
+import { Grid, makeStyles, TextField } from "@material-ui/core";
+import Autocomplete from "@mui/material/Autocomplete";
+
+// Styles
+import AddTempQuestionStyle from "./add-temp-question-style";
+
+// Components
+import MDTypography from "components/core-components/MDTypography";
+import MDButton from "components/core-components/MDButton";
+import Slate from "components/core-components/TextEditor/uncontrolled-text-editer";
+
+// Constants
+import { USERS } from "../enums";
+
+// API
+import { addDoctorThunk, getUsersThunk } from "../api/doctor-thunk-api";
+import { useSelector } from "react-redux";
+import { htmlToDraftJs } from "components/core-components/TextEditor/utils";
+
+import translationKeys from "i18n/locales/translationKeys";
+import { useTranslation } from "react-i18next";
+import { namespaces } from "i18n/i18n.constants";
+
+const useStyle = makeStyles(AddTempQuestionStyle);
+
+export default function DoctorModal(props) {
+  const { setShow, id } = props;
+
+  const doctor = useSelector((state) => state.doctor.doctorList.entities)[id];
+  const { t } = useTranslation(namespaces.doctor);
+
+  useEffect(() => {
+    if (doctor?.description) {
+      htmlToDraftJs(doctor.description, editorRef);
+    }
+  }, []);
+
+  const { control, errors, reset, handleSubmit, watch } = useForm();
+  const usersList = useSelector((state) => state.doctor.users);
+
+  const classes = useStyle();
+
+  function getOptionLabel(option) {
+    return option?.fullName || "";
+  }
+  const editorRef = React.useRef();
+
+  const getUsers = useCallback(dispatchGetUsersThunkFunc, []);
+
+  useEffect(
+    (_) => {
+      getUsers();
+    },
+    [getUsers]
+  );
+
+  async function dispatchGetUsersThunkFunc() {
+    ThunkDispatch(getUsersThunk())
+      .then((result) => {})
+      .catch((error) => console.error("getUsersThunk", error))
+      .finally(() => {});
+  }
+
+  const handleOnSubmit = (data) => {
+    const item = {
+      id: 0 || doctor?.id,
+      ...data,
+      userId: doctor?.userId || data.userId.id,
+    };
+
+    ThunkDispatch(addDoctorThunk(item))
+      .then((result) => {
+        setShow(false);
+        reset();
+      })
+      .catch((error) => console.error("addDoctorThunk", error))
+      .finally(() => {});
+  };
+  const dialogActions = [
+    {
+      name: t(translationKeys.doctor.close),
+      onClick: () => {
+        setShow(false);
+        reset();
+      },
+    },
+    {
+      name: t(translationKeys.doctor.save),
+      variant: "contained",
+      color: "info",
+      type: "submit",
+      id: 1,
+    },
+  ];
+
+  return (
+    <>
+      <form onSubmit={handleSubmit((data) => handleOnSubmit(data))}>
+        <Grid container xs={12}>
+          <Grid item xs={12} className={classes.containerGridChoices}>
+            <MDTypography
+              type="h5"
+              fontSize={16}
+              className={classes.marginBottom}
+            >
+              {t(translationKeys.doctor.specialist)}
+            </MDTypography>
+            <Controller
+              name="specialist"
+              control={control}
+              defaultValue={doctor?.specialist || ""}
+              error={!!errors?.specialist}
+              rules={{
+                validate: (val) => val?.trim().length >= 2,
+              }}
+              render={({ field }) => (
+                <Form.Control
+                  {...field}
+                  required
+                  autoFocus
+                  minLength={2}
+                  autoComplete="off"
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+        <Grid container xs={12}>
+          <Grid item xs={12} className={classes.containerGridChoices}>
+            <MDTypography
+              type="h5"
+              fontSize={16}
+              className={classNames(
+                classes.containerGridChoices,
+                classes.marginBottom
+              )}
+            >
+              {t(translationKeys.doctor.users)}
+            </MDTypography>
+            {doctor ? (
+              <Controller
+                name="fullName"
+                control={control}
+                defaultValue={doctor?.user.fullName || ""}
+                render={({ field }) => (
+                  <Form.Control
+                    {...field}
+                    disabled
+                    autoFocus
+                    minLength={2}
+                    autoComplete="off"
+                  />
+                )}
+              />
+            ) : (
+              <Controller
+                name="userId"
+                control={control}
+                defaultValue=""
+                render={({ field: { value, onChange } }) => (
+                  <Autocomplete
+                    freeSolo
+                    autoHighlight
+                    disableClearable
+                    getOptionLabel={getOptionLabel}
+                    value={value}
+                    onChange={(_, data) => {
+                      onChange(data);
+                    }}
+                    options={usersList.map((option) => option)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        variant="outlined"
+                        InputProps={{
+                          ...params.InputProps,
+                          type: "search",
+                        }}
+                      />
+                    )}
+                  />
+                )}
+              />
+            )}
+          </Grid>
+        </Grid>
+        <Grid container xs={12}>
+          <Grid item xs={12} className={classes.containerGridChoices}>
+            <MDTypography
+              type="h5"
+              fontSize={16}
+              className={classes.marginBottom}
+            >
+              {t(translationKeys.doctor.description)}
+            </MDTypography>
+            <Controller
+              name="description"
+              control={control}
+              defaultValue=""
+              render={({ field: { value, onChange } }) => (
+                <Slate
+                  forwardRef={(ref) => {
+                    editorRef.current = ref;
+                  }}
+                  onChange={() => {
+                    const updatedValue = draftToHtml(
+                      convertToRaw(editorRef.current.value.getCurrentContent())
+                    );
+
+                    if (updatedValue !== "<p></p>\n") {
+                      onChange(updatedValue);
+                    } else {
+                      onChange("");
+                    }
+                  }}
+                />
+              )}
+            />
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          direction={"row"}
+          justify={"flex-end"}
+          className={classes.save}
+        >
+          {dialogActions?.map((button, index) => (
+            <Grid className={classes.buttonModal} item>
+              <MDButton
+                color={button.color || "dark"}
+                onClick={button?.onClick}
+                variant={button.variant || "outlined"}
+                type={button.type}
+                disabled={
+                  button.id === 1
+                    ? !(
+                        watch &&
+                        watch("specialist")?.length &&
+                        (!id ? watch("userId")?.id : true)
+                      )
+                    : false
+                }
+              >
+                {button.name}
+              </MDButton>
+            </Grid>
+          ))}
+        </Grid>
+      </form>
+    </>
+  );
+}

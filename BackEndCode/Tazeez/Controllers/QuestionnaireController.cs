@@ -26,6 +26,37 @@ namespace Tazeez.Controllers
             _questionnaireManager = questionnaireManager;
         }
 
+
+        [Route("api/v{version:apiVersion}/questionnairetemplategroup/{id}/groupscore")]
+        [HttpGet]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult GetTemplateGroupScore(int id)
+        {
+            var res = _questionnaireManager.GetTemplateGroupScore(LoggedInUser, id);
+            return Ok(res);
+        }
+        
+        [Route("api/v{version:apiVersion}/questionnairetemplategroup/groupscore")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult PutTemplateGroupScore(TemplateGroupScoreModel request)
+        {
+            var res = _questionnaireManager.PutTemplateGroupScore(LoggedInUser, request);
+            return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/questionnairegrouptemplatequestion")]
+        [HttpPut]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult PutQuestionnaireGroupTemplateQuestion(QuestionnaireGroupTemplateQuestionRequest request)
+        {
+            var result = _questionnaireManager.PutQuestionnaireGroupTemplateQuestion(LoggedInUser, request);
+            return Ok(result);
+        }
+
         [Route("api/v{version:apiVersion}/questionnaire")]
         [HttpPut]
         [MapToApiVersion("1")]
@@ -68,19 +99,29 @@ namespace Tazeez.Controllers
         [HttpPut]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult PutQuestionnaireTemplate(QuestionnaireTemplateModel questionnaireTemplateModel)
+        public IActionResult PutQuestionnaireTemplate(QuestionnaireTemplateRequest request)
         {
-            var result = _questionnaireManager.PutQuestionnaireTemplate(LoggedInUser, questionnaireTemplateModel);
+            var result = _questionnaireManager.PutQuestionnaireTemplate(LoggedInUser, request);
             return Ok(result);
+        }
+        
+        [Route("api/v{version:apiVersion}/questionnairetemplate/{id}")]
+        [HttpDelete]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult ArchiveQuestionnaireTemplate(int id)
+        {
+            _questionnaireManager.ArchiveQuestionnaireTemplate(LoggedInUser, id);
+            return Ok();
         }
         
         [Route("api/v{version:apiVersion}/questionnairetemplate/{id}")]
         [HttpPut]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult PutQuestionnaireTemplateQuestion(int id, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel)
+        public IActionResult PutQuestionnaireTemplateQuestion(int id, QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuestionModel)
         {
-            var result = _questionnaireManager.PutQuestionnaireTemplateQuestion(LoggedInUser, id, questionnaireTemplateQuesionModel);
+            var result = _questionnaireManager.PutQuestionnaireTemplateQuestion(LoggedInUser, id, questionnaireTemplateQuestionModel);
             return Ok(result);
         }
         
@@ -93,7 +134,7 @@ namespace Tazeez.Controllers
             var result = _questionnaireManager.GetQuestionniareTemplateQuestions(LoggedInUser, id);
             return Ok(result);
         }
-        
+                
         [Route("api/v{version:apiVersion}/questionnairetemplate")]
         [HttpGet]
         [MapToApiVersion("1")]

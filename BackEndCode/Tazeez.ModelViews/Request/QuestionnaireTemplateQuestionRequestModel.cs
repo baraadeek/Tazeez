@@ -22,6 +22,9 @@ namespace Tazeez.ModelViews.Request
         [EnumDataType(typeof(QuestionTypeEnum))]
         public QuestionTypeEnum QuestionnaireQuestionTypeId { get; set; }
 
+        [Required]
+        public int QuestionnaireGroupTemplateQuestionId { get; set; }
+
         public int DisplayOrder { get; set; }
 
         public int Score { get; set; }

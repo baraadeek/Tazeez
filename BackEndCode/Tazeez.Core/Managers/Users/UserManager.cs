@@ -34,6 +34,61 @@ namespace Tazeez.Core.Managers.Users
             _configurationSettings = configurationSettings;
         }
 
+        public PagedResult<ChildrenResponse> GetChildren(UserModel currentUser, int page = 1, int pageSize = 10, string searchText = "")
+        {
+            var children = _context.User
+                                   .Where(a => a.ParentId == currentUser.Id
+                                               && (string.IsNullOrWhiteSpace(searchText)
+                                                   || ((a.FirstName.Replace(" ", string.Empty) +
+                                                        a.LastName.Replace(" ", string.Empty)).Contains(searchText, StringComparison.InvariantCultureIgnoreCase))))
+                                   .GetPaged(page, pageSize);
+
+            return _mapper.Map<PagedResult<ChildrenResponse>>(children);
+        }
+
+        public int AddChildren(UserModel currentUser, AddChildrenRequest request)
+        {
+            User child = null;
+
+            var url = "";
+            if (!string.IsNullOrWhiteSpace(request.Image))
+            {
+                url = SaveImage(request.Image, "profileimages");
+            }
+
+            if (request.Id > 0)
+            {
+                child = _context.User
+                                .FirstOrDefault(a => a.Id == request.Id
+                                                     && a.ParentId == currentUser.Id)
+                                ?? throw new ServiceValidationException("Child not found");
+
+                child.FirstName = request.FirstName;
+                child.LastName = request.LastName;
+                child.BirthDay = request.BirthDay;
+                child.Gender = request.Gender;
+            }
+            else
+            {
+                child = _context.User.Add(new User 
+                {
+                    ParentId = currentUser.Id,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    BirthDay = request.BirthDay,
+                    Gender = request.Gender
+                }).Entity;
+
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    child.Image = @$"{_configurationSettings.Domain}/api/v1/user/fileretrive/profilepic?filename={url}";
+                }
+            }
+
+            _context.SaveChanges();
+            return child.Id;
+        }
+
         public string GetName(int userId)
         {
             var user = _context.User
@@ -41,21 +96,16 @@ namespace Tazeez.Core.Managers.Users
 
             return $"{user.FirstName} {user.LastName}";
         }
-        
+
         public UserModel GetUser(int id)
         {
             var user = _context.User
                                .Include(a => a.Doctor)
+                               .Include(a => a.Children)
                                .FirstOrDefault(a => a.Id == id) 
                                ?? throw new ServiceValidationException("Email dose not exist");
 
             return _mapper.Map<UserModel>(user);
-        }
-
-        public UserModel Test()
-        {
-            var user = _context.Doctor.FirstOrDefault(a => a.Id == 0);
-            return null;
         }
 
         public DoctorModel GetDoctor(UserModel currentUser, int doctorId)
@@ -142,7 +192,7 @@ namespace Tazeez.Core.Managers.Users
             Log.Information($"Finish PutDoctor for userId => {addDoctorRequest.UserId}");
             return _mapper.Map<DoctorModel>(doctor);
         }
-        
+
         public void ArchivedDoctor(UserModel currentUser, int doctorId)
         {
             Log.Information($"Inside ArchivedDoctor for doctorId => {doctorId}");
@@ -220,6 +270,9 @@ namespace Tazeez.Core.Managers.Users
             user.LastName = request.LastName;
             user.City = request.City;
             user.PhoneNumber = request.PhoneNumber;
+            user.BirthDay = request.BirthDay;
+            user.Gender = request.Gender;
+
             if (!string.IsNullOrWhiteSpace(url))
             {
                 user.Image = @$"{_configurationSettings.Domain}/api/v1/user/fileretrive/profilepic?filename={url}";
@@ -241,7 +294,6 @@ namespace Tazeez.Core.Managers.Users
                 }
 
                 var folderPath = Path.Combine(Directory.GetCurrentDirectory(), baseFolder);
-                
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
@@ -291,7 +343,7 @@ namespace Tazeez.Core.Managers.Users
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.FirstName),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.Email.ToLower()),
                 new Claim("Id", userInfo.Id.ToString()),
-                new Claim("DateOfJoing", userInfo.CreatedDate.ToString("yyyy-MM-dd")),
+                new Claim("DateOfJoing", userInfo.CreatedDateUTC.ToString("yyyy-MM-dd")),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

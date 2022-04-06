@@ -24,20 +24,30 @@ namespace Tazeez.Controllers
         [Route("api/v{version:apiVersion}/common/contactwithus")]
         [HttpPost]
         [MapToApiVersion("1")]
-        public IActionResult ContactWithUS(ContactRequestModel contactRequestModel)
+        public IActionResult ContactWithUS(ContactUsRequestModel contactRequestModel)
         {
             _commonManager.AddContactWithUS(contactRequestModel);
             return Ok();
         }
 
-        [Route("api/v{version:apiVersion}/common")]
+        [Route("api/v{version:apiVersion}/common/contactwithus")]
         [HttpGet]
         [MapToApiVersion("1")]
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        public IActionResult GetContactWithUS()
+        public IActionResult GetContactWithUS(int page = 0, int PageSize = 10)
         {
-            var res = _commonManager.GetContactWithUS(LoggedInUser);
+            var res = _commonManager.GetContactWithUS(LoggedInUser, page, PageSize);
             return Ok(res);
+        }
+
+        [Route("api/v{version:apiVersion}/common/contactwithus/{id}")]
+        [HttpDelete]
+        [MapToApiVersion("1")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public IActionResult ArchiveContactWithUS(int id)
+        {
+            _commonManager.ArchiveContactWithUS(LoggedInUser, id);
+            return Ok();
         }
     }
 }

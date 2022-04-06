@@ -13,5 +13,7 @@
         public string Email { get; set; }
 
         public string Image { get; set; }
+
+        public bool? Gender { get; set; }
     }
 }

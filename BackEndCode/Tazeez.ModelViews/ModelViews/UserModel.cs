@@ -23,12 +23,16 @@ namespace Tazeez.ModelViews
         
         public bool IsAdmin { get; set; }
 
+        public bool? Gender { get; set; }
+
         public bool IsDoctor => Doctor != null;
 
         public DoctorModel Doctor { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDateUTC { get; set; }
  
-        public DateTime UpdateDate { get; set; }
+        public DateTime LastUpdatedUTC { get; set; }
+
+        public DateTime BirthDay { get; set; }
     }
 }

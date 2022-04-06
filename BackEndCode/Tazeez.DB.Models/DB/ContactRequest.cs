@@ -9,8 +9,8 @@ namespace Tazeez.DB.Models.DB
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string Message { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime CreatedDateUTC { get; set; }
+        public DateTime LastUpdatedUTC { get; set; }
         public bool Archived { get; set; }
     }
 }

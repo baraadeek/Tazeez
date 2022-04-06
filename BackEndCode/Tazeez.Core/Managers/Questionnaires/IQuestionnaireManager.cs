@@ -36,14 +36,22 @@ namespace Tazeez.Core.Managers.Questionnaires
                                                                    SearchTextRequest searchText = null);
         void CraeteQuestionnaire(UserModel currentUser, CreateQuestionnaireRequest createQuestionnaire);
 
-        QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateModel questionnaireTemplateModel);
+        QuestionnaireTemplateModel PutQuestionnaireTemplate(UserModel currentUser, QuestionnaireTemplateRequest request);
+
+        void ArchiveQuestionnaireTemplate(UserModel currentUser, int id);
 
         QuestionnaireTemplateQuestionModel PutQuestionnaireTemplateQuestion(UserModel currentUser,
                                                                             int questionnaireTemplateId,
-                                                                            QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuesionModel);
+                                                                            QuestionnaireTemplateQuestionRequestModel questionnaireTemplateQuestionModel);
 
-        List<QuestionnaireTemplateQuestionModel> GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
+        TemplateQuestionResponse GetQuestionniareTemplateQuestions(UserModel currentUser, int questionnaireTemplateId);
 
         List<QuestionnaireTemplateResponseModel> GetQuestionniareTemplate(UserModel currentUser, string name);
+
+        QuestionnaireGroupTemplateQuestionResponse PutQuestionnaireGroupTemplateQuestion(UserModel currentUser, QuestionnaireGroupTemplateQuestionRequest request);
+
+        TemplateGroupScoreModel PutTemplateGroupScore(UserModel currentUser, TemplateGroupScoreModel request);
+
+        List<TemplateGroupScoreModel> GetTemplateGroupScore(UserModel currentUser, int id);
     }
 }

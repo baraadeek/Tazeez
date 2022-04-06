@@ -41,7 +41,7 @@ namespace Tazeez.Models.QuestionTypes
                                                       .Select(a => a.Id)
                                                       .ToList();
 
-            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuestion.QuestionChoices
                                                                       .Select(a => a.Id)
                                                                       .ToList();
 
@@ -64,7 +64,7 @@ namespace Tazeez.Models.QuestionTypes
 
             var answersChoicesIds = assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds.Select(a => a).ToList();
 
-            var templateAnswerChoicesIds = QuestionnaireTemplateQuesion.QuestionChoices
+            var templateAnswerChoicesIds = QuestionnaireTemplateQuestion.QuestionChoices
                                                                       .Select(a => a.Id)
                                                                       .ToList();
 
@@ -175,7 +175,20 @@ namespace Tazeez.Models.QuestionTypes
 
             ValidateAnswer(assessmentQuestionRequest, currentUser, _context, _mapper);
 
-            var isDraft = IsDraft(existingQuestion, assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds);
+            var isDraft = !assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds.Any();
+
+            foreach (var answer in existingQuestion.QuestionnaireAnswerChoice)
+            {
+                if (assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds
+                                                         .All(a => a != answer.QuestionChoiceId))
+                {
+                    answer.Archived = true;
+                }
+                else
+                {
+                    answer.IsDraft = isDraft;
+                }
+            }
 
             foreach (var answer in assessmentQuestionAnswerChoiceRequest.AssessmentQuestionAnswerChoiceIds)
             {
