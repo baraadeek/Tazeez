@@ -49,53 +49,12 @@ namespace Tazeez.Infrastructure.Implementation
         {
             get
             {
-                if (_env.IsEnvironment("Local"))
-                {
-                    return DefaultConnectionString;
-                }
-
-                return "";
+                return DefaultConnectionString;
             }
         }
-
-        //  public string WebSiteURl => _config["URL:WebSiteURl"];
-
         #endregion Public Properties
 
         #region Private Methods
-
-        //private string GetRdsDatabasePassword()
-        //{
-        //    string password;
-        //    if (!_cacheManager.IsSet(CacheKeys.RDSPassword))
-        //    {
-        //        password = RDSAuthTokenGenerator.GenerateAuthToken(RegionEndpoint.GetBySystemName(AWSRegion), Host, Port, UserId);
-        //        _cacheManager.Set(CacheKeys.RDSPassword, password, 10);
-        //    }
-        //    else
-        //    {
-        //        password = _cacheManager.Get<string>(CacheKeys.RDSPassword);
-        //    }
-
-        //    return password;
-        //}
-
-        //private string GetOSCALRdsDatabasePassword()
-        //{
-        //    string password;
-        //    if (!_cacheManager.IsSet(CacheKeys.OSCALRDSPassword))
-        //    {
-        //        password = RDSAuthTokenGenerator.GenerateAuthToken(RegionEndpoint.GetBySystemName(AWSRegion), OSCALHost, Port, OSCALUserId);
-        //        _cacheManager.Set(CacheKeys.OSCALRDSPassword, password, 10);
-        //    }
-        //    else
-        //    {
-        //        password = _cacheManager.Get<string>(CacheKeys.OSCALRDSPassword);
-        //    }
-
-        //    return password;
-        //}
-
         #endregion Private Methods
     }
 }
